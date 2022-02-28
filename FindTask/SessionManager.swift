@@ -107,6 +107,64 @@ final class SessionManager: ObservableObject {
         }
     }
     
+    // Get user attributes
+    func fetchAttributes() {
+        Amplify.Auth.fetchUserAttributes() { result in
+            switch result {
+            case .success(let attributes):
+                print("User attributes - \(attributes)")
+            case .failure(let error):
+                print("Fetching user attributes failed with error \(error)")
+            }
+        }
+    }
+    
+    func resetPassword(username: String) {
+        Amplify.Auth.resetPassword(for: username) { result in
+            do {
+                let resetResult = try result.get()
+                switch resetResult.nextStep {
+                case .confirmResetPasswordWithCode(let deliveryDetails, let info):
+                    print("Confirm reset password with code send to - \(deliveryDetails) \(info)")
+                case .done:
+                    print("Reset completed")
+                }
+            } catch {
+                print("Reset password failed with error \(error)")
+            }
+        }
+    }
+    
+    func confirmResetPassword(
+        username: String,
+        newPassword: String,
+        confirmationCode: String
+    ) {
+        Amplify.Auth.confirmResetPassword(
+            for: username,
+            with: newPassword,
+            confirmationCode: confirmationCode
+        ) { result in
+            switch result {
+            case .success:
+                print("Password reset confirmed")
+            case .failure(let error):
+                print("Reset password failed with error \(error)")
+            }
+        }
+    }
+    
+    func changePassword(oldPassword: String, newPassword: String) {
+        Amplify.Auth.update(oldPassword: oldPassword, to: newPassword) { result in
+            switch result {
+            case .success:
+                print("Change password succeeded")
+            case .failure(let error):
+                print("Change password failed with error \(error)")
+            }
+        }
+    }
+    
     func signOut(){
         _ = Amplify.Auth.signOut {
             [weak self] result in

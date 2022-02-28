@@ -36,6 +36,9 @@ struct SignUpView: View {
             Spacer()
 
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
 }
 

@@ -9,6 +9,13 @@ import Amplify
 import AmplifyPlugins
 import SwiftUI
 
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+
 @main
 struct FindTaskApp: App {
     @ObservedObject var sessionManager = SessionManager()
@@ -32,7 +39,8 @@ struct FindTaskApp: App {
                 ConfirmationView(phoneNum: phoneNumber)
                     .environmentObject(sessionManager)
             case .session(let user):
-                SessionView(user: user)
+//                SessionView(user: user)
+                BaseView(user: user)
                     .environmentObject(sessionManager)
             }
 

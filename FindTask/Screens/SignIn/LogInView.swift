@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 struct LogInView: View {
     
     @State var keyboardOn = false
@@ -16,21 +18,26 @@ struct LogInView: View {
     @State var password = ""
     
     var body: some View {
-        VStack{
-            Spacer()
-            
-            Text("Sign In")
-                .fontWeight(.semibold)
-            
-            Divider()
-                .frame(width: 250, height: 1.0)
-            
-            SignInTextField(phoneNumber: $phoneNumber, password: $password)
-                .onTapGesture {
-                    withAnimation{keyboardOn = true}
-                }
+        NavigationView{
+            VStack{
+                Spacer()
+                
+                Text("Sign In")
+                    .fontWeight(.semibold)
+                
+                Divider()
+                    .frame(width: 250, height: 1.0)
+                
+                SignInTextField(phoneNumber: $phoneNumber, password: $password)
+    //                .onTapGesture {
+    //                    withAnimation{keyboardOn = true}
+    //                }
 
-            Spacer()
+                Spacer()
+            }
+            .onTapGesture {
+                hideKeyboard()
+            }
         }
     }
 }
@@ -39,7 +46,6 @@ struct LogInView: View {
 
 struct SignInTextField: View {
     @EnvironmentObject var sessionManager : SessionManager
-    
     @Binding var phoneNumber: String
     @Binding var password: String
     
@@ -60,7 +66,7 @@ struct SignInTextField: View {
                     .background(Color.white)
                     .keyboardType(.phonePad)
                     .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 5)
-
+                
                 
                 Image(systemName: phoneNumber.isEmpty || password.isEmpty ? "" : "checkmark")
                     .foregroundColor(Color.green)
@@ -85,8 +91,8 @@ struct SignInTextField: View {
                     .foregroundColor(Color.green)
             }.padding(.bottom, 10)
         }
-        .padding(20)
         
+        .padding(20)
         
         Button(action: {
             sessionManager.login(phoneNumber: phoneNumber, password: password)
@@ -97,8 +103,18 @@ struct SignInTextField: View {
                 .frame(width: 350, height: 40.0)
                 .background(Color.orange)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
-                .padding(10)
         }
+        
+        NavigationLink {
+            ResetPasswordView()
+                .navigationTitle("Reset Password")
+                .navigationBarTitleDisplayMode(.inline)
+        } label: {
+            Text("forget password?")
+                .foregroundColor(.blue)
+        }
+        .padding(.bottom, 15)
+        
         Button("Don't have an account? Sign Up", action: {
             sessionManager.showSignUp()
         })

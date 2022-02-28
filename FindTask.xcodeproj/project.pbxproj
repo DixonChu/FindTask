@@ -16,16 +16,25 @@
 		760FB4A827B98E24007CA1A0 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760FB4A727B98E24007CA1A0 /* LogInView.swift */; };
 		76153CC827B92DD4004F22A7 /* WelcomeScreenContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76153CC727B92DD4004F22A7 /* WelcomeScreenContentView.swift */; };
 		761DAAC427BDE0DD00D327BE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761DAAC327BDE0DD00D327BE /* SignUpView.swift */; };
-		7631909F27BFE3DD009FA7C5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631909E27BFE3DD009FA7C5 /* HomeView.swift */; };
+		763793D627C97A7000268E64 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763793D527C97A7000268E64 /* SessionManager.swift */; };
+		7637C18C27C5C32300E05C99 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7637C18B27C5C32300E05C99 /* BaseView.swift */; };
+		7637C18E27C5C42E00E05C99 /* SideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7637C18D27C5C42E00E05C99 /* SideMenu.swift */; };
+		7637C19027C5CD1C00E05C99 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7637C18F27C5CD1C00E05C99 /* Home.swift */; };
 		7688054627ADFB8800EB0576 /* FindTaskApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7688054527ADFB8800EB0576 /* FindTaskApp.swift */; };
 		7688054A27ADFB8800EB0576 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7688054927ADFB8800EB0576 /* Assets.xcassets */; };
 		7688054D27ADFB8800EB0576 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7688054C27ADFB8800EB0576 /* Preview Assets.xcassets */; };
 		7688055727ADFB8800EB0576 /* FindTaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7688055627ADFB8800EB0576 /* FindTaskTests.swift */; };
 		7688056127ADFB8800EB0576 /* FindTaskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7688056027ADFB8800EB0576 /* FindTaskUITests.swift */; };
 		7688056327ADFB8800EB0576 /* FindTaskUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7688056227ADFB8800EB0576 /* FindTaskUITestsLaunchTests.swift */; };
-		76918A3227BFED0B0067A3BF /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76918A3127BFED0B0067A3BF /* SessionManager.swift */; };
+		768A18D427C6AD4E002EA994 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A18D327C6AD4E002EA994 /* SettingsView.swift */; };
+		768A18D727C6B3D8002EA994 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A18D627C6B3D8002EA994 /* LocationView.swift */; };
+		768A18D927C6C4DA002EA994 /* PlacingOrderHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A18D827C6C4DA002EA994 /* PlacingOrderHelpView.swift */; };
+		768A18DB27C7BD71002EA994 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A18DA27C7BD71002EA994 /* ResetPasswordView.swift */; };
 		76918A3427BFEE9E0067A3BF /* ConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76918A3327BFEE9E0067A3BF /* ConfirmationView.swift */; };
 		76918A3627BFEEFF0067A3BF /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76918A3527BFEEFF0067A3BF /* SessionView.swift */; };
+		76E52D0027C531E200010346 /* OrderHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E52CFF27C531E200010346 /* OrderHistoryView.swift */; };
+		76E52D0627C5330800010346 /* PersonalInfomationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E52D0527C5330800010346 /* PersonalInfomationView.swift */; };
+		76E52D0827C53B2F00010346 /* HelpCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E52D0727C53B2F00010346 /* HelpCenterView.swift */; };
 		ABB2E67D0733CD44F7F58B2A /* Pods_FindTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB27891DFD3268D9467DCEC /* Pods_FindTask.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,7 +69,10 @@
 		760FB4A727B98E24007CA1A0 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		76153CC727B92DD4004F22A7 /* WelcomeScreenContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreenContentView.swift; sourceTree = "<group>"; };
 		761DAAC327BDE0DD00D327BE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		7631909E27BFE3DD009FA7C5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		763793D527C97A7000268E64 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		7637C18B27C5C32300E05C99 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		7637C18D27C5C42E00E05C99 /* SideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenu.swift; sourceTree = "<group>"; };
+		7637C18F27C5CD1C00E05C99 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		7688054227ADFB8800EB0576 /* FindTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7688054527ADFB8800EB0576 /* FindTaskApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindTaskApp.swift; sourceTree = "<group>"; };
 		7688054927ADFB8800EB0576 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -70,9 +82,15 @@
 		7688055C27ADFB8800EB0576 /* FindTaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FindTaskUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7688056027ADFB8800EB0576 /* FindTaskUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindTaskUITests.swift; sourceTree = "<group>"; };
 		7688056227ADFB8800EB0576 /* FindTaskUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindTaskUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		76918A3127BFED0B0067A3BF /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		768A18D327C6AD4E002EA994 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		768A18D627C6B3D8002EA994 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
+		768A18D827C6C4DA002EA994 /* PlacingOrderHelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacingOrderHelpView.swift; sourceTree = "<group>"; };
+		768A18DA27C7BD71002EA994 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		76918A3327BFEE9E0067A3BF /* ConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationView.swift; sourceTree = "<group>"; };
 		76918A3527BFEEFF0067A3BF /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
+		76E52CFF27C531E200010346 /* OrderHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHistoryView.swift; sourceTree = "<group>"; };
+		76E52D0527C5330800010346 /* PersonalInfomationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfomationView.swift; sourceTree = "<group>"; };
+		76E52D0727C53B2F00010346 /* HelpCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCenterView.swift; sourceTree = "<group>"; };
 		9C7858F10C98DD1C897F0321 /* Pods-FindTask-FindTaskUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FindTask-FindTaskUITests.release.xcconfig"; path = "Target Support Files/Pods-FindTask-FindTaskUITests/Pods-FindTask-FindTaskUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B781DF9912E7BEDA9FD35850 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		CC77A1D6C65D239B574A1D75 /* Pods-FindTask.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FindTask.release.xcconfig"; path = "Target Support Files/Pods-FindTask/Pods-FindTask.release.xcconfig"; sourceTree = "<group>"; };
@@ -154,8 +172,11 @@
 		7631907827BFACC0009FA7C5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				768A18DA27C7BD71002EA994 /* ResetPasswordView.swift */,
 				76918A3527BFEEFF0067A3BF /* SessionView.swift */,
-				7631909E27BFE3DD009FA7C5 /* HomeView.swift */,
+				7637C18B27C5C32300E05C99 /* BaseView.swift */,
+				7637C18D27C5C42E00E05C99 /* SideMenu.swift */,
+				7637C18F27C5CD1C00E05C99 /* Home.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -163,6 +184,11 @@
 		7631907927BFACCA009FA7C5 /* OrderRole  */ = {
 			isa = PBXGroup;
 			children = (
+				768A18D527C6B3CC002EA994 /* Location */,
+				76E52D0427C532DF00010346 /* Profile */,
+				76E52D0327C5329A00010346 /* Settings */,
+				76E52D0127C5326F00010346 /* HelpCenter */,
+				76E52CFE27C531CC00010346 /* OrderHistory */,
 				7631907827BFACC0009FA7C5 /* Home */,
 			);
 			path = "OrderRole ";
@@ -198,9 +224,9 @@
 				760C513327C06313000087FC /* awsconfiguration.json */,
 				760FB4A927B98E30007CA1A0 /* Screens */,
 				7688054527ADFB8800EB0576 /* FindTaskApp.swift */,
+				763793D527C97A7000268E64 /* SessionManager.swift */,
 				7688054927ADFB8800EB0576 /* Assets.xcassets */,
 				7688054B27ADFB8800EB0576 /* Preview Content */,
-				76918A3127BFED0B0067A3BF /* SessionManager.swift */,
 			);
 			path = FindTask;
 			sourceTree = "<group>";
@@ -228,6 +254,47 @@
 				7688056227ADFB8800EB0576 /* FindTaskUITestsLaunchTests.swift */,
 			);
 			path = FindTaskUITests;
+			sourceTree = "<group>";
+		};
+		768A18D527C6B3CC002EA994 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				768A18D627C6B3D8002EA994 /* LocationView.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		76E52CFE27C531CC00010346 /* OrderHistory */ = {
+			isa = PBXGroup;
+			children = (
+				76E52CFF27C531E200010346 /* OrderHistoryView.swift */,
+			);
+			path = OrderHistory;
+			sourceTree = "<group>";
+		};
+		76E52D0127C5326F00010346 /* HelpCenter */ = {
+			isa = PBXGroup;
+			children = (
+				76E52D0727C53B2F00010346 /* HelpCenterView.swift */,
+				768A18D827C6C4DA002EA994 /* PlacingOrderHelpView.swift */,
+			);
+			path = HelpCenter;
+			sourceTree = "<group>";
+		};
+		76E52D0327C5329A00010346 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				768A18D327C6AD4E002EA994 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		76E52D0427C532DF00010346 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				76E52D0527C5330800010346 /* PersonalInfomationView.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		E4E5642FD18E46408B9E4C22 /* Pods */ = {
@@ -505,12 +572,21 @@
 			files = (
 				761DAAC427BDE0DD00D327BE /* SignUpView.swift in Sources */,
 				760FB4A827B98E24007CA1A0 /* LogInView.swift in Sources */,
+				763793D627C97A7000268E64 /* SessionManager.swift in Sources */,
+				76E52D0827C53B2F00010346 /* HelpCenterView.swift in Sources */,
+				768A18D927C6C4DA002EA994 /* PlacingOrderHelpView.swift in Sources */,
+				7637C18E27C5C42E00E05C99 /* SideMenu.swift in Sources */,
+				76E52D0627C5330800010346 /* PersonalInfomationView.swift in Sources */,
+				76E52D0027C531E200010346 /* OrderHistoryView.swift in Sources */,
+				7637C19027C5CD1C00E05C99 /* Home.swift in Sources */,
+				768A18D727C6B3D8002EA994 /* LocationView.swift in Sources */,
+				768A18D427C6AD4E002EA994 /* SettingsView.swift in Sources */,
 				76918A3427BFEE9E0067A3BF /* ConfirmationView.swift in Sources */,
 				76918A3627BFEEFF0067A3BF /* SessionView.swift in Sources */,
-				76918A3227BFED0B0067A3BF /* SessionManager.swift in Sources */,
 				76153CC827B92DD4004F22A7 /* WelcomeScreenContentView.swift in Sources */,
-				7631909F27BFE3DD009FA7C5 /* HomeView.swift in Sources */,
+				7637C18C27C5C32300E05C99 /* BaseView.swift in Sources */,
 				7688054627ADFB8800EB0576 /* FindTaskApp.swift in Sources */,
+				768A18DB27C7BD71002EA994 /* ResetPasswordView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
