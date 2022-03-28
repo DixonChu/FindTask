@@ -1,12 +1,16 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
+#if COCOAPODS
 import AWSMobileClient
+#else
+import AWSMobileClientXCF
+#endif
 
 protocol AWSMobileClientBehavior {
 
@@ -44,6 +48,11 @@ protocol AWSMobileClientBehavior {
                     hostedUIOptions: HostedUIOptions?,
                     _ completionHandler: @escaping (UserState?, Error?) -> Void)
 
+    @available(iOS 13, *)
+    func showSignIn(uiwindow: UIWindow,
+                    hostedUIOptions: HostedUIOptions,
+                    _ completionHandler: @escaping (UserState?, Error?) -> Void)
+
     func confirmSignIn(challengeResponse: String,
                        userAttributes: [String: String],
                        clientMetaData: [String: String],
@@ -52,7 +61,14 @@ protocol AWSMobileClientBehavior {
     func signOut(options: SignOutOptions,
                  completionHandler: @escaping ((Error?) -> Void))
 
+    @available(iOS 13, *)
+    func signOut(uiwindow: UIWindow,
+                 options: SignOutOptions,
+                 completionHandler: @escaping ((Error?) -> Void))
+
     func signOutLocally()
+
+    func deleteUser(completionHandler: @escaping ((Error?) -> Void))
 
     func getUsername() -> String?
 

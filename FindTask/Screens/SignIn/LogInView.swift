@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct LogInView: View {
     
     @State var keyboardOn = false
@@ -56,7 +54,7 @@ struct SignInTextField: View {
             Text("Phone Number")
                 .font(.caption)
                 .fontWeight(.bold)
-                .foregroundColor(.gray)
+                .foregroundColor(.primary)
             
             HStack{
                 
@@ -77,7 +75,7 @@ struct SignInTextField: View {
             Text("Password")
                 .font(.caption)
                 .fontWeight(.bold)
-                .foregroundColor(.gray)
+                .foregroundColor(.primary)
             
             HStack{
                 

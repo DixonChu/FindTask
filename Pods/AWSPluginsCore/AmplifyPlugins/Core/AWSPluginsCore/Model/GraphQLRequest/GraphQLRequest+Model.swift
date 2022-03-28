@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -30,6 +30,21 @@ protocol ModelGraphQLRequestFactory {
     /// - seealso: `GraphQLQuery`, `GraphQLQueryType.list`
     static func list<M: Model>(_ modelType: M.Type,
                                where predicate: QueryPredicate?) -> GraphQLRequest<[M]>
+
+    /// Creates a `GraphQLRequest` that represents a query that expects multiple values as a result.
+    /// The request will be created with the correct document based on the `ModelSchema` and
+    /// variables based on the the predicate.
+    ///
+    /// - Parameters:
+    ///   - modelType: the metatype of the model
+    ///   - predicate: an optional predicate containing the criteria for the query
+    ///   - limit: the maximum number of results to be retrieved. The result list may be less than the `limit`
+    /// - Returns: a valid `GraphQLRequest` instance
+    ///
+    /// - seealso: `GraphQLQuery`, `GraphQLQueryType.list`
+    static func paginatedList<M: Model>(_ modelType: M.Type,
+                                        where predicate: QueryPredicate?,
+                                        limit: Int?) -> GraphQLRequest<List<M>>
 
     /// Creates a `GraphQLRequest` that represents a query that expects a single value as a result.
     /// The request will be created with the correct correct document based on the `ModelSchema` and
@@ -112,25 +127,23 @@ protocol ModelGraphQLRequestFactory {
 /// This is particularly useful when using the GraphQL API to interact
 /// with static types that conform to the `Model` protocol.
 extension GraphQLRequest: ModelGraphQLRequestFactory {
+    private static func modelSchema<M: Model>(for model: M) -> ModelSchema {
+        let modelType = ModelRegistry.modelType(from: model.modelName) ?? Swift.type(of: model)
+        return modelType.schema
+    }
 
     public static func create<M: Model>(_ model: M) -> GraphQLRequest<M> {
-        let modelType = ModelRegistry.modelType(from: model.modelName) ?? Swift.type(of: model)
-        let modelSchema = modelType.schema
-        return create(model, modelSchema: modelSchema)
+        return create(model, modelSchema: modelSchema(for: model))
     }
 
     public static func update<M: Model>(_ model: M,
                                         where predicate: QueryPredicate? = nil) -> GraphQLRequest<M> {
-        let modelType = ModelRegistry.modelType(from: model.modelName) ?? Swift.type(of: model)
-        let modelSchema = modelType.schema
-        return update(model, modelSchema: modelSchema, where: predicate)
+        return update(model, modelSchema: modelSchema(for: model), where: predicate)
     }
 
     public static func delete<M: Model>(_ model: M,
                                         where predicate: QueryPredicate? = nil) -> GraphQLRequest<M> {
-        let modelType = ModelRegistry.modelType(from: model.modelName) ?? Swift.type(of: model)
-        let modelSchema = modelType.schema
-        return delete(model, modelSchema: modelSchema, where: predicate)
+        return delete(model, modelSchema: modelSchema(for: model), where: predicate)
     }
 
     public static func create<M: Model>(_ model: M, modelSchema: ModelSchema) -> GraphQLRequest<M> {
@@ -167,14 +180,14 @@ extension GraphQLRequest: ModelGraphQLRequestFactory {
         case .create:
             documentBuilder.add(decorator: ModelDecorator(model: model))
         case .delete:
-            documentBuilder.add(decorator: ModelIdDecorator(id: model.id))
+            documentBuilder.add(decorator: ModelIdDecorator(model: model))
             if let predicate = predicate {
-                documentBuilder.add(decorator: FilterDecorator(filter: predicate.graphQLFilter))
+                documentBuilder.add(decorator: FilterDecorator(filter: predicate.graphQLFilter(for: modelSchema)))
             }
         case .update:
             documentBuilder.add(decorator: ModelDecorator(model: model))
             if let predicate = predicate {
-                documentBuilder.add(decorator: FilterDecorator(filter: predicate.graphQLFilter))
+                documentBuilder.add(decorator: FilterDecorator(filter: predicate.graphQLFilter(for: modelSchema)))
             }
         }
 
@@ -206,7 +219,7 @@ extension GraphQLRequest: ModelGraphQLRequestFactory {
         documentBuilder.add(decorator: DirectiveNameDecorator(type: .list))
 
         if let predicate = predicate {
-            documentBuilder.add(decorator: FilterDecorator(filter: predicate.graphQLFilter))
+            documentBuilder.add(decorator: FilterDecorator(filter: predicate.graphQLFilter(for: modelType.schema)))
         }
 
         documentBuilder.add(decorator: PaginationDecorator())
@@ -216,6 +229,25 @@ extension GraphQLRequest: ModelGraphQLRequestFactory {
                                    variables: document.variables,
                                    responseType: [M].self,
                                    decodePath: document.name + ".items")
+    }
+
+    public static func paginatedList<M: Model>(_ modelType: M.Type,
+                                               where predicate: QueryPredicate? = nil,
+                                               limit: Int? = nil) -> GraphQLRequest<List<M>> {
+        var documentBuilder = ModelBasedGraphQLDocumentBuilder(modelSchema: modelType.schema, operationType: .query)
+        documentBuilder.add(decorator: DirectiveNameDecorator(type: .list))
+
+        if let predicate = predicate {
+            documentBuilder.add(decorator: FilterDecorator(filter: predicate.graphQLFilter(for: modelType.schema)))
+        }
+
+        documentBuilder.add(decorator: PaginationDecorator(limit: limit))
+        let document = documentBuilder.build()
+
+        return GraphQLRequest<List<M>>(document: document.stringValue,
+                                       variables: document.variables,
+                                       responseType: List<M>.self,
+                                       decodePath: document.name)
     }
 
     public static func subscription<M: Model>(of modelType: M.Type,

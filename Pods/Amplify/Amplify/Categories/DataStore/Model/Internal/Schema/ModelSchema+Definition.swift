@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -8,8 +8,8 @@
 import Foundation
 
 /// Defines the type of a `Model` field.
-/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used directly
-///   by host applications. The behavior of this may change without warning.
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
 public enum ModelFieldType {
 
     case string
@@ -103,8 +103,8 @@ public enum ModelFieldType {
     }
 }
 
-/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used directly
-///   by host applications. The behavior of this may change without warning.
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
 public enum ModelFieldNullability {
     case optional
     case required
@@ -119,22 +119,32 @@ public enum ModelFieldNullability {
     }
 }
 
-/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used directly
-///   by host applications. The behavior of this may change without warning.
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
 public struct ModelSchemaDefinition {
 
     internal let name: String
+
+    @available(*, deprecated, message: "Use of pluralName is deprecated, use syncPluralName instead.")
     public var pluralName: String?
+
+    public var listPluralName: String?
+    public var syncPluralName: String?
+
     public var authRules: AuthRules
     internal var fields: ModelFields
     internal var attributes: [ModelAttribute]
 
     init(name: String,
          pluralName: String? = nil,
+         listPluralName: String? = nil,
+         syncPluralName: String? = nil,
          authRules: AuthRules = [],
          attributes: [ModelAttribute] = []) {
         self.name = name
         self.pluralName = pluralName
+        self.listPluralName = listPluralName
+        self.syncPluralName = syncPluralName
         self.fields = [:] as ModelFields
         self.authRules = authRules
         self.attributes = attributes
@@ -154,25 +164,29 @@ public struct ModelSchemaDefinition {
     internal func build() -> ModelSchema {
         return ModelSchema(name: name,
                            pluralName: pluralName,
+                           listPluralName: listPluralName,
+                           syncPluralName: syncPluralName,
                            authRules: authRules,
                            attributes: attributes,
                            fields: fields)
     }
 }
 
-/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used directly
-///   by host applications. The behavior of this may change without warning.
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
 public enum ModelFieldDefinition {
 
     case field(name: String,
                type: ModelFieldType,
                nullability: ModelFieldNullability,
+               isReadOnly: Bool,
                association: ModelAssociation?,
                attributes: [ModelFieldAttribute],
                authRules: AuthRules)
 
     public static func field(_ key: CodingKey,
                              is nullability: ModelFieldNullability = .required,
+                             isReadOnly: Bool = false,
                              ofType type: ModelFieldType = .string,
                              attributes: [ModelFieldAttribute] = [],
                              association: ModelAssociation? = nil,
@@ -180,6 +194,7 @@ public enum ModelFieldDefinition {
         return .field(name: key.stringValue,
                       type: type,
                       nullability: nullability,
+                      isReadOnly: isReadOnly,
                       association: association,
                       attributes: attributes,
                       authRules: authRules)
@@ -193,6 +208,7 @@ public enum ModelFieldDefinition {
         return .field(name: name,
                       type: .string,
                       nullability: .required,
+                      isReadOnly: false,
                       association: nil,
                       attributes: [.primaryKey],
                       authRules: [])
@@ -200,31 +216,38 @@ public enum ModelFieldDefinition {
 
     public static func hasMany(_ key: CodingKey,
                                is nullability: ModelFieldNullability = .required,
+                               isReadOnly: Bool = false,
                                ofType type: Model.Type,
                                associatedWith associatedKey: CodingKey) -> ModelFieldDefinition {
         return .field(key,
                       is: nullability,
+                      isReadOnly: isReadOnly,
                       ofType: .collection(of: type),
                       association: .hasMany(associatedWith: associatedKey))
     }
 
     public static func hasOne(_ key: CodingKey,
                               is nullability: ModelFieldNullability = .required,
+                              isReadOnly: Bool = false,
                               ofType type: Model.Type,
-                              associatedWith associatedKey: CodingKey) -> ModelFieldDefinition {
+                              associatedWith associatedKey: CodingKey,
+                              targetName: String? = nil) -> ModelFieldDefinition {
         return .field(key,
                       is: nullability,
+                      isReadOnly: isReadOnly,
                       ofType: .model(type: type),
-                      association: .hasOne(associatedWith: associatedKey))
+                      association: .hasOne(associatedWith: associatedKey, targetName: targetName))
     }
 
     public static func belongsTo(_ key: CodingKey,
                                  is nullability: ModelFieldNullability = .required,
+                                 isReadOnly: Bool = false,
                                  ofType type: Model.Type,
                                  associatedWith associatedKey: CodingKey? = nil,
                                  targetName: String? = nil) -> ModelFieldDefinition {
         return .field(key,
                       is: nullability,
+                      isReadOnly: isReadOnly,
                       ofType: .model(type: type),
                       association: .belongsTo(associatedWith: associatedKey, targetName: targetName))
     }
@@ -233,6 +256,7 @@ public enum ModelFieldDefinition {
         guard case let .field(name,
                               type,
                               nullability,
+                              isReadOnly,
                               association,
                               attributes,
                               authRules) = self else {
@@ -241,6 +265,7 @@ public enum ModelFieldDefinition {
         return ModelField(name: name,
                           type: type,
                           isRequired: nullability.isRequired,
+                          isReadOnly: isReadOnly,
                           isArray: type.isArray,
                           attributes: attributes,
                           association: association,

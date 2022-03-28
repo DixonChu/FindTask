@@ -14,7 +14,8 @@
     "categories": {
       "auth": {
         "findtask6694bd93": {},
-        "findtaskd20a916e": {}
+        "findtaskd20a916e": {},
+        "userPoolGroups": {}
       }
     }
   }

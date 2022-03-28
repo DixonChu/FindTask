@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct LocationView: View {
+    @EnvironmentObject var sessionManager : SessionManager
+
     var body: some View {
-        Divider()
-        Spacer()
+        VStack{
+
+        }
         
     }
 }

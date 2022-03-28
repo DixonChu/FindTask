@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -61,11 +61,22 @@ extension AuthorizationProviderAdapter {
                 completionHandler(.success(authSession))
                 return nil
             }
-            let authSession = AuthCognitoSignedOutSessionHelper.makeSignedOutSession(
-                identityId: identityId,
-                awsCredentials: awsCredentials.toAmplifyAWSCredentials())
-            completionHandler(.success(authSession))
-            return nil
+
+            do {
+                let amplifyAWSCredentials = try awsCredentials.toAmplifyAWSCredentials()
+                let authSession = AuthCognitoSignedOutSessionHelper.makeSignedOutSession(
+                    identityId: identityId,
+                    awsCredentials: amplifyAWSCredentials
+                )
+                completionHandler(.success(authSession))
+                return nil
+
+            } catch {
+                let authSession = AuthCognitoSignedOutSessionHelper.makeSignedOutSession(withError: error)
+                completionHandler(.success(authSession))
+                return nil
+            }
+
         }
     }
 }

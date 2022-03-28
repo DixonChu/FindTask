@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -16,12 +16,10 @@ extension AtomicValue where Value == Bool {
     /// print(atomicBool.get()) // prints "false"
     /// ```
     public func getAndToggle() -> Value {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            let oldValue = value
+            value.toggle()
+            return oldValue
         }
-        let oldValue = value
-        value.toggle()
-        return oldValue
     }
 }

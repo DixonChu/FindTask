@@ -30,12 +30,18 @@ struct ForgetPasswordTextField: View{
  
     var body: some View{
         VStack(alignment: .leading, spacing: 12){
-            Spacer()
+            
+            
+            Text("Your pasword must be at least six characters and should include a combination of numbers, letters, and special characters (!$@%).")
+                .font(.system(size: 14))
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 20)
             
             Text("Phone Number")
                 .font(.caption)
                 .fontWeight(.bold)
-                .foregroundColor(.gray)
+                .foregroundColor(.primary)
             
             TextField("Phone Number", text: $phoneNumber)
                 .padding()
@@ -47,7 +53,7 @@ struct ForgetPasswordTextField: View{
             Text("New Password")
                 .font(.caption)
                 .fontWeight(.bold)
-                .foregroundColor(.gray)
+                .foregroundColor(.primary)
             
             TextField("New Password", text: $newPassword)
                 .padding()
@@ -58,7 +64,7 @@ struct ForgetPasswordTextField: View{
             Text("Confirmation Code")
                 .font(.caption)
                 .fontWeight(.bold)
-                .foregroundColor(.gray)
+                .foregroundColor(.primary)
             
             HStack(spacing: 0){
                 TextField("Confirmation Code", text: $confirmationCode)
@@ -74,9 +80,7 @@ struct ForgetPasswordTextField: View{
                         .background(Color.white)
                         .frame(width: 120, height: 55.0)
                         .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 5)
-                        .foregroundColor(.black)
-                    
-                    
+                        .foregroundColor(.primary)
                 }
             }
             

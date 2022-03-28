@@ -1,13 +1,17 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
-import AWSMobileClient
 import AWSPluginsCore
+#if COCOAPODS
+import AWSMobileClient
+#else
+import AWSMobileClientXCF
+#endif
 
 class AWSMobileClientAdapter: AWSMobileClientBehavior {
 
@@ -100,6 +104,15 @@ class AWSMobileClientAdapter: AWSMobileClientBehavior {
                                    completionHandler)
     }
 
+    @available(iOS 13, *)
+    func showSignIn(uiwindow: UIWindow,
+                    hostedUIOptions: HostedUIOptions,
+                    _ completionHandler: @escaping (UserState?, Error?) -> Void) {
+        awsMobileClient.showSignIn(presentationAnchor: uiwindow,
+                                   hostedUIOptions: hostedUIOptions,
+                                   completionHandler)
+    }
+
     func confirmSignIn(challengeResponse: String,
                        userAttributes: [String: String] = [:],
                        clientMetaData: [String: String] = [:],
@@ -114,8 +127,21 @@ class AWSMobileClientAdapter: AWSMobileClientBehavior {
         awsMobileClient.signOut(options: options, completionHandler: completionHandler)
     }
 
+    @available(iOS 13, *)
+    func signOut(uiwindow: UIWindow,
+                 options: SignOutOptions = SignOutOptions(),
+                 completionHandler: @escaping ((Error?) -> Void)) {
+        awsMobileClient.signOut(presentationAnchor: uiwindow,
+                                options: options,
+                                completionHandler: completionHandler)
+    }
+
     func signOutLocally() {
         awsMobileClient.signOut()
+    }
+
+    func deleteUser(completionHandler: @escaping ((Error?) -> Void)) {
+        awsMobileClient.deleteUser(completionHandler: completionHandler)
     }
 
     func getUsername() -> String? {

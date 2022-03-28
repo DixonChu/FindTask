@@ -12,11 +12,9 @@ struct BaseView: View {
     let user: AuthUser
     
     @State var showMenu: Bool = false
+    @State private var isLoading = false
     @State var currentTab = "Home"
     
-//    init() {
-//        UITabBar.appearance().isHidden = true
-//    }
     
     // Offset of both drag gesture and showing menu
     @State var offset: CGFloat = 0
@@ -34,38 +32,11 @@ struct BaseView: View {
                 
                 // Main Tab View
                 VStack(spacing: 0){
-//                    TabView(selection: $currentTab){
                         Home(showMenu: $showMenu)
                             .navigationBarTitleDisplayMode(.inline)
                             .navigationBarHidden(true)
                             .tag("house")
-                        
-//                        Text("Search")
-//                            .navigationBarTitleDisplayMode(.inline)
-//                            .navigationBarHidden(true)
-//                            .tag("magnifyingglass")
-//
-//                        Text("Notifications")
-//                            .navigationBarTitleDisplayMode(.inline)
-//                            .navigationBarHidden(true)
-//                            .tag("bell")
-//
-//                        Text("Message")
-//                            .navigationBarTitleDisplayMode(.inline)
-//                            .navigationBarHidden(true)
-//                            .tag("message")
-                        
-//                        }
                     
-//                    VStack(spacing: 0){
-//                        Divider()
-//                        HStack(spacing: 0){
-//                            TabButton(image: "house")
-//                            TabButton(image: "magnifyingglass")
-//                            TabButton(image: "bell")
-//                            TabButton(image: "message")
-//                        }.padding([.top], 15)
-//                    }
                 }
                 .frame(width: getRect().width)
                 .overlay(
@@ -155,29 +126,35 @@ struct BaseView: View {
         lastStoredOffset = offset
     }
     
-//    @ViewBuilder
-//    func TabButton(image: String) -> some View {
-//        Button {
-//            withAnimation{currentTab = image}
-//        } label : {
-//            Image(systemName: image)
-//                .resizable()
-//                .renderingMode(.template)
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: 23, height: 22)
-//                .foregroundColor(currentTab == image ? .primary : .gray)
-//                .frame(maxWidth: .infinity)
+    
+//    func StartCheckNetworkCall() {
+//        isLoading = true
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//            isLoading = true
 //        }
 //    }
 }
 
+
+//struct LoadingView: View {
+//    var body: some View{
+//        ZStack{
+//            Color(.systemBackground)
+//                .ignoresSafeArea()
+//            ProgressView()
+//                .progressViewStyle(CircularProgressViewStyle(tint: .orange))
+//                .scaleEffect(3)
+//        }
+//    }
+//}
+
 struct BaseView_Previews: PreviewProvider {
-        private struct DummyUser: AuthUser {
-            let userId: String = "1"
-            let username: String = "dummy"
-        }
+    private struct DummyUser: AuthUser {
+        let userId: String = "1"
+        let username: String = "dummy"
+    }
     
-        static var previews: some View {
-            BaseView(user: DummyUser())
-        }
+    static var previews: some View {
+        BaseView(user: DummyUser())
+    }
 }

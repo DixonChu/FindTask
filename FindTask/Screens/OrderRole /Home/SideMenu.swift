@@ -9,6 +9,7 @@ import SwiftUI
 import Amplify
 
 struct SideMenu: View {
+    @EnvironmentObject var sessionManager : SessionManager
     
     @Binding var showMenu: Bool
     var body: some View {
@@ -20,10 +21,10 @@ struct SideMenu: View {
                     .frame(width: 65, height: 65)
                     .clipShape(Circle())
                 
-                Text("User Name")
+                Text(sessionManager.givenName)
                     .font(.title2.bold())
                 
-                Text("+447447782825")
+                Text(sessionManager.phoneNumber)
                     .font(.callout)
                 
                 Divider()
@@ -35,7 +36,7 @@ struct SideMenu: View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack{
-                    VStack(alignment: .leading, spacing: 45){
+                    VStack(alignment: .leading, spacing: 25){
                         
                         NavigationLink{
                             PersonalInfomationView()
@@ -46,22 +47,25 @@ struct SideMenu: View {
                                     .resizable()
                                     .renderingMode(.template)
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: 22, height: 22)
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(.orange)
                                 Text("Personal Information")
                             }
                         }
                         
                         NavigationLink{
-                            OrderHistoryView()
-                                .navigationTitle("Order History")
+                            OrderView()
+                                .navigationTitle("Orders")
+                                .navigationBarTitleDisplayMode(.inline)
                         } label: {
                             HStack{
                                 Image(systemName: "clock.arrow.circlepath")
                                     .resizable()
                                     .renderingMode(.template)
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: 22, height: 22)
-                                Text("Order History")
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(.orange)
+                                Text("Orders")
                             }
                         }
                         
@@ -74,7 +78,8 @@ struct SideMenu: View {
                                     .resizable()
                                     .renderingMode(.template)
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: 22, height: 22)
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(.orange)
                                 Text("Help Center")
                             }
                         }
@@ -88,10 +93,26 @@ struct SideMenu: View {
                                     .resizable()
                                     .renderingMode(.template)
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: 22, height: 22)
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(.orange)
                                 Text("Settings")
                             }
                             
+                        }
+                        
+                        NavigationLink{
+                            LocationView()
+                                .navigationTitle("Location")
+                        } label: {
+                            HStack{
+                                Image(systemName: "mappin.circle")
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(.orange)
+                                Text("Location")
+                            }
                         }
                         
                     }
@@ -100,28 +121,47 @@ struct SideMenu: View {
                     .padding()
                     .padding(.leading)
                     .padding(.top, 20)
-                    
-                    Divider()
-                    
-                    NavigationLink{
-                        LocationView()
-                            .navigationTitle("Location")
-                    } label: {
-                        HStack{
-                            Image(systemName: "mappin.circle")
-                                .resizable()
-                                .renderingMode(.template)
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 22, height: 22)
-                            Text("Location")
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundColor(.primary)
-                        .padding()
-                        .padding(.leading)
-                    }
+                                        
+//                    NavigationLink{
+//                        LocationView()
+//                            .navigationTitle("Location")
+//                    } label: {
+//                        HStack{
+//                            Image(systemName: "mappin.circle")
+////                                .resizable()
+//                                .renderingMode(.template)
+//                                .aspectRatio(contentMode: .fill)
+//                                .frame(width: 22, height: 22)
+//                            Text("Location")
+//                        }
+//                        .frame(maxWidth: .infinity, alignment: .leading)
+//                        .foregroundColor(.primary)
+//                        .padding()
+//                        .padding(.leading)
+//                    }
                 }
             }
+            
+            Divider()
+            
+            NavigationLink{
+                WorkView()
+                    .navigationBarHidden(true)
+            } label: {
+                HStack{
+                    Image(systemName: "rectangle.2.swap")
+                        .resizable()
+                        .renderingMode(.template)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 20, height: 20)
+                    Text("Switch to work")
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(.primary)
+                .padding()
+                .padding(.leading)
+            }
+
         }
         .padding(.vertical)
         .frame(maxWidth: .infinity, alignment: .leading)

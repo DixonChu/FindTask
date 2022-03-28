@@ -9,6 +9,16 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientIDWeb": "string",
             "AppClientID": "string",
             "CreatedSNSRole": "string"
+        },
+        "userPoolGroups": {
+            "UsersGroupRole": "string",
+            "WorkersGroupRole": "string"
+        }
+    },
+    "api": {
+        "findtask": {
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
         }
     }
 }

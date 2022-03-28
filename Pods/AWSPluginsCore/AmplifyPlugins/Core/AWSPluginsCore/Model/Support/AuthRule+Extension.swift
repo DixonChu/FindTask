@@ -1,11 +1,33 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
+
+extension AuthRuleProvider {
+
+    /// Returns corresponding `AWSAuthorizationType` for each `AuthRuleProvider`
+    /// - Returns: AWS authorization type
+    public func toAWSAuthorizationType() -> AWSAuthorizationType {
+        var authType: AWSAuthorizationType
+        switch self {
+        case .apiKey:
+            authType = .apiKey
+        case .oidc:
+            authType = .openIDConnect
+        case .iam:
+            authType = .awsIAM
+        case .userPools:
+            authType = .amazonCognitoUserPools
+        case .function:
+            authType = .function
+        }
+        return authType
+    }
+}
 
 extension AuthRule {
     func getOwnerFieldOrDefault() -> String {

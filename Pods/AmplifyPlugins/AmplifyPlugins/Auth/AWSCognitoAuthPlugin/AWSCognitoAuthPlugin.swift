@@ -1,12 +1,16 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
+#if COCOAPODS
 import AWSMobileClient
+#else
+import AWSMobileClientXCF
+#endif
 
 /// Auth plugin that uses AWS Cognito UserPool and IdentityPool.
 ///
@@ -51,3 +55,4 @@ final public class AWSCognitoAuthPlugin: AuthCategoryPlugin {
     }
 }
 
+extension AWSCognitoAuthPlugin: AmplifyVersionable { }

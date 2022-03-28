@@ -1,40 +1,32 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 extension AtomicValue where Value: RangeReplaceableCollection {
     public func append(_ newElement: Value.Element) {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            value.append(newElement)
         }
-        value.append(newElement)
     }
 
     public func append<S>(contentsOf sequence: S) where S: Sequence, S.Element == Value.Element {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            value.append(contentsOf: sequence)
         }
-        value.append(contentsOf: sequence)
     }
 
     public func removeFirst() -> Value.Element {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            value.removeFirst()
         }
-        return value.removeFirst()
     }
 
     public subscript(_ key: Value.Index) -> Value.Element {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            value[key]
         }
-        return value[key]
     }
 }

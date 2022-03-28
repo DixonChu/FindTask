@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -86,6 +86,11 @@ extension AuthCategory: AuthCategoryBehavior {
     public func signOut(options: AuthSignOutOperation.Request.Options? = nil,
                         listener: AuthSignOutOperation.ResultListener?) -> AuthSignOutOperation {
         plugin.signOut(options: options, listener: listener)
+    }
+
+    @discardableResult
+    public func deleteUser(listener: AuthDeleteUserOperation.ResultListener?) -> AuthDeleteUserOperation {
+        plugin.deleteUser(listener: listener)
     }
 
     @discardableResult

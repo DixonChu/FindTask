@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -8,8 +8,12 @@
 import Foundation
 import Amplify
 import AWSPluginsCore
-import AWSMobileClient
 import AWSCore
+#if COCOAPODS
+import AWSMobileClient
+#else
+import AWSMobileClientXCF
+#endif
 
 extension AWSCognitoAuthPlugin {
 
@@ -38,11 +42,14 @@ extension AWSCognitoAuthPlugin {
             let userService = AuthUserServiceAdapter(awsMobileClient: awsMobileClient)
             let deviceService = AuthDeviceServiceAdapter(awsMobileClient: awsMobileClient)
             let hubEventHandler = AuthHubEventHandler()
+            let operationQueue = OperationQueue()
+            operationQueue.maxConcurrentOperationCount = 1
             configure(authenticationProvider: authenticationProvider,
                       authorizationProvider: authorizationProvider,
                       userService: userService,
                       deviceService: deviceService,
-                      hubEventHandler: hubEventHandler)
+                      hubEventHandler: hubEventHandler,
+                      queue: operationQueue)
         } catch let authError as AuthError {
             throw authError
 
@@ -80,7 +87,12 @@ extension AWSCognitoAuthPlugin {
     func identityPoolServiceConfiguration(from authConfiguration: JSONValue) -> AmplifyAWSServiceConfiguration? {
         let regionKeyPath = "CredentialsProvider.CognitoIdentity.Default.Region"
         guard case .string(let regionString) = authConfiguration.value(at: regionKeyPath) else {
-            Amplify.Logging.warn("Could not read Cognito identity pool information from the configuration.")
+            Amplify.Logging.info("""
+                Cognito Identity Pool information is missing from the configuration. This is expected if you are not
+                using an Identity Pool, otherwise check your configuration to make sure you specify a `Region`,
+                `PoolId`, under `CognitoIdentity` > `Default`.
+                See https://docs.amplify.aws/lib/auth/existing-resources/q/platform/ios for more details.
+                """)
             return nil
         }
         let region = (regionString as NSString).aws_regionTypeValue()

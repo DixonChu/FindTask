@@ -8,6 +8,7 @@
 import Amplify
 import AmplifyPlugins
 import SwiftUI
+import AWSLocation
 
 extension View {
     func hideKeyboard() {
@@ -50,7 +51,15 @@ struct FindTaskApp: App {
     private func configureAmplify() {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSAPIPlugin())
             try Amplify.configure()
+            
+            #if DEBUG
+            Amplify.Logging.logLevel = .debug
+            #else
+            Amplify.Logging.logLevel = .error
+            #endif
+            
             print("Amplify congfigured successfully")
             
         }catch {

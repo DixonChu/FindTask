@@ -1,14 +1,18 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
 import AWSCore
-import AWSMobileClient
 import AWSPluginsCore
+#if COCOAPODS
+import AWSMobileClient
+#else
+import AWSMobileClientXCF
+#endif
 
 extension AuthorizationProviderAdapter {
 
@@ -26,8 +30,8 @@ extension AuthorizationProviderAdapter {
     /// - User is signedIn through Cognito User Pool but aws credentials couldnot be refreshed because of network or
     /// service issue
     /// - User is signedIn through Cognito Identity Pool
-    ///- User is signedIn through Cognito Identity Pool but aws credentials couldnot be refreshed because of network or
-    ///service issue
+    /// - User is signedIn through Cognito Identity Pool but aws credentials couldnot be refreshed because of network or
+    /// service issue
     /// - Parameter completionHandler: Completion handler to return the result.
     func fetchSignedInSession( _ completionHandler: @escaping SessionCompletionHandler) {
 
@@ -54,6 +58,10 @@ extension AuthorizationProviderAdapter {
                         self.fetchSignedInSession(withError: AuthErrorHelper.toAuthError(error!),
                                                   completionHandler)
                     }
+                } else if self.isErrorCausedByUserNotFound(error) {
+                    self.awsMobileClient.signOutLocally()
+                    self.fetchSignedOutSession(completionHandler)
+                    Amplify.Hub.dispatch(to: .auth, payload: HubPayload(eventName: HubPayload.EventName.Auth.signedOut))
                 } else {
                     self.fetchSignedInSession(withError: AuthErrorHelper.toAuthError(error!), completionHandler)
                 }
@@ -178,13 +186,19 @@ extension AuthorizationProviderAdapter {
                 self.fetchSignedInSession(withError: error, completionHandler)
                 return nil
             }
-            let amplifyCredentials = credentials.toAmplifyAWSCredentials()
-            let authSession = AWSAuthCognitoSession(isSignedIn: true,
-                                                    userSubResult: userSubResult,
-                                                    identityIdResult: .success(identityId),
-                                                    awsCredentialsResult: .success(amplifyCredentials),
-                                                    cognitoTokensResult: tokenResult)
-            completionHandler(.success(authSession))
+
+            do {
+                let amplifyCredentials = try credentials.toAmplifyAWSCredentials()
+                let authSession = AWSAuthCognitoSession(isSignedIn: true,
+                                                        userSubResult: userSubResult,
+                                                        identityIdResult: .success(identityId),
+                                                        awsCredentialsResult: .success(amplifyCredentials),
+                                                        cognitoTokensResult: tokenResult)
+                completionHandler(.success(authSession))
+            } catch {
+                let authError = AuthErrorHelper.toAuthError(error)
+                self.fetchSignedInSession(withError: authError, completionHandler)
+            }
             return nil
         }
     }
@@ -234,6 +248,15 @@ extension AuthorizationProviderAdapter {
         if let cognitoIdentityPoolError = error as NSError?,
             cognitoIdentityPoolError.domain == AWSCognitoIdentityErrorDomain,
             cognitoIdentityPoolError.code == AWSCognitoIdentityErrorType.notAuthorized.rawValue {
+            return true
+        }
+        return false
+    }
+
+    private func isErrorCausedByUserNotFound(_ error: Error?) -> Bool {
+        if let cognitoIdentityProviderError = error as NSError?,
+            cognitoIdentityProviderError.domain == AWSCognitoIdentityProviderErrorDomain,
+            cognitoIdentityProviderError.code == AWSCognitoIdentityProviderErrorType.userNotFound.rawValue {
             return true
         }
         return false

@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -17,62 +17,48 @@ final class AtomicDictionary<Key: Hashable, Value> {
     }
 
     var count: Int {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            value.count
         }
-        return value.count
     }
 
     var keys: [Key] {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            Array(value.keys)
         }
-        return Array(value.keys)
     }
 
     var values: [Value] {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            Array(value.values)
         }
-        return Array(value.values)
     }
 
     // MARK: - Functions
 
     func getValue(forKey key: Key) -> Value? {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            value[key]
         }
-        return value[key]
     }
 
     func removeAll() {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            value = [:]
         }
-        value = [:]
     }
 
     @discardableResult
     func removeValue(forKey key: Key) -> Value? {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            value.removeValue(forKey: key)
         }
-        return value.removeValue(forKey: key)
     }
 
     func set(value: Value, forKey key: Key) {
-        lock.lock()
-        defer {
-            lock.unlock()
+        lock.execute {
+            self.value[key] = value
         }
-        self.value[key] = value
     }
 
 }

@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -11,7 +11,7 @@ import Amplify
 public typealias IdentityClaimsDictionary = [String: AnyObject]
 
 public enum AuthRuleDecoratorInput {
-    case subscription(GraphQLSubscriptionType, IdentityClaimsDictionary)
+    case subscription(GraphQLSubscriptionType, IdentityClaimsDictionary?)
     case mutation
     case query
 }
@@ -30,9 +30,18 @@ public enum AuthRuleDecoratorInput {
 public struct AuthRuleDecorator: ModelBasedGraphQLDocumentDecorator {
 
     private let input: AuthRuleDecoratorInput
+    private let authType: AWSAuthorizationType?
 
-    public init(_ authRuleDecoratorInput: AuthRuleDecoratorInput) {
+
+    /// Initializes a new AuthRuleDecorator
+    /// - Parameters:
+    ///   - authRuleDecoratorInput: decorator input
+    ///   - authType: authentication type, if provided will be used to filter the auth rules based on the provider field.
+    ///               Only use when multi-auth is enabled.
+    public init(_ authRuleDecoratorInput: AuthRuleDecoratorInput,
+                authType: AWSAuthorizationType? = nil) {
         self.input = authRuleDecoratorInput
+        self.authType = authType
     }
 
     public func decorate(_ document: SingleDirectiveGraphQLDocument,
@@ -42,7 +51,7 @@ public struct AuthRuleDecorator: ModelBasedGraphQLDocumentDecorator {
 
     public func decorate(_ document: SingleDirectiveGraphQLDocument,
                          modelSchema: ModelSchema) -> SingleDirectiveGraphQLDocument {
-        let authRules = modelSchema.authRules
+        let authRules = modelSchema.authRules.filterBy(authType: authType)
         guard !authRules.isEmpty else {
             return document
         }
@@ -77,17 +86,30 @@ public struct AuthRuleDecorator: ModelBasedGraphQLDocumentDecorator {
         selectionSet = appendOwnerFieldToSelectionSetIfNeeded(selectionSet: selectionSet, ownerField: ownerField)
 
         if case let .subscription(_, claims) = input,
+           let tokenClaims = claims,
             authRule.isReadRestrictingOwner() &&
-                isNotInReadRestrictingStaticGroup(jwtTokenClaims: claims,
+                isNotInReadRestrictingStaticGroup(jwtTokenClaims: tokenClaims,
                                                   readRestrictingStaticGroups: readRestrictingStaticGroups) {
             var inputs = document.inputs
             let identityClaimValue = resolveIdentityClaimValue(identityClaim: authRule.identityClaimOrDefault(),
-                                                               claims: claims)
+                                                               claims: tokenClaims)
             if let identityClaimValue = identityClaimValue {
                 inputs[ownerField] = GraphQLDocumentInput(type: "String!", value: .scalar(identityClaimValue))
             }
             return document.copy(inputs: inputs, selectionSet: selectionSet)
         }
+
+        // TODO: Subscriptions always require an `owner` field.
+        //       We're sending an invalid owner value to receive a proper response from AppSync,
+        //       when there's no authenticated user.
+        //       We should be instead failing early and don't send the request.
+        //       See: https://github.com/aws-amplify/amplify-ios/issues/1291
+        if case let .subscription(_, claims) = input, authRule.isReadRestrictingOwner(), claims == nil {
+            var inputs = document.inputs
+            inputs[ownerField] = GraphQLDocumentInput(type: "String!", value: .scalar(""))
+            return document.copy(inputs: inputs, selectionSet: selectionSet)
+        }
+
         return document.copy(selectionSet: selectionSet)
     }
 
@@ -155,6 +177,24 @@ public struct AuthRuleDecorator: ModelBasedGraphQLDocumentDecorator {
         }
 
         return selectionSet
+    }
+}
+
+private extension AuthRules {
+    func filterBy(authType: AWSAuthorizationType?) -> AuthRules {
+        guard let authType = authType else {
+            return self
+        }
+
+        return filter {
+            guard let provider = $0.provider else {
+                // if an authType is available but not a provider
+                // means DataStore is using multi-auth with an outdated
+                // version of models (prior to codegen v2.26.0).
+                return true
+            }
+            return authType == provider.toAWSAuthorizationType()
+        }
     }
 }
 

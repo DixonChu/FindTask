@@ -15,20 +15,21 @@ struct ConfirmationView: View {
     let phoneNum: String
     
     var body: some View {
-        VStack {
+        
+        VStack (alignment: .leading, spacing: 0){
             
-            Text("Verify Phone Number")
-                .font(.title3)
+            Text("Enter your verification code")
+                .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(.black)
+                .padding(.bottom)
             
-            Text("Code is sent to: \(phoneNum)")
-                .foregroundColor(.gray)
+            
+            Text("We sent the code to the phone number \(phoneNum)")
+                .foregroundColor(.primary)
                 .padding(.bottom)
             
             VStack(alignment: .leading){
-            
-                Text("Confirmation Code:")
                 
                 TextField("Confirmation Code", text: $confirmationCode)
                     .padding()
@@ -36,21 +37,28 @@ struct ConfirmationView: View {
                     .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 5)
                 
             }
-            .padding(.top, 45)
             .padding(.bottom)
             
-            HStack (spacing: 6){
-                Text("Didn't receive code?")
-                    .foregroundColor(.gray)
+            Text("Find Task may use your phone numver to call or send text messages with information regarding your account.")
+                .foregroundColor(.secondary)
+                .font(.system(size: 13))
+                .multilineTextAlignment(.center)
+                .padding(.bottom)
+            
+                Button("Resend code", action: {
+                    sessionManager.resendCode(phoneNumber: phoneNum)
+                })
+                    .padding()
+                    .foregroundColor(.blue)
+                    .frame(width: 350, height: 40.0)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
                 
-                Button(action: {}){
-                    Text("Request Again")
-                        .fontWeight(.bold)
-                }
-            }
+            
+            
             Spacer()
             
-            Button("Confirm", action: {
+            
+            Button("Submit", action: {
                 sessionManager.confirm(phoneNumber: phoneNum, code: confirmationCode)
             })
                 .padding()
@@ -59,18 +67,20 @@ struct ConfirmationView: View {
                 .background(Color.orange)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
             
+            
         }
         .padding()
+        .padding(.top, 50)
         
         
     }
-
+    
 }
 
 
 struct ConfirmationView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfirmationView(phoneNum: "07447782825")
+        ConfirmationView(phoneNum: "+447447782825")
     }
 }
 

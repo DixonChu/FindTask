@@ -13,7 +13,11 @@ struct Home: View {
     @State var taskHealine = ""
     @State var taskDescription = ""
     @State var taskLocation = ""
-    @State var taskPrice = 0
+    @State var taskPrice = 0.00
+    
+    @State var keyboardOn = false
+    @State private var keyboardHeight: CGFloat = 0
+    
     
     var body: some View {
         VStack {
@@ -45,12 +49,13 @@ struct Home: View {
                 .padding(.horizontal)
                 .padding(.vertical, 10)
                 
-                Divider()
             }
             .overlay(
                 Text("FindTask")
-                    .fontWeight(.semibold)
+                    .font(.title3)
+                    .fontWeight(.regular)
             )
+            
             Spacer()
             
             HomePageContent(taskHeadline: $taskHealine, taskDescription: $taskDescription, taskLocation: $taskLocation, taskPrice: $taskPrice)
@@ -63,7 +68,11 @@ struct Home: View {
                     .background(Color.orange)
                     .clipShape(RoundedRectangle(cornerRadius: 5))
                     .padding(10)
-            }
+            }.padding(.bottom, 12)
+        }
+        .ignoresSafeArea(.keyboard)
+        .onTapGesture {
+            hideKeyboard()
         }
     }
 }
@@ -72,44 +81,79 @@ struct HomePageContent : View {
     @Binding var taskHeadline : String
     @Binding var taskDescription: String
     @Binding var taskLocation: String
-    @Binding var taskPrice: Int
-
+    @Binding var taskPrice: Double
+    
+    @State private var taskDate = Date()
+    
     var body: some View{
-        VStack(alignment: .leading) {
-            Text("Write a headline for your task")
-            TextField("Headline for your task", text: $taskHeadline)
+        VStack(alignment: .leading, spacing: 20) {
+            
+            VStack(alignment: .leading, spacing: 10){
+                Text("Write a headline for your task")
+                    .font(.headline)
+                
+                
+                HStack{
+                    TextField("A headline for your task...", text: $taskHeadline)
+                        .foregroundColor(.primary)
+                    
+                    
+                    Button(action: {}){
+                        
+                        Image(systemName: "alarm")
+                            .foregroundColor(.orange)
+                        Text("Now")
+                            .foregroundColor(.orange)
+                            .font(.callout)
+                    }
+                    
+                }
                 .padding(10)
-                .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.2).foregroundColor(Color.black))
-
-            Text("Task description")
-            AutoSizingTF(hint: "Task description", text: $taskDescription)
-                .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.2).foregroundColor(Color.black))
-                .frame(width: 350, height: 100)
-
-
-            Text("Task Location")
-            HStack(alignment: .center, spacing: 10){
-                Image(systemName: "mappin.and.ellipse")
-                TextField("Enter the task location", text: $taskLocation)
+                .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
             }
-            .padding(10)
-            .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.2).foregroundColor(Color.black))
+            
+//            VStack(alignment: .leading, spacing: 10){
+//                DatePicker("Date Time", selection: $taskDate)
+//            }
 
-
-            Text("Task price")
-            HStack(alignment: .center, spacing: 10){
-                Image(systemName: "dollarsign.circle")
+            VStack(alignment: .leading, spacing: 10){
+                
+                Text("Task Location")
+                    .font(.headline)
+                
+                TextField("Enter task location here...", text: $taskLocation)
+                    .padding(10)
+                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
+            }
+            
+            VStack(alignment: .leading, spacing: 10){
+                
+                Text("Task price")
+                    .font(.headline)
+                
                 TextField("0", value: $taskPrice, formatter: NumberFormatter())
-                    .foregroundColor(.gray)
                     .keyboardType(.phonePad)
+                
+                    .padding(10)
+                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
+                    .frame(width: 150, height: 45)
             }
-            .padding(10)
-            .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.2).foregroundColor(Color.black))
-            .frame(width: 150, height: 45)
+            
+            
+            VStack(alignment: .leading, spacing: 10){
 
-            Spacer()
+                Text("Task description")
+                    .font(.headline)
 
+                TextEditor(text: $taskDescription)
+                    .foregroundColor(.secondary)
+                    .padding(10)
+                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
+
+            }
+            
         }.padding(20)
+        
     }
 }
 
@@ -118,7 +162,7 @@ struct Home_Previews: PreviewProvider {
         let userId: String = "1"
         let username: String = "dummy"
     }
-
+    
     static var previews: some View {
         BaseView(user: DummyUser())
     }
@@ -129,49 +173,51 @@ struct Home_Previews: PreviewProvider {
 struct AutoSizingTF: UIViewRepresentable {
     var hint: String
     @Binding var text : String
-
+    
     func makeCoordinator() -> Coordinator {
         return AutoSizingTF.Coordinator(parent: self)
     }
-
+    
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
-
+        
         textView.text = hint
         textView.textColor = .gray
-
+        
         return textView
     }
-
+    
     func updateUIView(_ uiView: UITextView, context: Context) {
-
+        
     }
-
+    
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: AutoSizingTF
-
+        
         init(parent: AutoSizingTF) {
             self.parent = parent
         }
-
+        
         func textViewDidBeginEditing(_ textView: UITextView){
             if textView.text == parent.hint {
                 textView.text = ""
                 textView.textColor = UIColor(Color.primary)
             }
         }
-
+        
         func textViewDidChange(_ textView: UITextView){
             parent.text = textView.text
         }
-
+        
         func textViewDidEndEditing(_ textView: UITextView) {
             if textView.text == ""{
                 textView.text = parent.hint
                 textView.textColor = .gray
             }
         }
-
+        
     }
-
+    
 }
+
+

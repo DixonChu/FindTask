@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -16,9 +16,15 @@ extension ModelSchema {
         let graphQLName: String
         switch queryType {
         case .list:
-            graphQLName = (queryType.rawValue + name).pluralize()
+            if let listPluralName = listPluralName {
+                graphQLName = queryType.rawValue + listPluralName
+            } else {
+                graphQLName = (queryType.rawValue + name).pluralize()
+            }
         case .sync:
-            if let pluralName = pluralName {
+            if let syncPluralName = syncPluralName {
+                graphQLName = queryType.rawValue + syncPluralName
+            } else if let pluralName = pluralName {
                 graphQLName = queryType.rawValue + pluralName
             } else {
                 graphQLName = (queryType.rawValue + name).pluralize()

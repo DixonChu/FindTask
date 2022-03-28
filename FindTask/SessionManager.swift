@@ -7,6 +7,8 @@
 
 import Amplify
 import Combine
+import AWSMobileClient
+import Foundation
 
 enum AuthState {
     case signup
@@ -17,12 +19,35 @@ enum AuthState {
 
 final class SessionManager: ObservableObject {
     @Published var authState: AuthState = .login
+    @Published var phoneNumber: String = ""
+    @Published var givenName: String = ""
     
     func getCurrentAuthUser() {
         if let user = Amplify.Auth.getCurrentUser() {
             authState = .session(user: user)
+            AWSMobileClient.default().getTokens{ [self](tokens, error) in
+                if let error = error {
+                    print("error \(error)")
+                } else if let tokens = tokens {
+                    let claims = tokens.idToken?.claims
+                    self.phoneNumber = claims?["phone_number"] as! String
+                    self.givenName = claims?["given_name"] as! String
+                }
+            }
         } else {
             authState = .login
+        }
+    }
+    
+    func getUserDetails() {
+        AWSMobileClient.default().getTokens { [weak self] (tokens, error) in
+            if let error = error {
+                print("error \(error)")
+            } else if let tokens = tokens {
+                let claims = tokens.idToken?.claims
+                self?.phoneNumber = claims?["phone_number"] as! String
+                self?.givenName = claims?["first_name"] as! String
+            }
         }
     }
     
@@ -97,6 +122,7 @@ final class SessionManager: ObservableObject {
                 if signInResult.isSignedIn{
                     DispatchQueue.main.async {
                         self?.getCurrentAuthUser()
+//                        self?.getUserDetails()
                     }
                 }
                 
@@ -165,6 +191,17 @@ final class SessionManager: ObservableObject {
         }
     }
     
+    func resendCode(phoneNumber: String) {
+        Amplify.Auth.resendConfirmationCode(for: .phoneNumber) { result in
+            switch result {
+            case .success(let deliveryDetails):
+                print("Resend code send to - \(deliveryDetails)")
+            case .failure(let error):
+                print("Resend code failed with error \(error)")
+            }
+        }
+    }
+    
     func signOut(){
         _ = Amplify.Auth.signOut {
             [weak self] result in
@@ -180,7 +217,7 @@ final class SessionManager: ObservableObject {
         }
     }
     
+    
+    
 }
-
-
 

@@ -1,5 +1,5 @@
 //
-// Copyright 2010-2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright 2010-2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -1994,6 +1994,7 @@ NSString *const AWSCognitoIdentityProviderErrorDomain = @"com.amazonaws.AWSCogni
              @"callbackURLs" : @"CallbackURLs",
              @"clientName" : @"ClientName",
              @"defaultRedirectURI" : @"DefaultRedirectURI",
+             @"enableTokenRevocation" : @"EnableTokenRevocation",
              @"explicitAuthFlows" : @"ExplicitAuthFlows",
              @"generateSecret" : @"GenerateSecret",
              @"idTokenValidity" : @"IdTokenValidity",
@@ -2223,6 +2224,68 @@ NSString *const AWSCognitoIdentityProviderErrorDomain = @"com.amazonaws.AWSCogni
 	return @{
              @"certificateArn" : @"CertificateArn",
              };
+}
+
+@end
+
+@implementation AWSCognitoIdentityProviderCustomEmailLambdaVersionConfigType
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+             @"lambdaArn" : @"LambdaArn",
+             @"lambdaVersion" : @"LambdaVersion",
+             };
+}
+
++ (NSValueTransformer *)lambdaVersionJSONTransformer {
+    return [AWSMTLValueTransformer reversibleTransformerWithForwardBlock:^NSNumber *(NSString *value) {
+        if ([value caseInsensitiveCompare:@"V1_0"] == NSOrderedSame) {
+            return @(AWSCognitoIdentityProviderCustomEmailSenderLambdaVersionTypeV10);
+        }
+        return @(AWSCognitoIdentityProviderCustomEmailSenderLambdaVersionTypeUnknown);
+    } reverseBlock:^NSString *(NSNumber *value) {
+        switch ([value integerValue]) {
+            case AWSCognitoIdentityProviderCustomEmailSenderLambdaVersionTypeV10:
+                return @"V1_0";
+            default:
+                return nil;
+        }
+    }];
+}
+
+@end
+
+@implementation AWSCognitoIdentityProviderCustomSMSLambdaVersionConfigType
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+             @"lambdaArn" : @"LambdaArn",
+             @"lambdaVersion" : @"LambdaVersion",
+             };
+}
+
++ (NSValueTransformer *)lambdaVersionJSONTransformer {
+    return [AWSMTLValueTransformer reversibleTransformerWithForwardBlock:^NSNumber *(NSString *value) {
+        if ([value caseInsensitiveCompare:@"V1_0"] == NSOrderedSame) {
+            return @(AWSCognitoIdentityProviderCustomSMSSenderLambdaVersionTypeV10);
+        }
+        return @(AWSCognitoIdentityProviderCustomSMSSenderLambdaVersionTypeUnknown);
+    } reverseBlock:^NSString *(NSNumber *value) {
+        switch ([value integerValue]) {
+            case AWSCognitoIdentityProviderCustomSMSSenderLambdaVersionTypeV10:
+                return @"V1_0";
+            default:
+                return nil;
+        }
+    }];
 }
 
 @end
@@ -3599,8 +3662,11 @@ NSString *const AWSCognitoIdentityProviderErrorDomain = @"com.amazonaws.AWSCogni
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
 	return @{
              @"createAuthChallenge" : @"CreateAuthChallenge",
+             @"customEmailSender" : @"CustomEmailSender",
              @"customMessage" : @"CustomMessage",
+             @"customSMSSender" : @"CustomSMSSender",
              @"defineAuthChallenge" : @"DefineAuthChallenge",
+             @"KMSKeyID" : @"KMSKeyID",
              @"postAuthentication" : @"PostAuthentication",
              @"postConfirmation" : @"PostConfirmation",
              @"preAuthentication" : @"PreAuthentication",
@@ -3609,6 +3675,14 @@ NSString *const AWSCognitoIdentityProviderErrorDomain = @"com.amazonaws.AWSCogni
              @"userMigration" : @"UserMigration",
              @"verifyAuthChallengeResponse" : @"VerifyAuthChallengeResponse",
              };
+}
+
++ (NSValueTransformer *)customEmailSenderJSONTransformer {
+    return [NSValueTransformer awsmtl_JSONDictionaryTransformerWithModelClass:[AWSCognitoIdentityProviderCustomEmailLambdaVersionConfigType class]];
+}
+
++ (NSValueTransformer *)customSMSSenderJSONTransformer {
+    return [NSValueTransformer awsmtl_JSONDictionaryTransformerWithModelClass:[AWSCognitoIdentityProviderCustomSMSLambdaVersionConfigType class]];
 }
 
 @end
@@ -4489,6 +4563,30 @@ NSString *const AWSCognitoIdentityProviderErrorDomain = @"com.amazonaws.AWSCogni
 
 @end
 
+@implementation AWSCognitoIdentityProviderRevokeTokenRequest
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+	return @{
+             @"clientId" : @"ClientId",
+             @"clientSecret" : @"ClientSecret",
+             @"token" : @"Token",
+             };
+}
+
+@end
+
+@implementation AWSCognitoIdentityProviderRevokeTokenResponse
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+@end
+
 @implementation AWSCognitoIdentityProviderRiskConfigurationType
 
 + (BOOL)supportsSecureCoding {
@@ -4928,6 +5026,7 @@ NSString *const AWSCognitoIdentityProviderErrorDomain = @"com.amazonaws.AWSCogni
 	return @{
              @"externalId" : @"ExternalId",
              @"snsCallerArn" : @"SnsCallerArn",
+             @"snsRegion" : @"SnsRegion",
              };
 }
 
@@ -5511,6 +5610,7 @@ NSString *const AWSCognitoIdentityProviderErrorDomain = @"com.amazonaws.AWSCogni
              @"clientId" : @"ClientId",
              @"clientName" : @"ClientName",
              @"defaultRedirectURI" : @"DefaultRedirectURI",
+             @"enableTokenRevocation" : @"EnableTokenRevocation",
              @"explicitAuthFlows" : @"ExplicitAuthFlows",
              @"idTokenValidity" : @"IdTokenValidity",
              @"logoutURLs" : @"LogoutURLs",
@@ -5897,6 +5997,7 @@ NSString *const AWSCognitoIdentityProviderErrorDomain = @"com.amazonaws.AWSCogni
              @"clientSecret" : @"ClientSecret",
              @"creationDate" : @"CreationDate",
              @"defaultRedirectURI" : @"DefaultRedirectURI",
+             @"enableTokenRevocation" : @"EnableTokenRevocation",
              @"explicitAuthFlows" : @"ExplicitAuthFlows",
              @"idTokenValidity" : @"IdTokenValidity",
              @"lastModifiedDate" : @"LastModifiedDate",

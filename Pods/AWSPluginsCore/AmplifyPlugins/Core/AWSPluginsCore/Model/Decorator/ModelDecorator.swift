@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -27,7 +27,7 @@ public struct ModelDecorator: ModelBasedGraphQLDocumentDecorator {
     public func decorate(_ document: SingleDirectiveGraphQLDocument,
                          modelSchema: ModelSchema) -> SingleDirectiveGraphQLDocument {
         var inputs = document.inputs
-        var graphQLInput = model.graphQLInput(modelSchema)
+        var graphQLInput = model.graphQLInputForMutation(modelSchema)
 
         if !modelSchema.authRules.isEmpty {
             modelSchema.authRules.forEach { authRule in

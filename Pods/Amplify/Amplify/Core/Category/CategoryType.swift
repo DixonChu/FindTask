@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -24,6 +24,9 @@ public enum CategoryType: String {
 
     /// Persist data
     case dataStore
+
+    /// Interact with geospatial services
+    case geo
 
     /// Listen for or dispatch Amplify events
     case hub
@@ -51,6 +54,8 @@ public extension CategoryType {
             return "Authentication"
         case .dataStore:
             return "DataStore"
+        case .geo:
+            return "Geo"
         case .hub:
             return "Hub"
         case .logging:
@@ -72,6 +77,8 @@ public extension CategoryType {
             return Amplify.Auth
         case .dataStore:
             return Amplify.DataStore
+        case .geo:
+            return Amplify.Geo
         case .hub:
             return Amplify.Hub
         case .logging:

@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -10,7 +10,7 @@
 /// but clients can access specific plugins by invoking `getPlugin` on a category and issuing methods directly to
 /// that plugin.
 ///
-/// - Warning: It is a serious programmer to invoke any of the category APIs (like `Analytics.record()` or
+/// - Warning: It is a serious error to invoke any of the category APIs (like `Analytics.record()` or
 /// `API.mutate()`) without first registering plugins via `Amplify.add(plugin:)` and configuring Amplify via
 /// `Amplify.configure()`. Such access will cause a preconditionFailure.
 ///
@@ -29,14 +29,26 @@ public class Amplify {
     public static internal(set) var API: APICategory = AmplifyAPICategory()
     public static internal(set) var Auth = AuthCategory()
     public static internal(set) var DataStore = DataStoreCategory()
+    public static internal(set) var Geo = GeoCategory()
     public static internal(set) var Hub = HubCategory()
-    public static internal(set) var Logging = LoggingCategory()
     public static internal(set) var Predictions = PredictionsCategory()
     public static internal(set) var Storage = StorageCategory()
 
-    /// Adds `plugin` to the Analytics category
+    // Special case category. We protect this with an AtomicValue because it is used by reset()
+    // methods during setup & teardown of tests
+    public static internal(set) var Logging: LoggingCategory {
+        get {
+            loggingAtomic.get()
+        }
+        set {
+            loggingAtomic.set(newValue)
+        }
+    }
+    private static let loggingAtomic = AtomicValue<LoggingCategory>(initialValue: LoggingCategory())
+
+    /// Adds `plugin` to the category
     ///
-    /// - Parameter plugin: The AnalyticsCategoryPlugin to add
+    /// - Parameter plugin: The plugin to add
     public static func add<P: Plugin>(plugin: P) throws {
         log.debug("Adding plugin: \(plugin))")
         switch plugin {
@@ -48,6 +60,8 @@ public class Amplify {
             try Auth.add(plugin: plugin)
         case let plugin as DataStoreCategoryPlugin:
             try DataStore.add(plugin: plugin)
+        case let plugin as GeoCategoryPlugin:
+            try Geo.add(plugin: plugin)
         case let plugin as HubCategoryPlugin:
             try Hub.add(plugin: plugin)
         case let plugin as LoggingCategoryPlugin:

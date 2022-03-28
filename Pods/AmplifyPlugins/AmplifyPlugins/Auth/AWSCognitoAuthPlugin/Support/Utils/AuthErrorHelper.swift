@@ -1,12 +1,18 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
+import SafariServices
+import AuthenticationServices
+#if COCOAPODS
 import AWSMobileClient
+#else
+import AWSMobileClientXCF
+#endif
 
 struct AuthErrorHelper {
 
@@ -97,11 +103,15 @@ struct AuthErrorHelper {
                                             AuthPluginErrorConstants.tooManyFailedError,
                                             AWSCognitoAuthError.failedAttemptsLimitExceeded)
 
-        case .tooManyRequests(let message),
-             .limitExceeded(let message):
+        case .tooManyRequests(let message):
             return AuthError.service(message,
                                             AuthPluginErrorConstants.tooManyRequestError,
                                             AWSCognitoAuthError.requestLimitExceeded)
+
+        case .limitExceeded(let message):
+            return AuthError.service(message,
+                                     AuthPluginErrorConstants.limitExceededError,
+                                     AWSCognitoAuthError.limitExceeded)
 
         case .errorLoadingPage(let message):
             return AuthError.service(message,
@@ -126,7 +136,7 @@ struct AuthErrorHelper {
             return AuthError.notAuthorized(message, AuthPluginErrorConstants.notAuthorizedError)
 
         // Below error should not happen, these will be handled inside the plugin.
-        case .notSignedIn(let message), // Called in getTokens/getPassword when not signedin to CUP
+        case .notSignedIn(let message), // Occurs in deleteUser,getTokens,getPassword when not signedin to CUP.
         .identityIdUnavailable(let message), // From getIdentityId. Handled in plugin
         .guestAccessNotAllowed(let message), // Returned from getAWSCredentials. Handled in plugin
         .federationProviderExists(let message), // User is already signed in to user pool in federatedSignIn
@@ -161,8 +171,27 @@ struct AuthErrorHelper {
     static func toAuthError(_ error: Error) -> AuthError {
         if let awsMobileClientError = error as? AWSMobileClientError {
             return toAuthError(awsMobileClientError: awsMobileClientError)
+        } else if let authError = error as? AuthError {
+            return authError
         }
         return AuthError.unknown("An unknown error occurred", error)
 
+    }
+
+    static func didUserCancelHostedUI(_ error: Error) -> Bool {
+        if let sfAuthError = error as? SFAuthenticationError,
+           case SFAuthenticationError.Code.canceledLogin = sfAuthError.code {
+            return true
+        }
+
+        if #available(iOS 12.0, *) {
+
+            if let asWebAuthError = error as? ASWebAuthenticationSessionError,
+               case ASWebAuthenticationSessionError.Code.canceledLogin = asWebAuthError.code {
+                return true
+            }
+        }
+
+        return false
     }
 }

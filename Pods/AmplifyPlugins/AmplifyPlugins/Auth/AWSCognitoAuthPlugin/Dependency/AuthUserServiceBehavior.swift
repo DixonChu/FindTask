@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -22,7 +22,7 @@ typealias ConfirmAttributeCompletion = (Result<Void, AuthError>) -> Void
 
 typealias ChangePasswordCompletion = (Result<Void, AuthError>) -> Void
 
-protocol AuthUserServiceBehavior: class {
+protocol AuthUserServiceBehavior: AnyObject {
 
     func fetchAttributes(request: AuthFetchUserAttributesRequest,
                          completionHandler: @escaping FetchUserAttributesCompletion)

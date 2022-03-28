@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "findtask",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/chudixon/Documents/MMP/FindTask/amplify/backend/api/findtask/schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authfindtaskd20a916e"
+    }
+  }
+}

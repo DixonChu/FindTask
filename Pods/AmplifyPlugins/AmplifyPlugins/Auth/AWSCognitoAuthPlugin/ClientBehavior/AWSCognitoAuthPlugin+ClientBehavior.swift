@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -116,6 +116,15 @@ extension AWSCognitoAuthPlugin {
                                                            resultListener: listener)
             queue.addOperation(signOutOperation)
             return signOutOperation
+    }
+
+    public func deleteUser(listener: AuthDeleteUserOperation.ResultListener?) -> AuthDeleteUserOperation {
+            let request = AuthDeleteUserRequest()
+            let deleteUserOperation = AWSAuthDeleteUserOperation(request,
+                                                                 authenticationProvider: authenticationProvider,
+                                                                 resultListener: listener)
+            queue.addOperation(deleteUserOperation)
+            return deleteUserOperation
     }
 
     public func fetchAuthSession(options: AuthFetchSessionOperation.Request.Options?,

@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -36,9 +36,14 @@ struct AuthPluginErrorConstants {
         "User cancelled the signIn flow and could not be completed.",
         "Present the signIn UI again for the user to sign in.")
 
+    static let hostedUIUserCancelledSignOutError: AuthPluginErrorString = (
+        "User cancelled the signOut flow and could not be completed.",
+        "Present the signOut UI again for the user to sign out.")
+
     static let userInvalidError: AuthPluginErrorString = (
         "Could not validate the user",
         "Get the current user Auth.getCurrentUser() and make the request")
+
     static let identityIdSignOutError: AuthPluginErrorString = (
         "There is no user signed in to retreive identity id",
         "Call Auth.signIn to sign in a user or enable unauthenticated access in AWS Cognito Identity Pool")
@@ -54,6 +59,10 @@ struct AuthPluginErrorConstants {
     static let userSubSignOutError: AuthPluginErrorString = (
         "There is no user signed in to retreive user sub",
         "Call Auth.signIn to sign in a user and then call Auth.fetchSession")
+
+    static let deleteUserSignOutError: AuthPluginErrorString = (
+        "There is no user signed in to Cognito User Pool to delete an account",
+        "Call Auth.signIn to sign in a user into Cognito User Pool and then call Auth.deleteUser")
 
     static let identityIdOfflineError: AuthPluginErrorString = (
         "A network error occured while trying to fetch identity id",
@@ -225,7 +234,11 @@ extension AuthPluginErrorConstants {
     static let tooManyFailedError: RecoverySuggestion = "User might have tried too many times with failed input"
 
     static let tooManyRequestError: RecoverySuggestion = """
-    Make sure the requests send are controlled and the errors are properlly handled
+    Make sure the requests send are controlled and the errors are properly handled
+    """
+
+    static let limitExceededError: RecoverySuggestion = """
+    Make sure that the request made to the particular AWS resources are under the resource quota limits
     """
 
     static let configurationError: RecoverySuggestion = """

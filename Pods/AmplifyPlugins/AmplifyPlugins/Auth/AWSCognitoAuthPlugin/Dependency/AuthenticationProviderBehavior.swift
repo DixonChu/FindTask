@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -30,6 +30,9 @@ protocol AuthenticationProviderBehavior {
 
     func signOut(request: AuthSignOutRequest,
                  completionHandler: @escaping (Result<Void, AuthError>) -> Void)
+
+    func deleteUser(request: AuthDeleteUserRequest,
+                    completionHandler: @escaping (Result<Void, AuthError>) -> Void)
 
     func getCurrentUser() -> AuthUser?
 

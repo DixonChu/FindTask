@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -22,6 +22,10 @@ class AuthHubEventHandler: AuthHubEventBehavior {
 
     func sendUserSignedOutEvent() {
         dispatchAuthEvent(HubPayload.EventName.Auth.signedOut)
+    }
+
+    func sendUserDeletedEvent() {
+        dispatchAuthEvent(HubPayload.EventName.Auth.userDeleted)
     }
 
     func sendSessionExpiredEvent() {
@@ -68,6 +72,13 @@ class AuthHubEventHandler: AuthHubEventBehavior {
                         return
                 }
                 self?.sendUserSignedOutEvent()
+
+            case HubPayload.EventName.Auth.deleteUserAPI:
+                guard let event = payload.data as? AWSAuthDeleteUserOperation.OperationResult,
+                    case .success = event else {
+                        return
+                }
+                self?.sendUserDeletedEvent()
 
             case HubPayload.EventName.Auth.fetchSessionAPI:
                 guard let event = payload.data as? AWSAuthFetchSessionOperation.OperationResult,

@@ -10,88 +10,133 @@ import SwiftUI
 struct HelpCenterView: View {
     var body: some View {
         VStack{
-            Divider()
-            Spacer()
-            HelpCenterList()
-            
-            Spacer()
+            List{
+                NavigationLink{
+                    PlacingOrderHelpView()
+                        .navigationTitle("Placing an Order")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack(spacing: 12){
+                        Image(systemName: "list.bullet.rectangle.portrait")
+                        
+                        VStack(alignment: .leading, spacing: 2){
+                            Text("Placing an Order")
+                            Text("Place order, track status, rate tasker")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                    }.foregroundColor(.primary)
+                }
+                NavigationLink{
+                    OrderEditCancellationView()
+                        .navigationTitle("Order, Edit and Cancellation")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack(spacing: 12){
+                        Image(systemName: "pencil")
+                        
+                        VStack(alignment: .leading, spacing: 2){
+                            Text("Order, Edit and Cancellation")
+                            Text("Edit order, cancel order")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                    }.foregroundColor(.primary)
+                }
+                
+                NavigationLink{
+                    FeePaymentMethodView()
+                        .navigationTitle("Fee, Payments and Methods")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack(spacing: 12){
+                        Image(systemName: "dollarsign.circle")
+                        
+                        VStack(alignment: .leading, spacing: 2){
+                            Text("Fee, Payments and Methods")
+                            Text("Request receipt, select payment methods")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                    }.foregroundColor(.primary)
+                }
+                
+                NavigationLink{
+                    OrderIssueView()
+                        .navigationTitle("Order Issues")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack(spacing: 12){
+                        Image(systemName: "exclamationmark.triangle")
+                        
+                        VStack(alignment: .leading, spacing: 2){
+                            Text("Order Issues")
+                            Text("No tasker matched, complaints")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                    }.foregroundColor(.primary)
+                }
+                
+                NavigationLink{
+                    ProfileAccountView()
+                        .navigationTitle("Profile and Account")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack(spacing: 12){
+                        Image(systemName: "person")
+                        
+                        VStack(alignment: .leading, spacing: 2){
+                            Text("Profile and Account")
+                            Text("Forgot password, update personal details")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                    }.foregroundColor(.primary)
+                }
+                
+                NavigationLink{
+                    GeneralInfoView()
+                        .navigationTitle("General Information")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack(spacing: 12){
+                        Image(systemName: "info.circle")
+                        
+                        VStack(alignment: .leading, spacing: 2){
+                            Text("General Information")
+                            Text("Service types, service area, insurance")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                    }.foregroundColor(.primary)
+                }
+                
+                NavigationLink{
+                    SendFeedbackView()
+                        .navigationTitle("Feedback")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack(spacing: 12){
+                        Image(systemName: "dot.radiowaves.up.forward")
+                        
+                        VStack(alignment: .leading, spacing: 2){
+                            Text("Send us Feedback")
+                            Text("Tell us what you think")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                    }.foregroundColor(.primary)
+                }
+                
+            }.listStyle(PlainListStyle())
         }
     }
 }
 
-struct HelpCenterList: View {
-    var body: some View{
-        NavigationView{
-            NavigationLink{
-                PlacingOrderHelpView()
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle("Placing an Order")
-            } label: {
-                PlaceAnOrderButton()
-            }
-            
-        }
-        
-        
-    }
-}
-
-struct PlaceAnOrderButton: View {
-    var body: some View{
-        HStack{
-            Image(systemName: "list.bullet.rectangle.portrait")
-            Text("Placing an Order")
-            //            Button("Placing an Order", action: {})
-        }
-    }
-}
-
-struct OrderEditAndCancellation: View {
-    var body: some View{
-        HStack{
-            Image(systemName: "pencil")
-            Button("Order Edit and Cancellation", action: {})
-        }
-    }
-}
 
 struct HelpCenterView_Previews: PreviewProvider {
     static var previews: some View {
         HelpCenterView()
     }
 }
-
-
-//PlaceAnOrderButton()
-//
-//Divider()
-//
-//OrderEditAndCancellation()
-//
-//Divider()
-//
-//HStack{
-//    Image(systemName: "dollarsign.circle")
-//    Button("Fee, Payments and Methods", action: {})
-//}
-//
-//Divider()
-//
-//HStack{
-//    Image(systemName: "exclamationmark.triangle")
-//    Button("Order Issues", action: {})
-//}
-//
-//Divider()
-//
-//HStack{
-//    Image(systemName: "person")
-//    Button("Profile and Account", action: {})
-//}
-//
-//Divider()
-//
-////            HStack{
-////                Image(systemName: "info.circle")
-////                Button("General Information", action: {})
-////            }
