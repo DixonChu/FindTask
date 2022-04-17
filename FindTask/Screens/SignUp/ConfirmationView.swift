@@ -80,7 +80,7 @@ struct ConfirmationView: View {
 
 struct ConfirmationView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfirmationView(phoneNum: "+447447782825")
+        ConfirmationView(phoneNum: "").environmentObject(SessionManager())
     }
 }
 

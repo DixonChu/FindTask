@@ -124,6 +124,6 @@ struct SignInTextField: View {
 
 struct SignInContentView_Previews: PreviewProvider {
     static var previews: some View {
-        LogInView()
+        LogInView().environmentObject(SessionManager())
     }
 }

@@ -21,6 +21,11 @@ final class SessionManager: ObservableObject {
     @Published var authState: AuthState = .login
     @Published var phoneNumber: String = ""
     @Published var givenName: String = ""
+    @Published var userID: String = ""
+    
+    
+    
+    
     
     func getCurrentAuthUser() {
         if let user = Amplify.Auth.getCurrentUser() {
@@ -30,24 +35,13 @@ final class SessionManager: ObservableObject {
                     print("error \(error)")
                 } else if let tokens = tokens {
                     let claims = tokens.idToken?.claims
+                    self.userID = claims?["cognito:username"] as! String
                     self.phoneNumber = claims?["phone_number"] as! String
                     self.givenName = claims?["given_name"] as! String
                 }
             }
         } else {
             authState = .login
-        }
-    }
-    
-    func getUserDetails() {
-        AWSMobileClient.default().getTokens { [weak self] (tokens, error) in
-            if let error = error {
-                print("error \(error)")
-            } else if let tokens = tokens {
-                let claims = tokens.idToken?.claims
-                self?.phoneNumber = claims?["phone_number"] as! String
-                self?.givenName = claims?["first_name"] as! String
-            }
         }
     }
     
@@ -151,7 +145,7 @@ final class SessionManager: ObservableObject {
                 let resetResult = try result.get()
                 switch resetResult.nextStep {
                 case .confirmResetPasswordWithCode(let deliveryDetails, let info):
-                    print("Confirm reset password with code send to - \(deliveryDetails) \(info)")
+                    print("Confirm reset password with code send to - \(deliveryDetails) \(String(describing: info))")
                 case .done:
                     print("Reset completed")
                 }

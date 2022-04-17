@@ -1,0 +1,76 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateTask($owner: String) {
+  onCreateTask(owner: $owner) {
+    id
+    taskTitle
+    taskDescription
+    taskLocation
+    taskPrice
+    taskStatus
+    taskDate
+    acceptedId
+    createdAt
+    updatedAt
+    owner
+  }
+}
+subscription OnUpdateTask($owner: String) {
+  onUpdateTask(owner: $owner) {
+    id
+    taskTitle
+    taskDescription
+    taskLocation
+    taskPrice
+    taskStatus
+    taskDate
+    acceptedId
+    createdAt
+    updatedAt
+    owner
+  }
+}
+subscription OnDeleteTask($owner: String) {
+  onDeleteTask(owner: $owner) {
+    id
+    taskTitle
+    taskDescription
+    taskLocation
+    taskPrice
+    taskStatus
+    taskDate
+    acceptedId
+    createdAt
+    updatedAt
+    owner
+  }
+}
+subscription OnCreateUser {
+  onCreateUser {
+    id
+    givenName
+    familyName
+    phoneNumber
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateUser {
+  onUpdateUser {
+    id
+    givenName
+    familyName
+    phoneNumber
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteUser {
+  onDeleteUser {
+    id
+    givenName
+    familyName
+    phoneNumber
+    createdAt
+    updatedAt
+  }
+}

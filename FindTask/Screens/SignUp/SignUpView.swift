@@ -111,41 +111,6 @@ struct SignUpField: View {
     }
 }
 
-enum Role: String, CaseIterable, Identifiable{
-    case orderTask
-    case work
-    
-    var id: String{self.rawValue}
-}
-
-struct DecideRoles: View {
-    //    @State private var chooseRole = Role.orderTask
-    
-    let chooseRole = ["Order Task", "Work"]
-    @State public var buttonSelected: Int?
-    
-    var body: some View {
-        HStack(spacing:0){
-            ForEach(0..<chooseRole.count){ button in
-                Button(action:{
-                    self.buttonSelected = button
-                }) {
-                    Text("\(self.chooseRole[button])")
-                        .padding()
-                        .foregroundColor(.white)
-                        .frame(width: 115, height: 35.0)
-                        .background(self.buttonSelected == button ? Color.orange : Color.blue)
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                }
-            }
-        }
-        
-        Text("I want to:")
-            .frame(maxWidth: .infinity, alignment: .center)
-        
-    }
-}
-
 struct SignUpButton: View {
     @EnvironmentObject var sessionManager : SessionManager
     
@@ -176,6 +141,6 @@ struct SignUpButton: View {
 
 struct SignUpContentView_Previews: PreviewProvider {
     static var previews: some View {
-        SignUpView()
+        SignUpView().environmentObject(SessionManager())
     }
 }

@@ -103,6 +103,6 @@ struct ForgetPasswordTextField: View{
 
 struct ResetPasswordView_Previews: PreviewProvider {
     static var previews: some View {
-        ResetPasswordView()
+        ResetPasswordView().environmentObject(SessionManager())
     }
 }

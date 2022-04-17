@@ -6,37 +6,41 @@
 //
 
 import SwiftUI
+import Amplify
 
 struct WorkView: View {
-    var body: some View {
+    
+    let user: AuthUser
+    
+        var body: some View {
         NavigationView{
-        TabView{
-            HomeView()
-                .tabItem{
-                    Image(systemName: "square.and.arrow.down")
-                    Text("Accept")
-                }
-            
-            Text("Record")
-                .tabItem{
-                    Image(systemName: "list.bullet.rectangle.portrait")
-                    Text("Orders")
-                }
-            
-            Text("Statistic")
-                .tabItem{
-                    Image(systemName: "chart.line.uptrend.xyaxis")
-                    Text("Statistic")
-                }
-            
-            
-            ProfileView()
-                .tabItem{
-                    Image(systemName: "person.circle")
-                    Text("Profile")
-                }
+            TabView{
+                HomeView()
+                    .tabItem{
+                        Image(systemName: "square.and.arrow.down")
+                        Text("Accept")
+                    }
+                
+                Text("Record")
+                    .tabItem{
+                        Image(systemName: "list.bullet.rectangle.portrait")
+                        Text("Orders")
+                    }
+                
+                Text("Statistic")
+                    .tabItem{
+                        Image(systemName: "chart.line.uptrend.xyaxis")
+                        Text("Statistic")
+                    }
+                
+                
+                ProfileView(user: user)
+                    .tabItem{
+                        Image(systemName: "person.circle")
+                        Text("Profile")
+                    }
+            }
         }
-    }
     }
 }
 
@@ -82,7 +86,11 @@ struct OrdersView: View {
 }
 
 struct WorkView_Previews: PreviewProvider {
+    private struct DummyUser: AuthUser {
+        let userId: String = "1"
+        let username: String = "dummy"
+    }
     static var previews: some View {
-        WorkView()
+        WorkView(user: DummyUser())
     }
 }

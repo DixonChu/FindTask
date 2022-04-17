@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import Amplify
 
 
 struct ProfileView: View {
+    
+    let user: AuthUser
     var body: some View {
         VStack(spacing: 0){
             HStack{
@@ -31,7 +34,7 @@ struct ProfileView: View {
             
             Spacer()
             
-            Profile()
+            Profile(user: user)
         }
     }
 }
@@ -39,12 +42,12 @@ struct ProfileView: View {
 struct Profile: View {
     @EnvironmentObject var sessionManager : SessionManager
   
+    let user: AuthUser
     var body: some View {
         VStack{
             Image(systemName: "person.circle")
-            Text("User name")
+            Text(sessionManager.givenName)
             HStack{
-                Image(systemName: "map")
                 Text("User location")
                 
             }
@@ -62,7 +65,7 @@ struct Profile: View {
             
             
             Spacer()
-            switchToPlaceTaskView()
+            switchToPlaceTaskView(user: user)
             
         }
         
@@ -70,11 +73,11 @@ struct Profile: View {
 }
 
 struct switchToPlaceTaskView : View{
-    @State var showMenu: Bool = false
+    let user: AuthUser
     
     var body: some View{
         NavigationLink{
-            Home(showMenu: $showMenu)
+            Home(user: user)
                 .navigationBarHidden(true)
         } label: {
             HStack{
@@ -93,8 +96,12 @@ struct switchToPlaceTaskView : View{
 }
 
 struct ProfileView_Previews: PreviewProvider {
+    private struct DummyUser: AuthUser {
+        let userId: String = "1"
+        let username: String = "dummy"
+    }
     static var previews: some View {
-        WorkView()
+        WorkView(user: DummyUser())
     }
 }
 

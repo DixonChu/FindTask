@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11142A5086B667596D0EF316 /* User+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56681AAAB5983DD37764FE70 /* User+Schema.swift */; };
+		1CC4C551490C5607BC76B409 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983DC89B12D56C59C2D3AF5 /* Task.swift */; };
 		1CF73C2D5C468456EF09BA17 /* Pods_FindTask_FindTaskUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD016E4E696CC80EA12EB726 /* Pods_FindTask_FindTaskUITests.framework */; };
 		440535AF19F3BA4E5BCFF18C /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = B781DF9912E7BEDA9FD35850 /* awsconfiguration.json */; };
 		4F9619F422BF07096A37DCAA /* Pods_FindTaskTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A38FCA837A7BF57C2F3DE0D9 /* Pods_FindTaskTests.framework */; };
+		51178E23C918A09C69C5070B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698C53D9396EBD9BEF03A7FB /* User.swift */; };
 		61C49CC03C73585EC4998E14 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 053B6B44A9BF73B8F22EF23C /* amplifyconfiguration.json */; };
-		760C513427C06313000087FC /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 760C513227C06313000087FC /* amplifyconfiguration.json */; };
-		760C513527C06313000087FC /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 760C513327C06313000087FC /* awsconfiguration.json */; };
+		760EF191280BA71F008F2B78 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760EF190280BA71F008F2B78 /* LocationManager.swift */; };
+		760EF193280BA9B4008F2B78 /* LocationRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760EF192280BA9B4008F2B78 /* LocationRequestView.swift */; };
+		760EF196280BB81A008F2B78 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760EF195280BB81A008F2B78 /* MapModel.swift */; };
 		760FB4A827B98E24007CA1A0 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760FB4A727B98E24007CA1A0 /* LogInView.swift */; };
 		76153CC827B92DD4004F22A7 /* WelcomeScreenContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76153CC727B92DD4004F22A7 /* WelcomeScreenContentView.swift */; };
 		761DAAC427BDE0DD00D327BE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761DAAC327BDE0DD00D327BE /* SignUpView.swift */; };
@@ -20,8 +24,6 @@
 		76294ACB27CDB4C40044C98B /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76294ACA27CDB4C40044C98B /* PrivacyView.swift */; };
 		76294ACD27CDB4F30044C98B /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76294ACC27CDB4F30044C98B /* AboutView.swift */; };
 		763793D627C97A7000268E64 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763793D527C97A7000268E64 /* SessionManager.swift */; };
-		7637C18C27C5C32300E05C99 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7637C18B27C5C32300E05C99 /* BaseView.swift */; };
-		7637C18E27C5C42E00E05C99 /* SideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7637C18D27C5C42E00E05C99 /* SideMenu.swift */; };
 		7637C19027C5CD1C00E05C99 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7637C18F27C5CD1C00E05C99 /* Home.swift */; };
 		765BA49A27D95BAF0031DB83 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765BA49927D95BAF0031DB83 /* WorkView.swift */; };
 		765BA4A227DFE4900031DB83 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765BA4A127DFE4900031DB83 /* ProfileView.swift */; };
@@ -43,9 +45,14 @@
 		768A18D927C6C4DA002EA994 /* PlacingOrderHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A18D827C6C4DA002EA994 /* PlacingOrderHelpView.swift */; };
 		768A18DB27C7BD71002EA994 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A18DA27C7BD71002EA994 /* ResetPasswordView.swift */; };
 		76918A3427BFEE9E0067A3BF /* ConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76918A3327BFEE9E0067A3BF /* ConfirmationView.swift */; };
+		76BC4F42280A01420085A55D /* Graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BC4F41280A01420085A55D /* Graphql.swift */; };
+		76BD90E527F3C7F200724C8E /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BD90E327F3C7F200724C8E /* amplifyconfiguration.json */; };
+		76BD90E627F3C7F200724C8E /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BD90E427F3C7F200724C8E /* awsconfiguration.json */; };
 		76E52D0027C531E200010346 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E52CFF27C531E200010346 /* OrderView.swift */; };
 		76E52D0627C5330800010346 /* PersonalInfomationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E52D0527C5330800010346 /* PersonalInfomationView.swift */; };
 		76E52D0827C53B2F00010346 /* HelpCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E52D0727C53B2F00010346 /* HelpCenterView.swift */; };
+		8489C2005497FACFE369BB46 /* Task+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656E5AC0939DB66F1FE9081D /* Task+Schema.swift */; };
+		C20FDDD01D15A844F939D334 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6C98E24C24A1A0FA997A76 /* AmplifyModels.swift */; };
 		F1A28FEFE0ED0C944363AD48 /* Pods_FindTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE5C669FCF7771A55996DFE /* Pods_FindTask.framework */; };
 /* End PBXBuildFile section */
 
@@ -70,9 +77,15 @@
 		053B6B44A9BF73B8F22EF23C /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		191A25BAA8FA9463011477DD /* Pods-FindTask.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FindTask.release.xcconfig"; path = "Target Support Files/Pods-FindTask/Pods-FindTask.release.xcconfig"; sourceTree = "<group>"; };
 		4DE22361EA064EFC8ABCB9BB /* Pods-FindTask.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FindTask.debug.xcconfig"; path = "Target Support Files/Pods-FindTask/Pods-FindTask.debug.xcconfig"; sourceTree = "<group>"; };
+		56681AAAB5983DD37764FE70 /* User+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "User+Schema.swift"; path = "amplify/generated/models/User+Schema.swift"; sourceTree = "<group>"; };
+		5C6C98E24C24A1A0FA997A76 /* AmplifyModels.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = AmplifyModels.swift; path = amplify/generated/models/AmplifyModels.swift; sourceTree = "<group>"; };
+		656E5AC0939DB66F1FE9081D /* Task+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Task+Schema.swift"; path = "amplify/generated/models/Task+Schema.swift"; sourceTree = "<group>"; };
+		698C53D9396EBD9BEF03A7FB /* User.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = User.swift; path = amplify/generated/models/User.swift; sourceTree = "<group>"; };
 		7548EE829EAEE6B540728B24 /* Pods-FindTaskTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FindTaskTests.release.xcconfig"; path = "Target Support Files/Pods-FindTaskTests/Pods-FindTaskTests.release.xcconfig"; sourceTree = "<group>"; };
-		760C513227C06313000087FC /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = SOURCE_ROOT; };
-		760C513327C06313000087FC /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
+		760EF190280BA71F008F2B78 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		760EF192280BA9B4008F2B78 /* LocationRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRequestView.swift; sourceTree = "<group>"; };
+		760EF194280BB7C1008F2B78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		760EF195280BB81A008F2B78 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		760FB4A727B98E24007CA1A0 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		76153CC727B92DD4004F22A7 /* WelcomeScreenContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreenContentView.swift; sourceTree = "<group>"; };
 		761DAAC327BDE0DD00D327BE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -80,8 +93,6 @@
 		76294ACA27CDB4C40044C98B /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		76294ACC27CDB4F30044C98B /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		763793D527C97A7000268E64 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
-		7637C18B27C5C32300E05C99 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
-		7637C18D27C5C42E00E05C99 /* SideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenu.swift; sourceTree = "<group>"; };
 		7637C18F27C5CD1C00E05C99 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		765BA49927D95BAF0031DB83 /* WorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
 		765BA4A127DFE4900031DB83 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -106,6 +117,9 @@
 		768A18D827C6C4DA002EA994 /* PlacingOrderHelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacingOrderHelpView.swift; sourceTree = "<group>"; };
 		768A18DA27C7BD71002EA994 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		76918A3327BFEE9E0067A3BF /* ConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationView.swift; sourceTree = "<group>"; };
+		76BC4F41280A01420085A55D /* Graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphql.swift; sourceTree = "<group>"; };
+		76BD90E327F3C7F200724C8E /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = SOURCE_ROOT; };
+		76BD90E427F3C7F200724C8E /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		76E52CFF27C531E200010346 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		76E52D0527C5330800010346 /* PersonalInfomationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfomationView.swift; sourceTree = "<group>"; };
 		76E52D0727C53B2F00010346 /* HelpCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCenterView.swift; sourceTree = "<group>"; };
@@ -114,6 +128,7 @@
 		AA1662D0E4C30C80B24033B5 /* Pods-FindTask-FindTaskUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FindTask-FindTaskUITests.debug.xcconfig"; path = "Target Support Files/Pods-FindTask-FindTaskUITests/Pods-FindTask-FindTaskUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B38A0C5EE1D845F535101980 /* Pods-FindTaskTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FindTaskTests.debug.xcconfig"; path = "Target Support Files/Pods-FindTaskTests/Pods-FindTaskTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B781DF9912E7BEDA9FD35850 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		B983DC89B12D56C59C2D3AF5 /* Task.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Task.swift; path = amplify/generated/models/Task.swift; sourceTree = "<group>"; };
 		BCE5C669FCF7771A55996DFE /* Pods_FindTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FindTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD016E4E696CC80EA12EB726 /* Pods_FindTask_FindTaskUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FindTask_FindTaskUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -161,8 +176,6 @@
 			children = (
 				B781DF9912E7BEDA9FD35850 /* awsconfiguration.json */,
 				053B6B44A9BF73B8F22EF23C /* amplifyconfiguration.json */,
-				760C513227C06313000087FC /* amplifyconfiguration.json */,
-				760C513327C06313000087FC /* awsconfiguration.json */,
 			);
 			name = AmplifyConfig;
 			sourceTree = "<group>";
@@ -221,8 +234,6 @@
 			isa = PBXGroup;
 			children = (
 				768A18DA27C7BD71002EA994 /* ResetPasswordView.swift */,
-				7637C18B27C5C32300E05C99 /* BaseView.swift */,
-				7637C18D27C5C42E00E05C99 /* SideMenu.swift */,
 				7637C18F27C5CD1C00E05C99 /* Home.swift */,
 			);
 			path = Home;
@@ -285,6 +296,7 @@
 				2280EF534C10B27A03CDF45D /* AmplifyConfig */,
 				251EBCD7B81831F29044A337 /* Pods */,
 				220ABF599B7F1793A24FCEDC /* Frameworks */,
+				A0584578103EBD1E544FEAD0 /* AmplifyModels */,
 			);
 			sourceTree = "<group>";
 		};
@@ -301,8 +313,15 @@
 		7688054427ADFB8800EB0576 /* FindTask */ = {
 			isa = PBXGroup;
 			children = (
+				760EF194280BB7C1008F2B78 /* Info.plist */,
+				76BD90E327F3C7F200724C8E /* amplifyconfiguration.json */,
+				76BD90E427F3C7F200724C8E /* awsconfiguration.json */,
 				760FB4A927B98E30007CA1A0 /* Screens */,
 				7688054527ADFB8800EB0576 /* FindTaskApp.swift */,
+				760EF195280BB81A008F2B78 /* MapModel.swift */,
+				760EF190280BA71F008F2B78 /* LocationManager.swift */,
+				760EF192280BA9B4008F2B78 /* LocationRequestView.swift */,
+				76BC4F41280A01420085A55D /* Graphql.swift */,
 				763793D527C97A7000268E64 /* SessionManager.swift */,
 				7688054927ADFB8800EB0576 /* Assets.xcassets */,
 				7688054B27ADFB8800EB0576 /* Preview Content */,
@@ -383,6 +402,18 @@
 				76E52CFF27C531E200010346 /* OrderView.swift */,
 			);
 			path = Order;
+			sourceTree = "<group>";
+		};
+		A0584578103EBD1E544FEAD0 /* AmplifyModels */ = {
+			isa = PBXGroup;
+			children = (
+				5C6C98E24C24A1A0FA997A76 /* AmplifyModels.swift */,
+				656E5AC0939DB66F1FE9081D /* Task+Schema.swift */,
+				B983DC89B12D56C59C2D3AF5 /* Task.swift */,
+				56681AAAB5983DD37764FE70 /* User+Schema.swift */,
+				698C53D9396EBD9BEF03A7FB /* User.swift */,
+			);
+			name = AmplifyModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -496,8 +527,8 @@
 			files = (
 				7688054D27ADFB8800EB0576 /* Preview Assets.xcassets in Resources */,
 				7688054A27ADFB8800EB0576 /* Assets.xcassets in Resources */,
-				760C513527C06313000087FC /* awsconfiguration.json in Resources */,
-				760C513427C06313000087FC /* amplifyconfiguration.json in Resources */,
+				76BD90E627F3C7F200724C8E /* awsconfiguration.json in Resources */,
+				76BD90E527F3C7F200724C8E /* amplifyconfiguration.json in Resources */,
 				440535AF19F3BA4E5BCFF18C /* awsconfiguration.json in Resources */,
 				61C49CC03C73585EC4998E14 /* amplifyconfiguration.json in Resources */,
 			);
@@ -594,9 +625,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FindTask-FindTaskUITests/Pods-FindTask-FindTaskUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FindTask-FindTaskUITests/Pods-FindTask-FindTaskUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -611,9 +646,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FindTask/Pods-FindTask-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FindTask/Pods-FindTask-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -638,23 +677,30 @@
 				76E52D0827C53B2F00010346 /* HelpCenterView.swift in Sources */,
 				768A18D927C6C4DA002EA994 /* PlacingOrderHelpView.swift in Sources */,
 				76294AC927CDB4270044C98B /* ChangePasswordView.swift in Sources */,
+				760EF196280BB81A008F2B78 /* MapModel.swift in Sources */,
 				765BA4A227DFE4900031DB83 /* ProfileView.swift in Sources */,
-				7637C18E27C5C42E00E05C99 /* SideMenu.swift in Sources */,
 				76E52D0627C5330800010346 /* PersonalInfomationView.swift in Sources */,
 				76E52D0027C531E200010346 /* OrderView.swift in Sources */,
+				760EF191280BA71F008F2B78 /* LocationManager.swift in Sources */,
 				7637C19027C5CD1C00E05C99 /* Home.swift in Sources */,
 				768A18D727C6B3D8002EA994 /* LocationView.swift in Sources */,
 				768A18D427C6AD4E002EA994 /* SettingsView.swift in Sources */,
 				76918A3427BFEE9E0067A3BF /* ConfirmationView.swift in Sources */,
+				760EF193280BA9B4008F2B78 /* LocationRequestView.swift in Sources */,
 				765D0E7C27CDADDE00CE225D /* SendFeedbackView.swift in Sources */,
+				76BC4F42280A01420085A55D /* Graphql.swift in Sources */,
 				76153CC827B92DD4004F22A7 /* WelcomeScreenContentView.swift in Sources */,
 				765D0E7427CDADB000CE225D /* FeePaymentMethodView.swift in Sources */,
 				765D0E7A27CDADD500CE225D /* GeneralInfoView.swift in Sources */,
 				765D0E7827CDADC800CE225D /* ProfileAccountView.swift in Sources */,
-				7637C18C27C5C32300E05C99 /* BaseView.swift in Sources */,
 				7688054627ADFB8800EB0576 /* FindTaskApp.swift in Sources */,
 				765BA4A427DFE87E0031DB83 /* SettingView.swift in Sources */,
 				768A18DB27C7BD71002EA994 /* ResetPasswordView.swift in Sources */,
+				C20FDDD01D15A844F939D334 /* AmplifyModels.swift in Sources */,
+				8489C2005497FACFE369BB46 /* Task+Schema.swift in Sources */,
+				1CC4C551490C5607BC76B409 /* Task.swift in Sources */,
+				11142A5086B667596D0EF316 /* User+Schema.swift in Sources */,
+				51178E23C918A09C69C5070B /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,7 +860,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4DE22361EA064EFC8ABCB9BB /* Pods-FindTask.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -824,9 +870,8 @@
 				DEVELOPMENT_TEAM = 5V4PCVF8KM;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)/**",
+					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/AWSAuthCore\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/AWSCognito\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/AWSCognitoIdentityProvider\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/AWSCognitoIdentityProviderASF\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/AWSCore\"",
@@ -835,11 +880,12 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Amplify\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/AmplifyPlugins\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/AppSyncRealTimeClient\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReachabilitySwift\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/SQLite.swift\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream\"",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FindTask/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow us to acces your location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -865,7 +911,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 191A25BAA8FA9463011477DD /* Pods-FindTask.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -875,9 +921,8 @@
 				DEVELOPMENT_TEAM = 5V4PCVF8KM;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(inherited)/**",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/AWSAuthCore\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/AWSCognito\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/AWSCognitoIdentityProvider\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/AWSCognitoIdentityProviderASF\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/AWSCore\"",
@@ -891,6 +936,8 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream\"",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FindTask/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow us to acces your location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

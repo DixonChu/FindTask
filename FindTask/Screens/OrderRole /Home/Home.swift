@@ -7,73 +7,64 @@
 
 import SwiftUI
 import Amplify
+import MapKit
 
 struct Home: View {
-    @Binding var showMenu: Bool
+    let user: AuthUser
+    
     @State var taskHealine = ""
     @State var taskDescription = ""
     @State var taskLocation = ""
-    @State var taskPrice = 0.00
+    @State var taskPrice = 0
     
-    @State var keyboardOn = false
-    @State private var keyboardHeight: CGFloat = 0
-    
+    @State var navBarHidden: Bool = true
     
     var body: some View {
-        VStack {
-            VStack(spacing: 0){
-                HStack{
-                    Button{
-                        withAnimation{
-                            showMenu.toggle()
-                        }
-                    }label: {
-                        Image(systemName: "line.horizontal.3")
-                            .font(.system(size: 22))
-                            .foregroundColor(.primary)
-                    }
-                    Spacer()
+        
+//        NavigationView{
+            ZStack{
+                TabView{
+                    HomePageContent(taskHeadline: $taskHealine, taskDescription: $taskDescription, taskLocation: $taskLocation, taskPrice: $taskPrice)
+                        .tabItem{
+                            Image(systemName: "house")
+                            Text("Home")
+                            
+                        }.tag(1)
                     
-                    NavigationLink{
-                        Text("Notification View")
-                            .navigationTitle("Notifications")
-                    } label: {
-                        Image(systemName: "bell")
-                            .resizable()
-                            .renderingMode(.template)
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 22, height: 22)
-                            .foregroundColor(.primary)
-                    }
+                    
+                    // graphql.getTaskById(taskId: "AF0CE5D9-295B-4229-B1CB-7F22DCE5A9F4")
+                    OrderView()
+                        .tabItem{
+                            Image(systemName: "clock.arrow.circlepath")
+                            Text("Orders")
+                        }.tag(2)
+                    
+                    
+                    SettingsView(user: user)
+                        .tabItem{
+                            Image(systemName: "gear")
+                            Text("Settings")
+                        }.tag(3)
+                    
+                    PersonalInfomationView()
+                        .tabItem{
+                            Image(systemName: "person")
+                            Text("Profile")
+                        }.tag(4)
                 }
-                .padding(.horizontal)
-                .padding(.vertical, 10)
-                
-            }
-            .overlay(
-                Text("FindTask")
-                    .font(.title3)
-                    .fontWeight(.regular)
-            )
+                .onAppear(){
+                    UITabBar.appearance().barTintColor = .white
+                }
+                .accentColor(.orange)
+//            }
             
-            Spacer()
-            
-            HomePageContent(taskHeadline: $taskHealine, taskDescription: $taskDescription, taskLocation: $taskLocation, taskPrice: $taskPrice)
-            Spacer()
-            Button(action: {}){
-                Text("Post Task")
-                    .foregroundColor(.white)
-                    .fontWeight(.semibold)
-                    .frame(width: 350, height: 40.0)
-                    .background(Color.orange)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .padding(10)
-            }.padding(.bottom, 12)
         }
-        .ignoresSafeArea(.keyboard)
-        .onTapGesture {
-            hideKeyboard()
-        }
+    }
+}
+
+struct NotificationView: View {
+    var body: some View{
+        Text("No notifications at the moment...")
     }
 }
 
@@ -81,30 +72,83 @@ struct HomePageContent : View {
     @Binding var taskHeadline : String
     @Binding var taskDescription: String
     @Binding var taskLocation: String
-    @Binding var taskPrice: Double
+    @Binding var taskPrice: Int
     
     @State private var taskDate = Date()
     
+    @State private var showingPopover = false
+    
+    @EnvironmentObject var graphql: Graphql
+    @StateObject private var mapAPI = MapAPI()
+    
+    private let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E dd/MM HH:mm"
+        return dateFormatter
+    }()
+    
+    
+    
+    
     var body: some View{
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack{
+                Text("FindTask")
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.orange)
+                Spacer()
+                NavigationLink{
+                    Text("Notification View")
+                        .navigationTitle("Notifications")
+                } label: {
+                    Image(systemName: "bell")
+                        .resizable()
+                        .renderingMode(.template)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 22, height: 22)
+                        .foregroundColor(.primary)
+                }
+                
+            }.padding(.bottom, 10)
             
+            // Task headline
             VStack(alignment: .leading, spacing: 10){
                 Text("Write a headline for your task")
                     .font(.headline)
-                
                 
                 HStack{
                     TextField("A headline for your task...", text: $taskHeadline)
                         .foregroundColor(.primary)
                     
                     
-                    Button(action: {}){
+                    Button("\(dateFormatter.string(from: taskDate))"){
+                        showingPopover = true
+                    }.popover(isPresented: $showingPopover){
+                        Text("Schedule a task")
+                            .font(.headline)
+                        DatePicker("", selection: $taskDate, displayedComponents: [.date, .hourAndMinute]).datePickerStyle(WheelDatePickerStyle()).padding()
                         
-                        Image(systemName: "alarm")
-                            .foregroundColor(.orange)
-                        Text("Now")
-                            .foregroundColor(.orange)
-                            .font(.callout)
+                        Button(action: {
+                            showingPopover = false
+                        }){
+                            Text("Set")
+                                .foregroundColor(.white)
+                                .fontWeight(.semibold)
+                                .frame(width: 350, height: 40.0)
+                                .background(Color.orange)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                        }
+                        
+                        Button(action: {showingPopover = false}){
+                            Text("Cancel")
+                                .foregroundColor(.white)
+                                .fontWeight(.semibold)
+                                .frame(width: 350, height: 40.0)
+                                .background(Color.gray)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                            
+                        }.padding()
                     }
                     
                 }
@@ -112,22 +156,28 @@ struct HomePageContent : View {
                 .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
             }
             
-//            VStack(alignment: .leading, spacing: 10){
-//                DatePicker("Date Time", selection: $taskDate)
-//            }
-
+            // Task location
             VStack(alignment: .leading, spacing: 10){
-                
                 Text("Task Location")
                     .font(.headline)
                 
                 TextField("Enter task location here...", text: $taskLocation)
                     .padding(10)
                     .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
+                
+                //                Button("Find Address"){
+                //                    mapAPI.getLocation(address: taskLocation, delta: 0.5)
+                //                }
+                //
+                //                Map(coordinateRegion: $mapAPI.region, annotationItems: mapAPI.locations){
+                //                    location in
+                //                    MapMarker(coordinate: location.coordinate, tint: .blue)
+                //                }
+                //                .ignoresSafeArea()
             }
             
+            // Task price
             VStack(alignment: .leading, spacing: 10){
-                
                 Text("Task price")
                     .font(.headline)
                 
@@ -139,23 +189,43 @@ struct HomePageContent : View {
                     .frame(width: 150, height: 45)
             }
             
-            
+            // Task description
             VStack(alignment: .leading, spacing: 10){
-
                 Text("Task description")
                     .font(.headline)
-
+                
                 TextEditor(text: $taskDescription)
-                    .foregroundColor(.secondary)
                     .padding(10)
                     .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
-
             }
             
-        }.padding(20)
+            
+            // Post task
+            Button(action: {
+                // DateTime format
+                if taskHeadline.isEmpty || taskDescription.isEmpty || taskLocation.isEmpty || (taskPrice >= 5) {
+                    print("add some task")
+                } else{
+                    graphql.createTask(taskTitle: taskHeadline, taskDescription: taskDescription, taskLocation: taskLocation, taskPrice: Float(taskPrice), taskDate: dateFormatter.string(from: taskDate))
+                }
+            }){
+                Text("Post Task")
+                    .foregroundColor(.white)
+                    .fontWeight(.semibold)
+                    .frame(width: 350, height: 40.0)
+                    .background(Color.orange)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+            }.padding(.bottom, 12)
+            
+        }.padding()
         
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
+    
 }
+
 
 struct Home_Previews: PreviewProvider {
     private struct DummyUser: AuthUser {
@@ -164,60 +234,9 @@ struct Home_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        BaseView(user: DummyUser())
+        Home(user: DummyUser()).environmentObject(Graphql())
+        //        BaseView(user: DummyUser()).environmentObject(API())
     }
-}
-
-
-// Support Function
-struct AutoSizingTF: UIViewRepresentable {
-    var hint: String
-    @Binding var text : String
-    
-    func makeCoordinator() -> Coordinator {
-        return AutoSizingTF.Coordinator(parent: self)
-    }
-    
-    func makeUIView(context: Context) -> UITextView {
-        let textView = UITextView()
-        
-        textView.text = hint
-        textView.textColor = .gray
-        
-        return textView
-    }
-    
-    func updateUIView(_ uiView: UITextView, context: Context) {
-        
-    }
-    
-    class Coordinator: NSObject, UITextViewDelegate {
-        var parent: AutoSizingTF
-        
-        init(parent: AutoSizingTF) {
-            self.parent = parent
-        }
-        
-        func textViewDidBeginEditing(_ textView: UITextView){
-            if textView.text == parent.hint {
-                textView.text = ""
-                textView.textColor = UIColor(Color.primary)
-            }
-        }
-        
-        func textViewDidChange(_ textView: UITextView){
-            parent.text = textView.text
-        }
-        
-        func textViewDidEndEditing(_ textView: UITextView) {
-            if textView.text == ""{
-                textView.text = parent.hint
-                textView.textColor = .gray
-            }
-        }
-        
-    }
-    
 }
 
 

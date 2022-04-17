@@ -83,6 +83,9 @@ struct AppBar: View {
     
     var body: some View{
         VStack(alignment: .leading, content: {
+            Text("Orders")
+                .font(.largeTitle)
+                .fontWeight(.semibold)
             ZStack{
                 Rectangle()
                     .foregroundColor(Color(.systemGray6))
@@ -155,10 +158,13 @@ struct AppBar: View {
 }
 
 struct First : View {
+    @EnvironmentObject var graphql: Graphql
+    
     var body: some View{
         GeometryReader{_ in
             ScrollView(.vertical, showsIndicators: false){
                 VStack(spacing: 12){
+                    
                     Rectangle()
                         .strokeBorder(Color.black, lineWidth: 0.25)
                         .foregroundColor(.white)
@@ -198,8 +204,8 @@ struct Third : View {
 
 
 
-struct OrderHistoryView_Previews: PreviewProvider {
+struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderView()
+        OrderView().environmentObject(Graphql())
     }
 }

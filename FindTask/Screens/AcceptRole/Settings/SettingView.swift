@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Amplify
 
 struct SettingView: View {
     var body: some View {
@@ -18,7 +19,11 @@ struct SettingView: View {
 }
 
 struct SettingView_Previews: PreviewProvider {
+    private struct DummyUser: AuthUser {
+        let userId: String = "1"
+        let username: String = "dummy"
+    }
     static var previews: some View {
-        WorkView()
+        WorkView(user: DummyUser())
     }
 }
