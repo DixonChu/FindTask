@@ -1,13 +1,14 @@
 //
-//  OrderHistoryView.swift
+//  ProgressView.swift
 //  FindTask
 //
-//  Created by Dixon Chu on 22/02/2022.
+//  Created by Dixon Chu on 21/04/2022.
 //
 
 import SwiftUI
 
-struct OrderView: View {
+
+struct ProgressView: View {
     @State var index = 1
     @State var offset: CGFloat = UIScreen.main.bounds.width
 
@@ -22,11 +23,11 @@ struct OrderView: View {
             GeometryReader{g in
                 
                 HStack(spacing: 0){
-                    First()
+                    ProgressFirst()
                         .frame(width: g.frame(in: .global).width)
-                    Second()
+                    ProgressSecond()
                         .frame(width: g.frame(in: .global).width)
-                    Third()
+                    ProgressThird()
                         .frame(width: g.frame(in: .global).width)
                 }
                 .offset(x: self.offset - self.width)
@@ -40,7 +41,7 @@ struct OrderView: View {
 }
 
 
-struct AppBar: View {
+struct ProgressAppBar: View {
     @Binding var index: Int
     @Binding var offset: CGFloat
     @Binding var searchTask: String
@@ -55,22 +56,21 @@ struct AppBar: View {
                 .font(.system(size: 18))
                 .fontWeight(.semibold)
                 Spacer()
-            }.padding()
-            
-//            ZStack{
-//                Rectangle()
-//                    .foregroundColor(Color(.systemGray6))
-//
-//                HStack{
-//                    Image(systemName: "magnifyingglass")
-//                    TextField("Search", text: $searchTask)
-//                }
-//                .foregroundColor(.gray)
-//                .padding(.leading, 13)
-//
-//            }
-//            .frame(height: 40)
-//            .cornerRadius(13)
+            }
+            ZStack{
+                Rectangle()
+                    .foregroundColor(Color(.systemGray6))
+                
+                HStack{
+                    Image(systemName: "magnifyingglass")
+                    TextField("Search", text: $searchTask)
+                }
+                .foregroundColor(.gray)
+                .padding(.leading, 13)
+
+            }
+            .frame(height: 40)
+            .cornerRadius(13)
 
             
             HStack{
@@ -129,16 +129,16 @@ struct AppBar: View {
 }
 
 
-// Awaiting order, ongoing order
-struct First : View {
+// Ongoing order
+struct ProgressFirst : View {
     @EnvironmentObject var graphql: Graphql
     @EnvironmentObject var sessionManager: SessionManager
     var body: some View{
         GeometryReader{_ in
-            List(graphql.userOwnTasks){ task in
+            List(graphql.workOngoingTasks){ task in
                 NavigationLink{
-                    UserTaskProgressView(task: task)
-                        .navigationTitle(task.taskStatus.localizedCapitalized)
+                    WorkTaskProgressView(task: task)
+                        .navigationTitle("In Progress")
                         .navigationBarTitleDisplayMode(.inline)
                 } label: {
                     ListOfTasksView(task: task)
@@ -146,29 +146,27 @@ struct First : View {
                 
             }.listStyle(PlainListStyle())
             .onAppear{
-                graphql.userOwnTasks.removeAll()
-                graphql.listAllOwnerTask(taskOwner: sessionManager.userID)
+                graphql.workOngoingTasks.removeAll()
+                graphql.workListAllOngoingTask(acceptedId: sessionManager.userID)
             }
             .refreshable {
-                graphql.userOwnTasks.removeAll()
-                graphql.listAllOwnerTask(taskOwner: sessionManager.userID)
+                graphql.workOngoingTasks.removeAll()
+                graphql.workListAllOngoingTask(acceptedId: sessionManager.userID)
             }
-            
         }
         .padding(.bottom, 18)
     }
-    
 }
 
 
 // Completed order
-struct Second : View {
+struct ProgressSecond : View {
     @EnvironmentObject var graphql: Graphql
     @EnvironmentObject var sessionManager: SessionManager
     var body: some View{
         GeometryReader{_ in
             
-            List(graphql.completedTasks){ task in
+            List(graphql.workCompletedTasks){ task in
                 NavigationLink{
                     UserTaskCompletedView(task: task)
                         .navigationTitle(task.taskStatus.localizedCapitalized)
@@ -178,53 +176,49 @@ struct Second : View {
                 }
             }.listStyle(PlainListStyle())
                 .onAppear{
-                    graphql.completedTasks.removeAll()
-                    graphql.listAllCompletedTask(taskOwner: sessionManager.userID)
+                    graphql.workCompletedTasks.removeAll()
+                    graphql.workListAllCompletedTask(acceptedId: sessionManager.userID)
                 }
                 .refreshable {
-                    graphql.completedTasks.removeAll()
-                    graphql.listAllCompletedTask(taskOwner: sessionManager.userID)
+                    graphql.workCompletedTasks.removeAll()
+                    graphql.workListAllCompletedTask(acceptedId: sessionManager.userID)
                 }
-            
         }
         .background(Color.white)
     }
 }
 
 // Cancelled order
-struct Third : View {
+struct ProgressThird : View {
     @EnvironmentObject var sessionManager: SessionManager
     @EnvironmentObject var graphql: Graphql
     
     var body: some View{
         GeometryReader{_ in
-            List(graphql.cancalledTasks){ task in
+            List(graphql.workCancelledTasks){ task in
                 NavigationLink{
                     UserTaskCancelledView(task: task)
-                        .navigationTitle(task.taskStatus.localizedCapitalized)
+                        .navigationTitle(task.taskStatus)
                         .navigationBarTitleDisplayMode(.inline)
                 } label: {
                     ListOfTasksView(task: task)
                 }
             }.listStyle(PlainListStyle())
                 .onAppear{
-                    graphql.cancalledTasks.removeAll()
-                    graphql.listAllCancelledTask(taskOwner: sessionManager.userID)
+                    graphql.workCancelledTasks.removeAll()
+                    graphql.workListAllCancelledTask(acceptedId: sessionManager.userID)
                 }
                 .refreshable {
-                    graphql.cancalledTasks.removeAll()
-                    graphql.listAllCancelledTask(taskOwner: sessionManager.userID)
+                    graphql.workCancelledTasks.removeAll()
+                    graphql.workListAllCancelledTask(acceptedId: sessionManager.userID)
                 }
         }
         
     }
 }
 
-
-
-
-struct OrderView_Previews: PreviewProvider {
+struct ProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderView().environmentObject(Graphql())
+        ProgressView()
     }
 }

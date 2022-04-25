@@ -21,11 +21,8 @@ final class SessionManager: ObservableObject {
     @Published var authState: AuthState = .login
     @Published var phoneNumber: String = ""
     @Published var givenName: String = ""
+    @Published var familyName: String = ""
     @Published var userID: String = ""
-    
-    
-    
-    
     
     func getCurrentAuthUser() {
         if let user = Amplify.Auth.getCurrentUser() {
@@ -35,9 +32,13 @@ final class SessionManager: ObservableObject {
                     print("error \(error)")
                 } else if let tokens = tokens {
                     let claims = tokens.idToken?.claims
-                    self.userID = claims?["cognito:username"] as! String
-                    self.phoneNumber = claims?["phone_number"] as! String
-                    self.givenName = claims?["given_name"] as! String
+                    DispatchQueue.main.async{
+                        self.userID = claims?["cognito:username"] as! String
+                        self.phoneNumber = claims?["phone_number"] as! String
+                        self.familyName = claims?["family_name"] as! String
+                        self.givenName = claims?["given_name"] as! String
+                    }
+                    
                 }
             }
         } else {
@@ -68,6 +69,7 @@ final class SessionManager: ObservableObject {
                 switch signUpResult.nextStep {
                     
                 case .done:
+                    
                     print("Finished sign up")
                     
                 case .confirmUser(let details, _):
@@ -116,7 +118,6 @@ final class SessionManager: ObservableObject {
                 if signInResult.isSignedIn{
                     DispatchQueue.main.async {
                         self?.getCurrentAuthUser()
-//                        self?.getUserDetails()
                     }
                 }
                 

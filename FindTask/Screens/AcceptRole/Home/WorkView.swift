@@ -13,69 +13,128 @@ struct WorkView: View {
     let user: AuthUser
     
         var body: some View {
-        NavigationView{
+            ZStack{
             TabView{
                 HomeView()
+                    .navigationBarHidden(true)
+                    .navigationBarTitleDisplayMode(.inline)
                     .tabItem{
                         Image(systemName: "square.and.arrow.down")
                         Text("Accept")
                     }
                 
-                Text("Record")
+                ProgressView()
+                    .navigationBarHidden(true)
+                    .navigationBarTitleDisplayMode(.inline)
                     .tabItem{
                         Image(systemName: "list.bullet.rectangle.portrait")
                         Text("Orders")
                     }
+            
+//                Text("Statistic")
+//                    .tabItem{
+//                        Image(systemName: "chart.line.uptrend.xyaxis")
+//                        Text("Statistic")
+//                    }
                 
-                Text("Statistic")
+                NotificationView()
                     .tabItem{
-                        Image(systemName: "chart.line.uptrend.xyaxis")
-                        Text("Statistic")
+                        Image(systemName: "bell")
+                        Text("Notification")
+                    }.tag(3)
+                
+                SettingView(user: user)
+                    .navigationBarHidden(true)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .tabItem{
+                        Image(systemName: "gear")
+                        Text("Settings")
                     }
                 
-                
-                ProfileView(user: user)
+                PersonalInfomationView()
+                    .navigationBarHidden(true)
+                    .navigationBarTitleDisplayMode(.inline)
                     .tabItem{
-                        Image(systemName: "person.circle")
+                        Image(systemName: "person")
                         Text("Profile")
-                    }
+                    }.tag(5)
+                
+//                ProfileView(user: user)
+//                    .tabItem{
+//                        Image(systemName: "person.circle")
+//                        Text("Profile")
+//                    }
+        }
+                
+        .navigationBarHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+            }
+    }
+}
+
+struct HomeView: View{
+    @EnvironmentObject var graphql: Graphql
+    
+    var body: some View {
+        VStack{
+            Text("Work")
+            List(graphql.awaitingTasks){ task in
+                NavigationLink{
+                    WorkTaskDetailsView(task: task)
+                        .navigationTitle(task.taskStatus)
+                        .navigationBarTitleDisplayMode(.inline)
+                } label: {
+                    ListOfTasksView(task: task)
+                }
+            }.listStyle(PlainListStyle())
+            .onAppear{
+                graphql.awaitingTasks.removeAll()
+                graphql.listAllAwaitingTask()
+            }
+            .refreshable {
+                graphql.awaitingTasks.removeAll()
+                graphql.listAllAwaitingTask()
             }
         }
     }
 }
 
-struct HomeView: View{
-    var body: some View {
-        VStack(spacing:0){
-            HStack(spacing: 0){
+
+struct ListOfTasksView: View {
+    let task: Task
+    var body: some View{
+        VStack{
+            VStack(alignment: .leading){
+                HStack{
+                    Text(task.taskTitle)
+                        .font(.system(size: 18))
+                        .fontWeight(.bold)
+                    
+                    Spacer()
+                    
+                    Text(task.taskDate)
+                        .font(.system(size: 14))
+                        .foregroundColor(.gray)
+                }
+                
+                Spacer()
+                Text(task.taskDescription)
+                    .font(.system(size: 12))
+                    .lineLimit(2)
+                
                 Spacer()
                 
-                NavigationLink{
-                    Text("Notification View")
-                        .navigationTitle("Notifications")
-                        .navigationBarTitleDisplayMode(.inline)
-                } label: {
-                    Image(systemName: "bell")
-                        .resizable()
-                        .renderingMode(.template)
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 22, height: 22)
-                        .foregroundColor(.primary)
+                HStack{
+                    Spacer()
+                    Text("£ \(String(task.taskPrice))")
+                        .fontWeight(.semibold)
                 }
+                
             }
-            .padding(.horizontal)
-            .padding(.vertical, 10)
-            
-            Spacer()
-            
-            Text("No Task Available at the moment...")
-                .foregroundColor(.secondary)
-            
-            Spacer()
-            
         }
     }
 }
+
 
 struct OrdersView: View {
     var body: some View {
@@ -91,6 +150,6 @@ struct WorkView_Previews: PreviewProvider {
         let username: String = "dummy"
     }
     static var previews: some View {
-        WorkView(user: DummyUser())
+        WorkView(user: DummyUser()).environmentObject(Graphql())
     }
 }

@@ -17,54 +17,81 @@ struct Home: View {
     @State var taskLocation = ""
     @State var taskPrice = 0
     
-    @State var navBarHidden: Bool = true
+    @State private var selectedTab = 0
     
     var body: some View {
         
-//        NavigationView{
-            ZStack{
-                TabView{
-                    HomePageContent(taskHeadline: $taskHealine, taskDescription: $taskDescription, taskLocation: $taskLocation, taskPrice: $taskPrice)
-                        .tabItem{
-                            Image(systemName: "house")
-                            Text("Home")
-                            
-                        }.tag(1)
+            NavigationView{
+        ZStack{
+            TabView(selection: $selectedTab){
+                HomePageContent(taskHeadline: $taskHealine, taskDescription: $taskDescription, taskLocation: $taskLocation, taskPrice: $taskPrice)
+                    .navigationBarHidden(true)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .tabItem{
+                        Image(systemName: "house")
+                        Text("Home")
+                        
+                    }.tag(1)
+                
+                
+                // graphql.getTaskById(taskId: "AF0CE5D9-295B-4229-B1CB-7F22DCE5A9F4")
+                OrderView()
+                    .navigationBarHidden(true)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .tabItem{
+                        Image(systemName: "list.bullet.rectangle.portrait")
+                        Text("Orders")
+                    }.tag(2)
+                
+                NotificationView()
+                    .tabItem{
+                        Image(systemName: "bell")
+                        Text("Notification")
+                    }.tag(3)
+                
+                SettingsView(user: user)
+                    .navigationBarHidden(true)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .tabItem{
+                        Image(systemName: "gear")
+                        Text("Settings")
+                    }.tag(4)
                     
+                PersonalInfomationView()
+                    .navigationBarHidden(true)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .tabItem{
+                        Image(systemName: "person")
+                        Text("Profile")
+                    }.tag(5)
                     
-                    // graphql.getTaskById(taskId: "AF0CE5D9-295B-4229-B1CB-7F22DCE5A9F4")
-                    OrderView()
-                        .tabItem{
-                            Image(systemName: "clock.arrow.circlepath")
-                            Text("Orders")
-                        }.tag(2)
-                    
-                    
-                    SettingsView(user: user)
-                        .tabItem{
-                            Image(systemName: "gear")
-                            Text("Settings")
-                        }.tag(3)
-                    
-                    PersonalInfomationView()
-                        .tabItem{
-                            Image(systemName: "person")
-                            Text("Profile")
-                        }.tag(4)
-                }
-                .onAppear(){
-                    UITabBar.appearance().barTintColor = .white
-                }
-                .accentColor(.orange)
-//            }
+                
+            }
+            .onAppear(){
+                UITabBar.appearance().barTintColor = .white
+            }
+            .accentColor(.primary)
             
+        }
+                
+        .navigationBarHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
 
 struct NotificationView: View {
     var body: some View{
-        Text("No notifications at the moment...")
+        VStack {
+            HStack{
+             Spacer()
+                Text("Notifications")
+                .font(.system(size: 18))
+                    .fontWeight(.semibold)
+                Spacer()
+            }
+            Text("No notifications at the moment...")
+        }
     }
 }
 
@@ -73,154 +100,157 @@ struct HomePageContent : View {
     @Binding var taskDescription: String
     @Binding var taskLocation: String
     @Binding var taskPrice: Int
-    
     @State private var taskDate = Date()
     
-    @State private var showingPopover = false
-    
+    @EnvironmentObject var sessionManger: SessionManager
     @EnvironmentObject var graphql: Graphql
     @StateObject private var mapAPI = MapAPI()
     
+    // Pop over
+    @State private var showingPopover = false
+    @State var datePopOverIsVisible: Bool = false
+    @State var taskStatusPopOverIsVisible: Bool = false
+    
+    // Date formatter
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E dd/MM HH:mm"
         return dateFormatter
     }()
     
-    
-    
-    
     var body: some View{
-        VStack(alignment: .leading, spacing: 12) {
-            HStack{
-                Text("FindTask")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.orange)
-                Spacer()
-                NavigationLink{
-                    Text("Notification View")
-                        .navigationTitle("Notifications")
-                } label: {
-                    Image(systemName: "bell")
-                        .resizable()
-                        .renderingMode(.template)
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 22, height: 22)
-                        .foregroundColor(.primary)
-                }
-                
-            }.padding(.bottom, 10)
-            
-            // Task headline
-            VStack(alignment: .leading, spacing: 10){
-                Text("Write a headline for your task")
-                    .font(.headline)
-                
+//        NavigationView{
+            VStack(alignment: .leading, spacing: 12) {
+                // Heading
                 HStack{
-                    TextField("A headline for your task...", text: $taskHeadline)
-                        .foregroundColor(.primary)
+                    Spacer()
+                    Text("FindTask")
+                        .font(.system(size: 18))
+                        .fontWeight(.semibold)
+                        .foregroundColor(.orange)
+                    Spacer()
+
                     
+                }.padding(.bottom, 10)
+                
+                // Task headline
+                VStack(alignment: .leading, spacing: 10){
+                    Text("Write a headline for your task")
+                        .font(.headline)
                     
-                    Button("\(dateFormatter.string(from: taskDate))"){
-                        showingPopover = true
-                    }.popover(isPresented: $showingPopover){
-                        Text("Schedule a task")
-                            .font(.headline)
-                        DatePicker("", selection: $taskDate, displayedComponents: [.date, .hourAndMinute]).datePickerStyle(WheelDatePickerStyle()).padding()
+                    HStack{
+                        TextField("A headline for your task...", text: $taskHeadline)
+                            .foregroundColor(.primary)
                         
-                        Button(action: {
-                            showingPopover = false
-                        }){
-                            Text("Set")
-                                .foregroundColor(.white)
-                                .fontWeight(.semibold)
-                                .frame(width: 350, height: 40.0)
-                                .background(Color.orange)
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                        // Pop over DatePicker
+                        Button("\(dateFormatter.string(from: taskDate))"){
+                            self.showingPopover = true
+                            self.datePopOverIsVisible = true
+                        }.popover(isPresented: $showingPopover){
+                            // date popover
+                            Text("Schedule a task")
+                                .font(.headline)
+                            DatePicker("", selection: $taskDate, displayedComponents: [.date, .hourAndMinute]).datePickerStyle(WheelDatePickerStyle()).padding()
+                            
+                            Button(action: {
+                                self.showingPopover = false
+                                self.datePopOverIsVisible = false
+                            }){
+                                Text("Set")
+                                    .foregroundColor(.white)
+                                    .fontWeight(.semibold)
+                                    .frame(width: 350, height: 40.0)
+                                    .background(Color.orange)
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                            }
                         }
                         
-                        Button(action: {showingPopover = false}){
-                            Text("Cancel")
-                                .foregroundColor(.white)
-                                .fontWeight(.semibold)
-                                .frame(width: 350, height: 40.0)
-                                .background(Color.gray)
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                            
-                        }.padding()
                     }
+                    .padding(10)
+                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
+                }
+                
+                // Task location
+                VStack(alignment: .leading, spacing: 10){
+                    Text("Task Location")
+                        .font(.headline)
                     
+                    TextField("Enter task location here...", text: $taskLocation)
+                        .padding(10)
+                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
+                    
+                    //                Button("Find Address"){
+                    //                    mapAPI.getLocation(address: taskLocation, delta: 0.5)
+                    //                }
+                    //
+                    //                Map(coordinateRegion: $mapAPI.region, annotationItems: mapAPI.locations){
+                    //                    location in
+                    //                    MapMarker(coordinate: location.coordinate, tint: .blue)
+                    //                }
+                    //                .ignoresSafeArea()
                 }
-                .padding(10)
-                .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
-            }
-            
-            // Task location
-            VStack(alignment: .leading, spacing: 10){
-                Text("Task Location")
-                    .font(.headline)
                 
-                TextField("Enter task location here...", text: $taskLocation)
-                    .padding(10)
-                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
-                
-                //                Button("Find Address"){
-                //                    mapAPI.getLocation(address: taskLocation, delta: 0.5)
-                //                }
-                //
-                //                Map(coordinateRegion: $mapAPI.region, annotationItems: mapAPI.locations){
-                //                    location in
-                //                    MapMarker(coordinate: location.coordinate, tint: .blue)
-                //                }
-                //                .ignoresSafeArea()
-            }
-            
-            // Task price
-            VStack(alignment: .leading, spacing: 10){
-                Text("Task price")
-                    .font(.headline)
-                
-                TextField("0", value: $taskPrice, formatter: NumberFormatter())
-                    .keyboardType(.phonePad)
-                
-                    .padding(10)
-                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
-                    .frame(width: 150, height: 45)
-            }
-            
-            // Task description
-            VStack(alignment: .leading, spacing: 10){
-                Text("Task description")
-                    .font(.headline)
-                
-                TextEditor(text: $taskDescription)
-                    .padding(10)
-                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
-            }
-            
-            
-            // Post task
-            Button(action: {
-                // DateTime format
-                if taskHeadline.isEmpty || taskDescription.isEmpty || taskLocation.isEmpty || (taskPrice >= 5) {
-                    print("add some task")
-                } else{
-                    graphql.createTask(taskTitle: taskHeadline, taskDescription: taskDescription, taskLocation: taskLocation, taskPrice: Float(taskPrice), taskDate: dateFormatter.string(from: taskDate))
+                // Task price
+                VStack(alignment: .leading, spacing: 10){
+                    Text("Task price")
+                        .font(.headline)
+                    
+                    TextField("0", value: $taskPrice, formatter: NumberFormatter())
+                        .keyboardType(.phonePad)
+                    
+                        .padding(10)
+                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
+                        .frame(width: 150, height: 45)
                 }
-            }){
-                Text("Post Task")
-                    .foregroundColor(.white)
-                    .fontWeight(.semibold)
-                    .frame(width: 350, height: 40.0)
-                    .background(Color.orange)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-            }.padding(.bottom, 12)
-            
-        }.padding()
-        
-        .onTapGesture {
-            hideKeyboard()
+                
+                // Task description
+                VStack(alignment: .leading, spacing: 10){
+                    Text("Task description")
+                        .font(.headline)
+                    
+                    TextEditor(text: $taskDescription)
+                        .padding(10)
+                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
+                }
+                
+                // Post task
+                Button(action: {
+                    // DateTime format
+                    if taskHeadline.isEmpty || taskDescription.isEmpty || taskLocation.isEmpty || (taskPrice < 5) {
+                        print("add some task")
+                    } else{
+//                        Create task and store it to database
+                        graphql.createTask(taskTitle: taskHeadline, taskDescription: taskDescription, taskLocation: taskLocation, taskPrice: Float(taskPrice), taskDate: dateFormatter.string(from: taskDate), taskOwner: sessionManger.userID)
+                    }
+                }){
+                    Text("Post Task")
+                        .foregroundColor(.white)
+                        .fontWeight(.semibold)
+                        .frame(width: 350, height: 40.0)
+                        .background(Color.orange)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                }.padding(.bottom, 12)
+                
+                
+                
+            }.padding()
+//            .navigationTitle("FindTask")
+//            .navigationBarTitleDisplayMode(.inline)
+//            .navigationBarItems(
+//                trailing:
+//                    NavigationLink{Text("Notification View")
+//                        .navigationTitle("Notifications")
+//                    } label: {
+//                        Image(systemName: "bell")
+//                            .resizable()
+//                            .renderingMode(.template)
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: 22, height: 22)
+//                            .foregroundColor(.primary)
+//                    }
+//                )
+            .onTapGesture {
+                    hideKeyboard()
         }
     }
     

@@ -36,6 +36,7 @@ struct FindTaskApp: App {
                 case .login:
                     LogInView()
                         .environmentObject(sessionManager)
+                        .environmentObject(Graphql())
                 case .signup:
                     SignUpView()
                         .environmentObject(sessionManager)

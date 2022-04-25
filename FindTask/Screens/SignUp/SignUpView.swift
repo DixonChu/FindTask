@@ -29,9 +29,7 @@ struct SignUpView: View {
             Spacer()
             
             SignUpField(givenName: $givenName, familyName: $familyName, phoneNumber: $phoneNumber, password: $password)
-            
-            //            DecideRoles()
-            
+                        
             Spacer(minLength: 0)
             
             SignUpButton(givenName: $givenName, familyName: $familyName, phoneNumber: $phoneNumber, password: $password)
@@ -121,7 +119,8 @@ struct SignUpButton: View {
     
     var body: some View {
         Button(action: {
-            sessionManager.signUp(givenName: givenName,  familyName: familyName ,phoneNumber: phoneNumber, password: password)
+            sessionManager.signUp(givenName: givenName, familyName: familyName ,phoneNumber: phoneNumber, password: password)
+            
         }){
             Text("Sign Up")
                 .foregroundColor(.white)

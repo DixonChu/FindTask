@@ -2,7 +2,7 @@
 import Amplify
 import Foundation
 
-public struct Task: Model {
+public struct Task: Model, Identifiable {
   public let id: String
   public var taskTitle: String
   public var taskDescription: String
@@ -10,6 +10,7 @@ public struct Task: Model {
   public var taskPrice: Double
   public var taskStatus: String
   public var taskDate: String
+  public var taskOwner: String
   public var acceptedId: String
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
@@ -21,6 +22,7 @@ public struct Task: Model {
       taskPrice: Double,
       taskStatus: String,
       taskDate: String,
+      taskOwner: String,
       acceptedId: String) {
     self.init(id: id,
       taskTitle: taskTitle,
@@ -29,6 +31,7 @@ public struct Task: Model {
       taskPrice: taskPrice,
       taskStatus: taskStatus,
       taskDate: taskDate,
+      taskOwner: taskOwner,
       acceptedId: acceptedId,
       createdAt: nil,
       updatedAt: nil)
@@ -40,6 +43,7 @@ public struct Task: Model {
       taskPrice: Double,
       taskStatus: String,
       taskDate: String,
+      taskOwner: String,
       acceptedId: String,
       createdAt: Temporal.DateTime? = nil,
       updatedAt: Temporal.DateTime? = nil) {
@@ -50,6 +54,7 @@ public struct Task: Model {
       self.taskPrice = taskPrice
       self.taskStatus = taskStatus
       self.taskDate = taskDate
+      self.taskOwner = taskOwner
       self.acceptedId = acceptedId
       self.createdAt = createdAt
       self.updatedAt = updatedAt

@@ -17,7 +17,7 @@ struct ProfileView: View {
             HStack{
                 Spacer()
                 NavigationLink{
-                    SettingView()
+                    SettingView(user: user)
                         .navigationTitle("Settings")
                         .navigationBarTitleDisplayMode(.inline)
                 } label: {
@@ -72,7 +72,7 @@ struct Profile: View {
     }
 }
 
-struct switchToPlaceTaskView : View{
+struct switchToPlaceTaskView : View {
     let user: AuthUser
     
     var body: some View{

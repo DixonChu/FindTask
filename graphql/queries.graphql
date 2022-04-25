@@ -8,6 +8,7 @@ query GetTask($id: ID!) {
     taskPrice
     taskStatus
     taskDate
+    taskOwner
     acceptedId
     createdAt
     updatedAt
@@ -28,6 +29,7 @@ query ListTasks(
       taskPrice
       taskStatus
       taskDate
+      taskOwner
       acceptedId
       createdAt
       updatedAt
@@ -44,6 +46,7 @@ query GetUser($id: ID!) {
     phoneNumber
     createdAt
     updatedAt
+    owner
   }
 }
 query ListUsers(
@@ -59,6 +62,7 @@ query ListUsers(
       phoneNumber
       createdAt
       updatedAt
+      owner
     }
     nextToken
   }

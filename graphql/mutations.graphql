@@ -11,6 +11,7 @@ mutation CreateTask(
     taskPrice
     taskStatus
     taskDate
+    taskOwner
     acceptedId
     createdAt
     updatedAt
@@ -29,6 +30,7 @@ mutation UpdateTask(
     taskPrice
     taskStatus
     taskDate
+    taskOwner
     acceptedId
     createdAt
     updatedAt
@@ -47,6 +49,7 @@ mutation DeleteTask(
     taskPrice
     taskStatus
     taskDate
+    taskOwner
     acceptedId
     createdAt
     updatedAt
@@ -64,6 +67,7 @@ mutation CreateUser(
     phoneNumber
     createdAt
     updatedAt
+    owner
   }
 }
 mutation UpdateUser(
@@ -77,6 +81,7 @@ mutation UpdateUser(
     phoneNumber
     createdAt
     updatedAt
+    owner
   }
 }
 mutation DeleteUser(
@@ -90,5 +95,6 @@ mutation DeleteUser(
     phoneNumber
     createdAt
     updatedAt
+    owner
   }
 }

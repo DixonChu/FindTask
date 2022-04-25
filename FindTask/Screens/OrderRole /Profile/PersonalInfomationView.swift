@@ -11,62 +11,69 @@ struct PersonalInfomationView: View {
     @EnvironmentObject var sessionManager : SessionManager
 
     var body: some View {
-        NavigationView{
-            VStack(alignment: .leading, spacing: 12){
-                
+        //        NavigationView{
+        VStack{
+            HStack{
+                Spacer()
                 Text("Profile")
-                    .font(.largeTitle)
+                    .font(.system(size: 18))
                     .fontWeight(.semibold)
+                Spacer()
                 
-                List{
-                    NavigationLink{
-                        OrderIssueView()
-                            .navigationTitle("Profile Picture")
-                            .navigationBarTitleDisplayMode(.inline)
-                    }label: {
-                        HStack(spacing: 12){
-                            Text("Profile Picture")
-                                .font(.system(size: 14))
-                            Spacer()
-                            Image(systemName: "person.circle")
-                        }
+                
+            }.padding(.bottom, 10)
+            LazyVStack(alignment: .leading, spacing: 12){
+                NavigationLink{
+                    OrderIssueView()
+                        .navigationTitle("Profile Picture")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack(spacing: 12){
+                        Text("Profile Picture")
+                            .font(.system(size: 14))
+                        Spacer()
+                        Image(systemName: "person.circle")
                     }
-                    .padding([.bottom, .top], 12)
+                }
+                .padding([.bottom, .top], 5)
+                Divider()
+                NavigationLink{
+                    OrderIssueView()
+                        .navigationTitle("First name")
+                        .navigationBarTitleDisplayMode(.inline)
                     
-                    NavigationLink{
-                        OrderIssueView()
-                            .navigationTitle("First name")
-                            .navigationBarTitleDisplayMode(.inline)
-                        
-                    }label: {
-                        HStack(spacing: 12){
-                            Text("First name")
-                                .font(.system(size: 14))
-                            Spacer()
-                            Text(sessionManager.givenName)
-                        }
+                }label: {
+                    HStack(spacing: 12){
+                        Text("First name")
+                            .font(.system(size: 14))
+                        Spacer()
+                        Text(sessionManager.givenName)
                     }
-                    .padding([.bottom, .top], 12)
-                    
-                    NavigationLink{
-                        OrderIssueView()
-                            .navigationTitle("Mobile Number")
-                            .navigationBarTitleDisplayMode(.inline)
-                    }label: {
-                        HStack(spacing: 12){
-                            Text("Mobile Number")
-                                .font(.system(size: 14))
-                            Spacer()
-                            Text(sessionManager.phoneNumber)
-                        }
+                }
+                .padding([.bottom, .top], 5)
+                Divider()
+                NavigationLink{
+                    OrderIssueView()
+                        .navigationTitle("Mobile Number")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack(spacing: 12){
+                        Text("Mobile Number")
+                            .font(.system(size: 14))
+                        Spacer()
+                        Text(sessionManager.phoneNumber)
                     }
-                    .padding([.bottom, .top], 12)
-                    
-                }.listStyle(PlainListStyle())
+                }
+                .padding([.bottom, .top], 5)
+                
             }
-            .padding()
-            .navigationBarHidden(true)
+            .foregroundColor(.primary)
+            Spacer()
         }
+        .padding()
+        //            .navigationTitle("Profile")
+        //            .navigationBarTitleDisplayMode(.inline)
+        //        }
     }
 }
 

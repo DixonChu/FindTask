@@ -9,21 +9,290 @@ import Foundation
 import Amplify
 import AWSPluginsCore
 
-final class Graphql: ObservableObject {
-    static let shared = Graphql()
+class Graphql: ObservableObject {
+    @Published var awaitingTasks: [Task] = [] //task status awaiting
     
-    @Published var listOfTasks = []
+    @Published var userOwnTasks: [Task] = [] // taskStatus awaiting/accepeted, taskOwner
+    @Published var completedTasks: [Task] = [] // task status completed, taskowner
+    @Published var cancalledTasks: [Task] = [] // task status cancelled, taskownere
     
+    @Published var workOngoingTasks: [Task] = [] //task status accepted, acceptedId
+    @Published var workCompletedTasks: [Task] = [] // task status completed, acceptedId
+    @Published var workCancelledTasks: [Task] = [] // task status cancelled, accepetedId
+    
+    
+    var currentPage: List<Task>?
+    
+    init(){
+        // Get list of awaiting tasks
+//        DispatchQueue.main.async {
+//            self.listAllAwaitingTask()
+//        }
+        
+    }
+    
+    enum Predicate {
+        case awaiting // task.taskStatus == "awaiting"
+        case accepted // task.taskStatus == "accepted" && acceptedId == "acceptedId"
+        case completed // task.taskStatus == "completed"
+        case cancelled // task.taskStatus == "cancelled"
+    }
+    
+    /* ========== All Owner Task ========== */
+    func listAllOwnerTask(taskOwner: String) {
+        let task = Task.keys
+        let predicate = (task.taskStatus == "awaiting" || task.taskStatus == "accepted") && task.taskOwner == taskOwner
+        
+        Amplify.API.query(request: .paginatedList(Task.self, where: predicate, limit: 1000)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let tasks):
+                    DispatchQueue.main.async {
+                        self.currentPage = tasks
+                        self.userOwnTasks.append(contentsOf: tasks)
+                        self.ownListNextPageRecursively()
+                    }
+                    print("Successfully retrieved list of tasks: \(tasks)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    func ownListNextPageRecursively() {
+        if let current = currentPage, current.hasNextPage() {
+            current.getNextPage { result in
+                switch result {
+                case .success(let tasks):
+                    self.userOwnTasks.append(contentsOf: tasks)
+                    self.currentPage = tasks
+                    self.ownListNextPageRecursively()
+                case .failure(let coreError):
+                    print("Failed to get next page \(coreError)")
+                }
+            }
+        }
+    }
+    
+    /* ========== All Completed Task ========== */
+    func listAllCompletedTask(taskOwner: String){
+        let task = Task.keys
+        let predicate = task.taskStatus == "completed" && task.taskOwner == taskOwner
+        
+        Amplify.API.query(request: .paginatedList(Task.self, where: predicate, limit: 1000)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let tasks):
+                    DispatchQueue.main.async {
+                        self.currentPage = tasks
+                        self.completedTasks.append(contentsOf: tasks)
+                        self.completedListNextPageRecursively()
+                    }
+                    print("Successfully retrieved list of tasks: \(tasks)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    func completedListNextPageRecursively() {
+        if let current = currentPage, current.hasNextPage() {
+            current.getNextPage { result in
+                switch result {
+                case .success(let tasks):
+                    self.completedTasks.append(contentsOf: tasks)
+                    self.currentPage = tasks
+                    self.completedListNextPageRecursively()
+                case .failure(let coreError):
+                    print("Failed to get next page \(coreError)")
+                }
+            }
+        }
+    }
+    
+    /* ========== All Cancelled Task ========== */
+    func listAllCancelledTask(taskOwner: String){
+        let task = Task.keys
+        let predicate = task.taskStatus == "cancelled" && task.taskOwner == taskOwner
+        
+        Amplify.API.query(request: .paginatedList(Task.self, where: predicate, limit: 1000)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let tasks):
+//                    if(!tasks.isEmpty){
+//                        DispatchQueue.main.async {
+//                            self.cancalledTasks.removeAll()
+//
+//                        }
+//                    }
+                    DispatchQueue.main.async {
+                        self.currentPage = tasks
+                        self.cancalledTasks.append(contentsOf: tasks)
+                        self.cancelledListNextPageRecursively()
+                    }
+                    print("Successfully retrieved list of tasks: \(tasks)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    func cancelledListNextPageRecursively() {
+        if let current = currentPage, current.hasNextPage() {
+            current.getNextPage { result in
+                switch result {
+                case .success(let tasks):
+                    self.cancalledTasks.append(contentsOf: tasks)
+                    self.currentPage = tasks
+                    self.cancelledListNextPageRecursively()
+                case .failure(let coreError):
+                    print("Failed to get next page \(coreError)")
+                }
+            }
+        }
+    }
+    
+    /* ========== Work Ongoing Task ========== */
+    func workListAllOngoingTask(acceptedId: String){
+        let task = Task.keys
+        print("Accepted ID \(acceptedId)")
+        let predicate = task.taskStatus == "accepted" && task.acceptedId == acceptedId
+        
+        Amplify.API.query(request: .paginatedList(Task.self, where: predicate, limit: 1000)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let tasks):
+                    DispatchQueue.main.async {
+                        self.currentPage = tasks
+                        self.workOngoingTasks.append(contentsOf: tasks)
+                        self.workOngoingListNextPageRecursively()
+                    }
+                    print("Successfully retrieved list of tasks: \(tasks)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    func workOngoingListNextPageRecursively() {
+        if let current = currentPage, current.hasNextPage() {
+            current.getNextPage { result in
+                switch result {
+                case .success(let tasks):
+                    self.workOngoingTasks.append(contentsOf: tasks)
+                    self.currentPage = tasks
+                    self.workOngoingListNextPageRecursively()
+                case .failure(let coreError):
+                    print("Failed to get next page \(coreError)")
+                }
+            }
+        }
+    }
 
-    // Create task
-    func createTask(taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Float, taskDate: String){
-        let task = Task(taskTitle: taskTitle, taskDescription: taskDescription, taskLocation: taskLocation, taskPrice: Double(taskPrice), taskStatus: "awaiting", taskDate: taskDate, acceptedId: "pending")
+    /* ========== Work Completed Task ========== */
+    func workListAllCompletedTask(acceptedId: String){
+        let task = Task.keys
+        let predicate = task.taskStatus == "completed" && task.acceptedId == acceptedId
+        
+        Amplify.API.query(request: .paginatedList(Task.self, where: predicate, limit: 1000)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let tasks):
+                    DispatchQueue.main.async {
+                        self.currentPage = tasks
+                        self.workCompletedTasks.append(contentsOf: tasks)
+                        self.workCompletedListNextPageRecursively()
+                    }
+                    
+                    print("Successfully retrieved list of tasks: \(tasks)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    func workCompletedListNextPageRecursively() {
+        if let current = currentPage, current.hasNextPage() {
+            current.getNextPage { result in
+                switch result {
+                case .success(let tasks):
+                    self.workCompletedTasks.append(contentsOf: tasks)
+                    self.currentPage = tasks
+                    self.workCompletedListNextPageRecursively()
+                case .failure(let coreError):
+                    print("Failed to get next page \(coreError)")
+                }
+            }
+        }
+    }
+    
+    /* ========== Work Cancelled Task ========== */
+    func workListAllCancelledTask(acceptedId: String){
+        let task = Task.keys
+        let predicate = task.taskStatus == "cancelled" && task.acceptedId == acceptedId
+        
+        Amplify.API.query(request: .paginatedList(Task.self, where: predicate, limit: 1000)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let tasks):
+                    DispatchQueue.main.async {
+//                        if(!self.workCancelledTasks.isEmpty){
+//                            self.workCancelledTasks.removeAll()
+//                        }
+                        self.currentPage = tasks
+                        self.workCancelledTasks.append(contentsOf: tasks)
+                        self.workCancelledListNextPageRecursively()
+                    }
+                    print("Successfully retrieved list of tasks: \(tasks)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    func workCancelledListNextPageRecursively() {
+        if let current = currentPage, current.hasNextPage() {
+            current.getNextPage { result in
+                switch result {
+                case .success(let tasks):
+                    self.workCancelledTasks.append(contentsOf: tasks)
+                    self.currentPage = tasks
+                    self.workCancelledListNextPageRecursively()
+                case .failure(let coreError):
+                    print("Failed to get next page \(coreError)")
+                }
+            }
+        }
+    }
+    
+    
+    /* ========== Create Task ========== */
+    func createTask(taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Float, taskDate: String, taskOwner: String){
+        let task = Task(taskTitle: taskTitle, taskDescription: taskDescription, taskLocation: taskLocation, taskPrice: Double(taskPrice), taskStatus: "awaiting", taskDate: taskDate, taskOwner: taskOwner, acceptedId: "pending")
         Amplify.API.mutate(request: .create(task)) { event in
             switch event {
             case .success(let result):
                 switch result {
                 case .success(let task):
-                    print("Successfully created todo: \(task)")
+                    print("Successfully created task: \(task)")
                 case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
                 }
@@ -33,29 +302,28 @@ final class Graphql: ObservableObject {
         }
     }
     
-    
-//    // Delete task by task id
-//    func deleteTask(){
-//        var task = Task()
-//        Amplify.API.mutate(request: .delete(task)) { event in
-//            switch event {
-//            case .success(let result):
-//                switch result {
-//                case .success(let todo):
-//                    print("Successfully created todo: \(todo)")
-//                case .failure(let error):
-//                    print("Got failed result with \(error.errorDescription)")
-//                }
-//            case .failure(let error):
-//                print("Got failed event with error \(error)")
-//            }
-//        }
-//    }
+    func createUser(id: String, givenName: String, familyName: String, phoneNumber: String) {
+        let user = User(id: id, givenName: givenName, familyName: familyName, phoneNumber: phoneNumber);
+        Amplify.API.mutate(request: .create(user)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let user):
+                    print("Successfully added user to database: \(user)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+
 
     
-    // Get task by task id
-    func getTaskById() {
-        Amplify.API.query(request: .get(Task.self, byId: "AF0CE5D9-295B-4229-B1CB-7F22DCE5A9F4")) { event in
+    /* ========== Get Task By ID ========== */
+    func getTaskById(taskId: String) {
+        Amplify.API.query(request: .get(Task.self, byId: taskId)) { event in
             switch event {
             case .success(let result):
                 switch result {
@@ -75,23 +343,185 @@ final class Graphql: ObservableObject {
         }
     }
     
-    // Get list of tasks
-//    func getListOfTasks(){
-//        let task = Task.keys
-//        let predicate = task.name == "my first todo" && task.description == "todo description"
-//        Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000)) { event in
-//            switch event {
-//            case .success(let result):
-//                switch result {
-//                case .success(let todos):
-//                    print("Successfully retrieved list of todos: \(todos)")
-//                case .failure(let error):
-//                    print("Got failed result with \(error.errorDescription)")
-//                }
-//            case .failure(let error):
-//                print("Got failed event with error \(error)")
-//            }
-//        }
-//    }
+    /* ========== Get Task By Id And Update Task Status ========== */
+    func getTaskByIdAndUpdateStatus(taskId: String, taskStatus: String) {
+        Amplify.API.query(request: .get(Task.self, byId: taskId)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let task):
+                    guard let task = task else {
+                        print("Could not find task")
+                        return
+                    }
+                    print("Successfully retrieved task: \(task)")
+                    if(taskStatus == "cancelled"){
+                        print("Successfully cancelled task")
+                        self.updateTaskToCancelled(task: task)
+                    }
+                    if(taskStatus == "completed"){
+                        print("Successfully completed task")
+                        self.updateTaskToCompleted(task: task)
+                    }
+//                    DispatchQueue.main.async {
+//                        self.userOwnTasks.removeAll()
+//                    }
+                    case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+
+    func updateTaskToCancelled(task: Task){
+        var task = Task(id: task.id, taskTitle: task.taskTitle, taskDescription: task.taskDescription, taskLocation: task.taskLocation, taskPrice: task.taskPrice, taskStatus: task.taskStatus, taskDate: task.taskDate, taskOwner: task.taskOwner, acceptedId: task.acceptedId)
+        task.taskStatus = "cancelled"
+        Amplify.API.mutate(request: .update(task)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let task):
+                    print("Successfully updated task: \(task)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    
+    func updateTaskToCompleted(task: Task){
+        var task = Task(id: task.id, taskTitle: task.taskTitle, taskDescription: task.taskDescription, taskLocation: task.taskLocation, taskPrice: task.taskPrice, taskStatus: task.taskStatus, taskDate: task.taskDate, taskOwner: task.taskOwner, acceptedId: task.taskOwner)
+        task.taskStatus = "completed"
+        Amplify.API.mutate(request: .update(task)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let task):
+                    print("Successfully updated task: \(task)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    
+    
+    /* ========== Worker ==========*/
+    /* ========== All Awaiting Task ========== */
+    func listAllAwaitingTask() {
+        let task = Task.keys
+        let predicate = task.taskStatus == "awaiting"
+        
+        Amplify.API.query(request: .paginatedList(Task.self, where: predicate, limit: 1000)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let tasks):
+                    DispatchQueue.main.async {
+                
+//                        if(!self.awaitingTasks.isEmpty){
+//                            self.awaitingTasks.removeAll()
+//                        }
+                    
+                        self.currentPage = tasks
+                        self.awaitingTasks.append(contentsOf: tasks)
+                        self.awaitingListNextPageRecursively()
+                        
+                    }
+                    print("Successfully retrieved list of tasks: \(tasks)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    func awaitingListNextPageRecursively() {
+        if let current = currentPage, current.hasNextPage() {
+            current.getNextPage { result in
+                switch result {
+                case .success(let tasks):
+                    self.awaitingTasks.append(contentsOf: tasks)
+                    self.currentPage = tasks
+                    self.awaitingListNextPageRecursively()
+                case .failure(let coreError):
+                    print("Failed to get next page \(coreError)")
+                }
+            }
+        }
+    }
+    
+    func getTaskByIdAndUpdateStatusAccepted(taskId: String, taskStatus: String, acceptedId: String) {
+        Amplify.API.query(request: .get(Task.self, byId: taskId)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let task):
+                    guard let task = task else {
+                        print("Could not find task")
+                        return
+                    }
+                    print("Successfully retrieved task: \(task)")
+                    self.updateTaskToAccepted(task: task, acceptedId: acceptedId)
+//                    DispatchQueue.main.async {
+//                        self.awaitingTasks.removeAll()
+//                    }
+                    case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    
+    
+    func updateTaskToAccepted(task: Task, acceptedId: String){
+        var task = Task(id: task.id, taskTitle: task.taskTitle, taskDescription: task.taskDescription, taskLocation: task.taskLocation, taskPrice: task.taskPrice, taskStatus: task.taskStatus, taskDate: task.taskDate, taskOwner: task.taskOwner, acceptedId: task.taskOwner)
+        task.taskStatus = "accepted"
+        task.acceptedId = acceptedId
+        Amplify.API.mutate(request: .update(task)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let task):
+                    print("Successfully updated task: \(task)")
+//                    DispatchQueue.main.async {
+//                        self.awaitingTasks.removeAll()
+//                    }
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    
+    
+    
+    //  Delete task
+    //    func deleteTask(task: Task){
+    //        Amplify.API.mutate(request: .delete(task)) { event in
+    //            switch event {
+    //            case .success(let result):
+    //                switch result {
+    //                case .success(let task):
+    //                    print("Successfully deleted task: \(task)")
+    //                case .failure(let error):
+    //                    print("Got failed result with \(error.errorDescription)")
+    //                }
+    //            case .failure(let error):
+    //                print("Got failed event with error \(error)")
+    //            }
+    //        }
+    //    }
     
 }

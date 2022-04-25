@@ -10,10 +10,11 @@ type Task @model @auth(rules: [{allow: private, operations:[create, read, update
   taskPrice: Float!
   taskStatus: String!
   taskDate: String!
+  taskOwner: String!
   acceptedId: String!
 }
 
-type User @model {
+type User @model @auth(rules: [{allow: owner}]){
   id: ID!
   givenName: String!
   familyName: String!

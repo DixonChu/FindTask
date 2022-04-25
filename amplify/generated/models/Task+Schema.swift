@@ -12,6 +12,7 @@ extension Task {
     case taskPrice
     case taskStatus
     case taskDate
+    case taskOwner
     case acceptedId
     case createdAt
     case updatedAt
@@ -38,6 +39,7 @@ extension Task {
       .field(task.taskPrice, is: .required, ofType: .double),
       .field(task.taskStatus, is: .required, ofType: .string),
       .field(task.taskDate, is: .required, ofType: .string),
+      .field(task.taskOwner, is: .required, ofType: .string),
       .field(task.acceptedId, is: .required, ofType: .string),
       .field(task.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(task.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)

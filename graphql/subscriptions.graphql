@@ -8,6 +8,7 @@ subscription OnCreateTask($owner: String) {
     taskPrice
     taskStatus
     taskDate
+    taskOwner
     acceptedId
     createdAt
     updatedAt
@@ -23,6 +24,7 @@ subscription OnUpdateTask($owner: String) {
     taskPrice
     taskStatus
     taskDate
+    taskOwner
     acceptedId
     createdAt
     updatedAt
@@ -38,39 +40,43 @@ subscription OnDeleteTask($owner: String) {
     taskPrice
     taskStatus
     taskDate
+    taskOwner
     acceptedId
     createdAt
     updatedAt
     owner
   }
 }
-subscription OnCreateUser {
-  onCreateUser {
+subscription OnCreateUser($owner: String) {
+  onCreateUser(owner: $owner) {
     id
     givenName
     familyName
     phoneNumber
     createdAt
     updatedAt
+    owner
   }
 }
-subscription OnUpdateUser {
-  onUpdateUser {
+subscription OnUpdateUser($owner: String) {
+  onUpdateUser(owner: $owner) {
     id
     givenName
     familyName
     phoneNumber
     createdAt
     updatedAt
+    owner
   }
 }
-subscription OnDeleteUser {
-  onDeleteUser {
+subscription OnDeleteUser($owner: String) {
+  onDeleteUser(owner: $owner) {
     id
     givenName
     familyName
     phoneNumber
     createdAt
     updatedAt
+    owner
   }
 }

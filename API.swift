@@ -5,8 +5,8 @@ import AWSAppSync
 public struct CreateTaskInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(id: GraphQLID? = nil, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, acceptedId: String) {
-    graphQLMap = ["id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId]
+  public init(id: GraphQLID? = nil, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, taskOwner: String, acceptedId: String) {
+    graphQLMap = ["id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId]
   }
 
   public var id: GraphQLID? {
@@ -72,6 +72,15 @@ public struct CreateTaskInput: GraphQLMapConvertible {
     }
   }
 
+  public var taskOwner: String {
+    get {
+      return graphQLMap["taskOwner"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "taskOwner")
+    }
+  }
+
   public var acceptedId: String {
     get {
       return graphQLMap["acceptedId"] as! String
@@ -85,8 +94,8 @@ public struct CreateTaskInput: GraphQLMapConvertible {
 public struct ModelTaskConditionInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(taskTitle: ModelStringInput? = nil, taskDescription: ModelStringInput? = nil, taskLocation: ModelStringInput? = nil, taskPrice: ModelFloatInput? = nil, taskStatus: ModelStringInput? = nil, taskDate: ModelStringInput? = nil, acceptedId: ModelStringInput? = nil, and: [ModelTaskConditionInput?]? = nil, or: [ModelTaskConditionInput?]? = nil, not: ModelTaskConditionInput? = nil) {
-    graphQLMap = ["taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId, "and": and, "or": or, "not": not]
+  public init(taskTitle: ModelStringInput? = nil, taskDescription: ModelStringInput? = nil, taskLocation: ModelStringInput? = nil, taskPrice: ModelFloatInput? = nil, taskStatus: ModelStringInput? = nil, taskDate: ModelStringInput? = nil, taskOwner: ModelStringInput? = nil, acceptedId: ModelStringInput? = nil, and: [ModelTaskConditionInput?]? = nil, or: [ModelTaskConditionInput?]? = nil, not: ModelTaskConditionInput? = nil) {
+    graphQLMap = ["taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId, "and": and, "or": or, "not": not]
   }
 
   public var taskTitle: ModelStringInput? {
@@ -140,6 +149,15 @@ public struct ModelTaskConditionInput: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "taskDate")
+    }
+  }
+
+  public var taskOwner: ModelStringInput? {
+    get {
+      return graphQLMap["taskOwner"] as! ModelStringInput?
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "taskOwner")
     }
   }
 
@@ -533,8 +551,8 @@ public struct ModelFloatInput: GraphQLMapConvertible {
 public struct UpdateTaskInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(id: GraphQLID, taskTitle: String? = nil, taskDescription: String? = nil, taskLocation: String? = nil, taskPrice: Double? = nil, taskStatus: String? = nil, taskDate: String? = nil, acceptedId: String? = nil) {
-    graphQLMap = ["id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId]
+  public init(id: GraphQLID, taskTitle: String? = nil, taskDescription: String? = nil, taskLocation: String? = nil, taskPrice: Double? = nil, taskStatus: String? = nil, taskDate: String? = nil, taskOwner: String? = nil, acceptedId: String? = nil) {
+    graphQLMap = ["id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId]
   }
 
   public var id: GraphQLID {
@@ -597,6 +615,15 @@ public struct UpdateTaskInput: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "taskDate")
+    }
+  }
+
+  public var taskOwner: String? {
+    get {
+      return graphQLMap["taskOwner"] as! String?
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "taskOwner")
     }
   }
 
@@ -797,8 +824,8 @@ public struct DeleteUserInput: GraphQLMapConvertible {
 public struct ModelTaskFilterInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(id: ModelIDInput? = nil, taskTitle: ModelStringInput? = nil, taskDescription: ModelStringInput? = nil, taskLocation: ModelStringInput? = nil, taskPrice: ModelFloatInput? = nil, taskStatus: ModelStringInput? = nil, taskDate: ModelStringInput? = nil, acceptedId: ModelStringInput? = nil, and: [ModelTaskFilterInput?]? = nil, or: [ModelTaskFilterInput?]? = nil, not: ModelTaskFilterInput? = nil) {
-    graphQLMap = ["id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId, "and": and, "or": or, "not": not]
+  public init(id: ModelIDInput? = nil, taskTitle: ModelStringInput? = nil, taskDescription: ModelStringInput? = nil, taskLocation: ModelStringInput? = nil, taskPrice: ModelFloatInput? = nil, taskStatus: ModelStringInput? = nil, taskDate: ModelStringInput? = nil, taskOwner: ModelStringInput? = nil, acceptedId: ModelStringInput? = nil, and: [ModelTaskFilterInput?]? = nil, or: [ModelTaskFilterInput?]? = nil, not: ModelTaskFilterInput? = nil) {
+    graphQLMap = ["id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId, "and": and, "or": or, "not": not]
   }
 
   public var id: ModelIDInput? {
@@ -861,6 +888,15 @@ public struct ModelTaskFilterInput: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "taskDate")
+    }
+  }
+
+  public var taskOwner: ModelStringInput? {
+    get {
+      return graphQLMap["taskOwner"] as! ModelStringInput?
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "taskOwner")
     }
   }
 
@@ -1099,7 +1135,7 @@ public struct ModelUserFilterInput: GraphQLMapConvertible {
 
 public final class CreateTaskMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreateTask($input: CreateTaskInput!, $condition: ModelTaskConditionInput) {\n  createTask(input: $input, condition: $condition) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
+    "mutation CreateTask($input: CreateTaskInput!, $condition: ModelTaskConditionInput) {\n  createTask(input: $input, condition: $condition) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    taskOwner\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var input: CreateTaskInput
   public var condition: ModelTaskConditionInput?
@@ -1151,6 +1187,7 @@ public final class CreateTaskMutation: GraphQLMutation {
         GraphQLField("taskPrice", type: .nonNull(.scalar(Double.self))),
         GraphQLField("taskStatus", type: .nonNull(.scalar(String.self))),
         GraphQLField("taskDate", type: .nonNull(.scalar(String.self))),
+        GraphQLField("taskOwner", type: .nonNull(.scalar(String.self))),
         GraphQLField("acceptedId", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
@@ -1163,8 +1200,8 @@ public final class CreateTaskMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
-        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
+      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, taskOwner: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -1239,6 +1276,15 @@ public final class CreateTaskMutation: GraphQLMutation {
         }
       }
 
+      public var taskOwner: String {
+        get {
+          return snapshot["taskOwner"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "taskOwner")
+        }
+      }
+
       public var acceptedId: String {
         get {
           return snapshot["acceptedId"]! as! String
@@ -1280,7 +1326,7 @@ public final class CreateTaskMutation: GraphQLMutation {
 
 public final class UpdateTaskMutation: GraphQLMutation {
   public static let operationString =
-    "mutation UpdateTask($input: UpdateTaskInput!, $condition: ModelTaskConditionInput) {\n  updateTask(input: $input, condition: $condition) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
+    "mutation UpdateTask($input: UpdateTaskInput!, $condition: ModelTaskConditionInput) {\n  updateTask(input: $input, condition: $condition) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    taskOwner\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var input: UpdateTaskInput
   public var condition: ModelTaskConditionInput?
@@ -1332,6 +1378,7 @@ public final class UpdateTaskMutation: GraphQLMutation {
         GraphQLField("taskPrice", type: .nonNull(.scalar(Double.self))),
         GraphQLField("taskStatus", type: .nonNull(.scalar(String.self))),
         GraphQLField("taskDate", type: .nonNull(.scalar(String.self))),
+        GraphQLField("taskOwner", type: .nonNull(.scalar(String.self))),
         GraphQLField("acceptedId", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
@@ -1344,8 +1391,8 @@ public final class UpdateTaskMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
-        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
+      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, taskOwner: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -1420,6 +1467,15 @@ public final class UpdateTaskMutation: GraphQLMutation {
         }
       }
 
+      public var taskOwner: String {
+        get {
+          return snapshot["taskOwner"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "taskOwner")
+        }
+      }
+
       public var acceptedId: String {
         get {
           return snapshot["acceptedId"]! as! String
@@ -1461,7 +1517,7 @@ public final class UpdateTaskMutation: GraphQLMutation {
 
 public final class DeleteTaskMutation: GraphQLMutation {
   public static let operationString =
-    "mutation DeleteTask($input: DeleteTaskInput!, $condition: ModelTaskConditionInput) {\n  deleteTask(input: $input, condition: $condition) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
+    "mutation DeleteTask($input: DeleteTaskInput!, $condition: ModelTaskConditionInput) {\n  deleteTask(input: $input, condition: $condition) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    taskOwner\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var input: DeleteTaskInput
   public var condition: ModelTaskConditionInput?
@@ -1513,6 +1569,7 @@ public final class DeleteTaskMutation: GraphQLMutation {
         GraphQLField("taskPrice", type: .nonNull(.scalar(Double.self))),
         GraphQLField("taskStatus", type: .nonNull(.scalar(String.self))),
         GraphQLField("taskDate", type: .nonNull(.scalar(String.self))),
+        GraphQLField("taskOwner", type: .nonNull(.scalar(String.self))),
         GraphQLField("acceptedId", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
@@ -1525,8 +1582,8 @@ public final class DeleteTaskMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
-        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
+      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, taskOwner: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -1601,6 +1658,15 @@ public final class DeleteTaskMutation: GraphQLMutation {
         }
       }
 
+      public var taskOwner: String {
+        get {
+          return snapshot["taskOwner"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "taskOwner")
+        }
+      }
+
       public var acceptedId: String {
         get {
           return snapshot["acceptedId"]! as! String
@@ -1642,7 +1708,7 @@ public final class DeleteTaskMutation: GraphQLMutation {
 
 public final class CreateUserMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreateUser($input: CreateUserInput!, $condition: ModelUserConditionInput) {\n  createUser(input: $input, condition: $condition) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n  }\n}"
+    "mutation CreateUser($input: CreateUserInput!, $condition: ModelUserConditionInput) {\n  createUser(input: $input, condition: $condition) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var input: CreateUserInput
   public var condition: ModelUserConditionInput?
@@ -1693,6 +1759,7 @@ public final class CreateUserMutation: GraphQLMutation {
         GraphQLField("phoneNumber", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
+        GraphQLField("owner", type: .scalar(String.self)),
       ]
 
       public var snapshot: Snapshot
@@ -1701,8 +1768,8 @@ public final class CreateUserMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String) {
-        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt])
+      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -1767,13 +1834,22 @@ public final class CreateUserMutation: GraphQLMutation {
           snapshot.updateValue(newValue, forKey: "updatedAt")
         }
       }
+
+      public var owner: String? {
+        get {
+          return snapshot["owner"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "owner")
+        }
+      }
     }
   }
 }
 
 public final class UpdateUserMutation: GraphQLMutation {
   public static let operationString =
-    "mutation UpdateUser($input: UpdateUserInput!, $condition: ModelUserConditionInput) {\n  updateUser(input: $input, condition: $condition) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n  }\n}"
+    "mutation UpdateUser($input: UpdateUserInput!, $condition: ModelUserConditionInput) {\n  updateUser(input: $input, condition: $condition) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var input: UpdateUserInput
   public var condition: ModelUserConditionInput?
@@ -1824,6 +1900,7 @@ public final class UpdateUserMutation: GraphQLMutation {
         GraphQLField("phoneNumber", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
+        GraphQLField("owner", type: .scalar(String.self)),
       ]
 
       public var snapshot: Snapshot
@@ -1832,8 +1909,8 @@ public final class UpdateUserMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String) {
-        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt])
+      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -1898,13 +1975,22 @@ public final class UpdateUserMutation: GraphQLMutation {
           snapshot.updateValue(newValue, forKey: "updatedAt")
         }
       }
+
+      public var owner: String? {
+        get {
+          return snapshot["owner"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "owner")
+        }
+      }
     }
   }
 }
 
 public final class DeleteUserMutation: GraphQLMutation {
   public static let operationString =
-    "mutation DeleteUser($input: DeleteUserInput!, $condition: ModelUserConditionInput) {\n  deleteUser(input: $input, condition: $condition) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n  }\n}"
+    "mutation DeleteUser($input: DeleteUserInput!, $condition: ModelUserConditionInput) {\n  deleteUser(input: $input, condition: $condition) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var input: DeleteUserInput
   public var condition: ModelUserConditionInput?
@@ -1955,6 +2041,7 @@ public final class DeleteUserMutation: GraphQLMutation {
         GraphQLField("phoneNumber", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
+        GraphQLField("owner", type: .scalar(String.self)),
       ]
 
       public var snapshot: Snapshot
@@ -1963,8 +2050,8 @@ public final class DeleteUserMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String) {
-        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt])
+      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -2029,13 +2116,22 @@ public final class DeleteUserMutation: GraphQLMutation {
           snapshot.updateValue(newValue, forKey: "updatedAt")
         }
       }
+
+      public var owner: String? {
+        get {
+          return snapshot["owner"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "owner")
+        }
+      }
     }
   }
 }
 
 public final class GetTaskQuery: GraphQLQuery {
   public static let operationString =
-    "query GetTask($id: ID!) {\n  getTask(id: $id) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
+    "query GetTask($id: ID!) {\n  getTask(id: $id) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    taskOwner\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var id: GraphQLID
 
@@ -2085,6 +2181,7 @@ public final class GetTaskQuery: GraphQLQuery {
         GraphQLField("taskPrice", type: .nonNull(.scalar(Double.self))),
         GraphQLField("taskStatus", type: .nonNull(.scalar(String.self))),
         GraphQLField("taskDate", type: .nonNull(.scalar(String.self))),
+        GraphQLField("taskOwner", type: .nonNull(.scalar(String.self))),
         GraphQLField("acceptedId", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
@@ -2097,8 +2194,8 @@ public final class GetTaskQuery: GraphQLQuery {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
-        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
+      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, taskOwner: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -2173,6 +2270,15 @@ public final class GetTaskQuery: GraphQLQuery {
         }
       }
 
+      public var taskOwner: String {
+        get {
+          return snapshot["taskOwner"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "taskOwner")
+        }
+      }
+
       public var acceptedId: String {
         get {
           return snapshot["acceptedId"]! as! String
@@ -2214,7 +2320,7 @@ public final class GetTaskQuery: GraphQLQuery {
 
 public final class ListTasksQuery: GraphQLQuery {
   public static let operationString =
-    "query ListTasks($filter: ModelTaskFilterInput, $limit: Int, $nextToken: String) {\n  listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      taskTitle\n      taskDescription\n      taskLocation\n      taskPrice\n      taskStatus\n      taskDate\n      acceptedId\n      createdAt\n      updatedAt\n      owner\n    }\n    nextToken\n  }\n}"
+    "query ListTasks($filter: ModelTaskFilterInput, $limit: Int, $nextToken: String) {\n  listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      taskTitle\n      taskDescription\n      taskLocation\n      taskPrice\n      taskStatus\n      taskDate\n      taskOwner\n      acceptedId\n      createdAt\n      updatedAt\n      owner\n    }\n    nextToken\n  }\n}"
 
   public var filter: ModelTaskFilterInput?
   public var limit: Int?
@@ -2314,6 +2420,7 @@ public final class ListTasksQuery: GraphQLQuery {
           GraphQLField("taskPrice", type: .nonNull(.scalar(Double.self))),
           GraphQLField("taskStatus", type: .nonNull(.scalar(String.self))),
           GraphQLField("taskDate", type: .nonNull(.scalar(String.self))),
+          GraphQLField("taskOwner", type: .nonNull(.scalar(String.self))),
           GraphQLField("acceptedId", type: .nonNull(.scalar(String.self))),
           GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
           GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
@@ -2326,8 +2433,8 @@ public final class ListTasksQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
-          self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
+        public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, taskOwner: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+          self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
         }
 
         public var __typename: String {
@@ -2402,6 +2509,15 @@ public final class ListTasksQuery: GraphQLQuery {
           }
         }
 
+        public var taskOwner: String {
+          get {
+            return snapshot["taskOwner"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "taskOwner")
+          }
+        }
+
         public var acceptedId: String {
           get {
             return snapshot["acceptedId"]! as! String
@@ -2444,7 +2560,7 @@ public final class ListTasksQuery: GraphQLQuery {
 
 public final class GetUserQuery: GraphQLQuery {
   public static let operationString =
-    "query GetUser($id: ID!) {\n  getUser(id: $id) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n  }\n}"
+    "query GetUser($id: ID!) {\n  getUser(id: $id) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var id: GraphQLID
 
@@ -2493,6 +2609,7 @@ public final class GetUserQuery: GraphQLQuery {
         GraphQLField("phoneNumber", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
+        GraphQLField("owner", type: .scalar(String.self)),
       ]
 
       public var snapshot: Snapshot
@@ -2501,8 +2618,8 @@ public final class GetUserQuery: GraphQLQuery {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String) {
-        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt])
+      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -2567,13 +2684,22 @@ public final class GetUserQuery: GraphQLQuery {
           snapshot.updateValue(newValue, forKey: "updatedAt")
         }
       }
+
+      public var owner: String? {
+        get {
+          return snapshot["owner"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "owner")
+        }
+      }
     }
   }
 }
 
 public final class ListUsersQuery: GraphQLQuery {
   public static let operationString =
-    "query ListUsers($filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {\n  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      givenName\n      familyName\n      phoneNumber\n      createdAt\n      updatedAt\n    }\n    nextToken\n  }\n}"
+    "query ListUsers($filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {\n  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      givenName\n      familyName\n      phoneNumber\n      createdAt\n      updatedAt\n      owner\n    }\n    nextToken\n  }\n}"
 
   public var filter: ModelUserFilterInput?
   public var limit: Int?
@@ -2672,6 +2798,7 @@ public final class ListUsersQuery: GraphQLQuery {
           GraphQLField("phoneNumber", type: .nonNull(.scalar(String.self))),
           GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
           GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
+          GraphQLField("owner", type: .scalar(String.self)),
         ]
 
         public var snapshot: Snapshot
@@ -2680,8 +2807,8 @@ public final class ListUsersQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String) {
-          self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt])
+        public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
         }
 
         public var __typename: String {
@@ -2746,6 +2873,15 @@ public final class ListUsersQuery: GraphQLQuery {
             snapshot.updateValue(newValue, forKey: "updatedAt")
           }
         }
+
+        public var owner: String? {
+          get {
+            return snapshot["owner"] as? String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "owner")
+          }
+        }
       }
     }
   }
@@ -2753,7 +2889,7 @@ public final class ListUsersQuery: GraphQLQuery {
 
 public final class OnCreateTaskSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnCreateTask($owner: String) {\n  onCreateTask(owner: $owner) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
+    "subscription OnCreateTask($owner: String) {\n  onCreateTask(owner: $owner) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    taskOwner\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var owner: String?
 
@@ -2803,6 +2939,7 @@ public final class OnCreateTaskSubscription: GraphQLSubscription {
         GraphQLField("taskPrice", type: .nonNull(.scalar(Double.self))),
         GraphQLField("taskStatus", type: .nonNull(.scalar(String.self))),
         GraphQLField("taskDate", type: .nonNull(.scalar(String.self))),
+        GraphQLField("taskOwner", type: .nonNull(.scalar(String.self))),
         GraphQLField("acceptedId", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
@@ -2815,8 +2952,8 @@ public final class OnCreateTaskSubscription: GraphQLSubscription {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
-        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
+      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, taskOwner: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -2891,6 +3028,15 @@ public final class OnCreateTaskSubscription: GraphQLSubscription {
         }
       }
 
+      public var taskOwner: String {
+        get {
+          return snapshot["taskOwner"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "taskOwner")
+        }
+      }
+
       public var acceptedId: String {
         get {
           return snapshot["acceptedId"]! as! String
@@ -2932,7 +3078,7 @@ public final class OnCreateTaskSubscription: GraphQLSubscription {
 
 public final class OnUpdateTaskSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnUpdateTask($owner: String) {\n  onUpdateTask(owner: $owner) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
+    "subscription OnUpdateTask($owner: String) {\n  onUpdateTask(owner: $owner) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    taskOwner\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var owner: String?
 
@@ -2982,6 +3128,7 @@ public final class OnUpdateTaskSubscription: GraphQLSubscription {
         GraphQLField("taskPrice", type: .nonNull(.scalar(Double.self))),
         GraphQLField("taskStatus", type: .nonNull(.scalar(String.self))),
         GraphQLField("taskDate", type: .nonNull(.scalar(String.self))),
+        GraphQLField("taskOwner", type: .nonNull(.scalar(String.self))),
         GraphQLField("acceptedId", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
@@ -2994,8 +3141,8 @@ public final class OnUpdateTaskSubscription: GraphQLSubscription {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
-        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
+      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, taskOwner: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -3070,6 +3217,15 @@ public final class OnUpdateTaskSubscription: GraphQLSubscription {
         }
       }
 
+      public var taskOwner: String {
+        get {
+          return snapshot["taskOwner"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "taskOwner")
+        }
+      }
+
       public var acceptedId: String {
         get {
           return snapshot["acceptedId"]! as! String
@@ -3111,7 +3267,7 @@ public final class OnUpdateTaskSubscription: GraphQLSubscription {
 
 public final class OnDeleteTaskSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnDeleteTask($owner: String) {\n  onDeleteTask(owner: $owner) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
+    "subscription OnDeleteTask($owner: String) {\n  onDeleteTask(owner: $owner) {\n    __typename\n    id\n    taskTitle\n    taskDescription\n    taskLocation\n    taskPrice\n    taskStatus\n    taskDate\n    taskOwner\n    acceptedId\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
   public var owner: String?
 
@@ -3161,6 +3317,7 @@ public final class OnDeleteTaskSubscription: GraphQLSubscription {
         GraphQLField("taskPrice", type: .nonNull(.scalar(Double.self))),
         GraphQLField("taskStatus", type: .nonNull(.scalar(String.self))),
         GraphQLField("taskDate", type: .nonNull(.scalar(String.self))),
+        GraphQLField("taskOwner", type: .nonNull(.scalar(String.self))),
         GraphQLField("acceptedId", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
@@ -3173,8 +3330,8 @@ public final class OnDeleteTaskSubscription: GraphQLSubscription {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
-        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
+      public init(id: GraphQLID, taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Double, taskStatus: String, taskDate: String, taskOwner: String, acceptedId: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "Task", "id": id, "taskTitle": taskTitle, "taskDescription": taskDescription, "taskLocation": taskLocation, "taskPrice": taskPrice, "taskStatus": taskStatus, "taskDate": taskDate, "taskOwner": taskOwner, "acceptedId": acceptedId, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -3249,6 +3406,15 @@ public final class OnDeleteTaskSubscription: GraphQLSubscription {
         }
       }
 
+      public var taskOwner: String {
+        get {
+          return snapshot["taskOwner"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "taskOwner")
+        }
+      }
+
       public var acceptedId: String {
         get {
           return snapshot["acceptedId"]! as! String
@@ -3290,16 +3456,23 @@ public final class OnDeleteTaskSubscription: GraphQLSubscription {
 
 public final class OnCreateUserSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnCreateUser {\n  onCreateUser {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n  }\n}"
+    "subscription OnCreateUser($owner: String) {\n  onCreateUser(owner: $owner) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
-  public init() {
+  public var owner: String?
+
+  public init(owner: String? = nil) {
+    self.owner = owner
+  }
+
+  public var variables: GraphQLMap? {
+    return ["owner": owner]
   }
 
   public struct Data: GraphQLSelectionSet {
     public static let possibleTypes = ["Subscription"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("onCreateUser", type: .object(OnCreateUser.selections)),
+      GraphQLField("onCreateUser", arguments: ["owner": GraphQLVariable("owner")], type: .object(OnCreateUser.selections)),
     ]
 
     public var snapshot: Snapshot
@@ -3332,6 +3505,7 @@ public final class OnCreateUserSubscription: GraphQLSubscription {
         GraphQLField("phoneNumber", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
+        GraphQLField("owner", type: .scalar(String.self)),
       ]
 
       public var snapshot: Snapshot
@@ -3340,8 +3514,8 @@ public final class OnCreateUserSubscription: GraphQLSubscription {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String) {
-        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt])
+      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -3406,22 +3580,38 @@ public final class OnCreateUserSubscription: GraphQLSubscription {
           snapshot.updateValue(newValue, forKey: "updatedAt")
         }
       }
+
+      public var owner: String? {
+        get {
+          return snapshot["owner"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "owner")
+        }
+      }
     }
   }
 }
 
 public final class OnUpdateUserSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnUpdateUser {\n  onUpdateUser {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n  }\n}"
+    "subscription OnUpdateUser($owner: String) {\n  onUpdateUser(owner: $owner) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
-  public init() {
+  public var owner: String?
+
+  public init(owner: String? = nil) {
+    self.owner = owner
+  }
+
+  public var variables: GraphQLMap? {
+    return ["owner": owner]
   }
 
   public struct Data: GraphQLSelectionSet {
     public static let possibleTypes = ["Subscription"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("onUpdateUser", type: .object(OnUpdateUser.selections)),
+      GraphQLField("onUpdateUser", arguments: ["owner": GraphQLVariable("owner")], type: .object(OnUpdateUser.selections)),
     ]
 
     public var snapshot: Snapshot
@@ -3454,6 +3644,7 @@ public final class OnUpdateUserSubscription: GraphQLSubscription {
         GraphQLField("phoneNumber", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
+        GraphQLField("owner", type: .scalar(String.self)),
       ]
 
       public var snapshot: Snapshot
@@ -3462,8 +3653,8 @@ public final class OnUpdateUserSubscription: GraphQLSubscription {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String) {
-        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt])
+      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -3528,22 +3719,38 @@ public final class OnUpdateUserSubscription: GraphQLSubscription {
           snapshot.updateValue(newValue, forKey: "updatedAt")
         }
       }
+
+      public var owner: String? {
+        get {
+          return snapshot["owner"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "owner")
+        }
+      }
     }
   }
 }
 
 public final class OnDeleteUserSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnDeleteUser {\n  onDeleteUser {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n  }\n}"
+    "subscription OnDeleteUser($owner: String) {\n  onDeleteUser(owner: $owner) {\n    __typename\n    id\n    givenName\n    familyName\n    phoneNumber\n    createdAt\n    updatedAt\n    owner\n  }\n}"
 
-  public init() {
+  public var owner: String?
+
+  public init(owner: String? = nil) {
+    self.owner = owner
+  }
+
+  public var variables: GraphQLMap? {
+    return ["owner": owner]
   }
 
   public struct Data: GraphQLSelectionSet {
     public static let possibleTypes = ["Subscription"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("onDeleteUser", type: .object(OnDeleteUser.selections)),
+      GraphQLField("onDeleteUser", arguments: ["owner": GraphQLVariable("owner")], type: .object(OnDeleteUser.selections)),
     ]
 
     public var snapshot: Snapshot
@@ -3576,6 +3783,7 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
         GraphQLField("phoneNumber", type: .nonNull(.scalar(String.self))),
         GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
         GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
+        GraphQLField("owner", type: .scalar(String.self)),
       ]
 
       public var snapshot: Snapshot
@@ -3584,8 +3792,8 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String) {
-        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt])
+      public init(id: GraphQLID, givenName: String, familyName: String, phoneNumber: String, createdAt: String, updatedAt: String, owner: String? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "givenName": givenName, "familyName": familyName, "phoneNumber": phoneNumber, "createdAt": createdAt, "updatedAt": updatedAt, "owner": owner])
       }
 
       public var __typename: String {
@@ -3648,6 +3856,15 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
         }
         set {
           snapshot.updateValue(newValue, forKey: "updatedAt")
+        }
+      }
+
+      public var owner: String? {
+        get {
+          return snapshot["owner"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "owner")
         }
       }
     }

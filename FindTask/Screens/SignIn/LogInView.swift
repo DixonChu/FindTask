@@ -44,6 +44,8 @@ struct LogInView: View {
 
 struct SignInTextField: View {
     @EnvironmentObject var sessionManager : SessionManager
+    @EnvironmentObject var graphql: Graphql
+
     @Binding var phoneNumber: String
     @Binding var password: String
     
@@ -79,7 +81,7 @@ struct SignInTextField: View {
             
             HStack{
                 
-                SecureField("********", text: $password)
+                SecureField("Password@123", text: $password)
                     .padding()
                     .cornerRadius(5)
                     .background(Color.white)
@@ -94,6 +96,7 @@ struct SignInTextField: View {
         
         Button(action: {
             sessionManager.login(phoneNumber: phoneNumber, password: password)
+            graphql.createUser(id: sessionManager.userID, givenName: sessionManager.givenName, familyName: sessionManager.familyName, phoneNumber: sessionManager.phoneNumber)
         }){
             Text("Sign in")
                 .foregroundColor(.white)
