@@ -55,6 +55,7 @@ struct SignInTextField: View {
     
     @State var code = ""
     @State private var showAlert = false
+    @State private var message = ""
     
     let passPattern = #"(?=.{8,})"# + #"(?=.*[A-Z])"# + #"(?=.*[a-z])"# + #"(?=.*\d)"# + #"(?=.*[ !$%&?._-])"#
     
@@ -104,20 +105,15 @@ struct SignInTextField: View {
         Button(action: {
             if(!phoneNumber.isEmpty && !password.isEmpty){
                 // Login function
-                sessionManager.login(phoneNumber: phoneNumber, password: password)
-                
-                if sessionManager.signInShowAlert == true {
-                    showAlert = true
-                }
-                
-                if !sessionManager.userID.isEmpty{
+                login(phoneNumber: phoneNumber, password: password)
+
                 // Graphql create user
-                graphql.createUser(id: sessionManager.userID, givenName: sessionManager.givenName, familyName: sessionManager.familyName, phoneNumber: sessionManager.phoneNumber)
-                } else {
-                    graphql.createUser(id: sessionManager.userID, givenName: sessionManager.givenName, familyName: sessionManager.familyName, phoneNumber: sessionManager.phoneNumber)
-                }
-                
-            } else { 
+//                if !sessionManager.userID.isEmpty {
+//                    graphql.createUser(id: sessionManager.userID, givenName: sessionManager.givenName, familyName: sessionManager.familyName, phoneNumber: sessionManager.phoneNumber)
+//                }
+//                graphql.createUser(id: sessionManager.userID, givenName: sessionManager.givenName, familyName: sessionManager.familyName, phoneNumber: sessionManager.phoneNumber)
+            } else {
+                message = "Please fill in all the field"
                 showAlert = true
             }
         }){
@@ -128,10 +124,10 @@ struct SignInTextField: View {
                 .background(Color.orange)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
         }.alert(isPresented: $showAlert){
-            Alert(title: Text("Sign in Failed"),
-                  message: Text("Either phone number or password is missing, or they are wrong."), dismissButton: Alert.Button.default(Text("OK"),  action:{
+            Alert(title: Text(""),
+                  message: Text("\(message)"), dismissButton: Alert.Button.default(Text("OK"),  action:{
                 showAlert = false
-                sessionManager.signInShowAlert = false
+//                sessionManager.signInShowAlert = false
             }))
         }
         
@@ -150,6 +146,50 @@ struct SignInTextField: View {
         })
         
     }
+    
+    func login(phoneNumber: String, password: String){
+        _ = Amplify.Auth.signIn(username: phoneNumber, password: password)
+        {
+            result in
+
+            switch result {
+            case .success(let signInResult):
+                print(signInResult)
+                if signInResult.isSignedIn{
+                    DispatchQueue.main.async {
+                        getCurrentAuthUser()
+                    }
+                }
+            case .failure(let error):
+                message = "\(error.errorDescription)"
+                showAlert = true
+                print("Login error", error)
+            }
+        }
+    }
+    
+    func getCurrentAuthUser() {
+        if let user = Amplify.Auth.getCurrentUser() {
+            sessionManager.authState = .session(user: user)
+            AWSMobileClient.default().getTokens{ [self](tokens, error) in
+                if let error = error {
+                    print("error \(error)")
+                } else if let tokens = tokens {
+                    let claims = tokens.idToken?.claims
+                    DispatchQueue.main.async{
+                        sessionManager.userID = claims?["cognito:username"] as! String
+                        sessionManager.phoneNumber = claims?["phone_number"] as! String
+                        sessionManager.familyName = claims?["family_name"] as! String
+                        sessionManager.givenName = claims?["given_name"] as! String
+                        graphql.createUser(id: sessionManager.userID, givenName: sessionManager.givenName, familyName: sessionManager.familyName, phoneNumber: sessionManager.phoneNumber)
+                    }
+                }
+            }
+        } else {
+            sessionManager.authState = .login
+        }
+    }
+    
 }
 
 
@@ -159,3 +199,6 @@ struct SignInContentView_Previews: PreviewProvider {
         LogInView().environmentObject(SessionManager())
     }
 }
+
+
+//

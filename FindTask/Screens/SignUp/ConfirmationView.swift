@@ -7,10 +7,14 @@
 
 import SwiftUI
 import Amplify
+import Combine
+import AWSMobileClient
 
 struct ConfirmationView: View {
     @EnvironmentObject var sessionManager : SessionManager
     @State private var showAlert = false
+    @State private var message = ""
+    
     @State var confirmationCode = ""
     let phoneNum: String
     
@@ -60,8 +64,10 @@ struct ConfirmationView: View {
             
             
             Button("Submit", action: {
-                sessionManager.confirm(phoneNumber: phoneNum, code: confirmationCode)
-                if sessionManager.showFailedCode == true{
+                if !confirmationCode.isEmpty{
+                    confirm(phoneNumber: phoneNum, code: confirmationCode)
+                } else {
+                    message = "You need a verification code."
                     showAlert = true
                 }
             })
@@ -71,8 +77,8 @@ struct ConfirmationView: View {
                 .background(Color.orange)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .alert(isPresented: $showAlert){
-                    Alert(title: Text("Wrong code"),
-                          message: Text("Please enter the correct confirmation code"), dismissButton: Alert.Button.default(Text("OK"),  action:{
+                    Alert(title: Text(""),
+                          message: Text("\(message)"), dismissButton: Alert.Button.default(Text("OK"),  action:{
                         showAlert = false
                     }))
                 }
@@ -83,6 +89,28 @@ struct ConfirmationView: View {
         .padding(.top, 50)
         
         
+    }
+    
+    func confirm(phoneNumber: String, code: String) {
+        _ = Amplify.Auth.confirmSignUp(for: phoneNumber, confirmationCode: code)
+        {
+            result in
+            
+            switch result {
+            case .success(let confirmResult):
+                print(confirmResult)
+                if confirmResult.isSignupComplete {
+                    DispatchQueue.main.async {
+                        sessionManager.showLogin()
+                    }
+                }
+            case .failure(let error):
+                message = "\(error)"
+                showAlert = true
+                print("failed to confirm code:", error)
+            }
+            
+        }
     }
     
 }

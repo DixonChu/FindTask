@@ -4,7 +4,9 @@
 //
 //  Created by Dixon Chu on 17/02/2022.
 //
-
+import Amplify
+import Combine
+import AWSMobileClient
 import SwiftUI
 
 struct SignUpView: View {
@@ -130,15 +132,8 @@ struct SignUpButton: View {
     var body: some View {
         Button(action: {
             if(!givenName.isEmpty && !familyName.isEmpty && !phoneNumber.isEmpty && !password.isEmpty){
-                do {
-                    
-                try! sessionManager.signUp(givenName: givenName, familyName: familyName ,phoneNumber: phoneNumber, password: password)
-                
-                    if sessionManager.signUpShowAlert == true {
-                        message = sessionManager.alertMessage
-                        showAlert = true
-                    }
-                }
+
+                signUp(givenName: givenName, familyName: familyName ,phoneNumber: phoneNumber, password: password)
                 
             } else {
                 message = "Either you did fill in all the fields or password does not meet the requirements."
@@ -153,17 +148,48 @@ struct SignUpButton: View {
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .padding(10)
         }.alert(isPresented: $showAlert){
-            Alert(title: Text("Sign up Failed"),
+            Alert(title: Text(""),
                   message: Text("\(message)"), dismissButton: Alert.Button.default(Text("OK"),  action:{
                 showAlert = false
-                sessionManager.signUpShowAlert = false
             }))
         }
 
-        Button("Already have an account? Log in.", action: {
+        Button("Already have an account? Sign in.", action: {
             sessionManager.showLogin()
         })
     }
+    
+    func signUp(givenName: String, familyName: String, phoneNumber: String, password: String) {
+        let attributes = [AuthUserAttribute(.phoneNumber, value: phoneNumber), AuthUserAttribute(.familyName, value: familyName), AuthUserAttribute(.givenName, value: givenName)]
+        let options = AuthSignUpRequest.Options(userAttributes: attributes)
+        
+        _ = Amplify.Auth.signUp(username: phoneNumber, password: password ,options: options)
+        {
+            result in
+            
+            switch result {
+                
+            case .success(let signUpResult):
+                print("Sign up result: ", signUpResult)
+                switch signUpResult.nextStep {
+                    
+                case .done:
+                    print("Finished sign up")
+                case .confirmUser(let details, _):
+                    print(details ?? "no details")
+                    
+                    DispatchQueue.main.async {
+                        sessionManager.authState = .confirmCode(phone: phoneNumber)
+                    }
+                }
+            case .failure(let error):
+                message = "\(error)"
+                showAlert = true
+                print("Sign up error", error)
+            }
+        }
+    }
+    
 }
 
 

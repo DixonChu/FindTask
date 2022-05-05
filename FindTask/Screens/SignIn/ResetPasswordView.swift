@@ -163,6 +163,9 @@ struct ForgetPasswordTextField: View{
                 case .done:
                     message = "Reset completed"
                     showAlert = true
+                    DispatchQueue.main.async {
+                        sessionManager.showLogin()
+                    }
                     print("Reset completed")
                 }
             } catch {

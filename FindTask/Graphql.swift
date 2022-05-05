@@ -26,15 +26,9 @@ class Graphql: ObservableObject {
     
     
     var currentPage: List<Task>?
-    
-    init(){
-        // Get list of awaiting tasks
-        //        DispatchQueue.main.async {
-        //            self.listAllAwaitingTask()
-        //        }
-    }
-    
-    
+
+//    init(){
+//    }
     
     /* ========== All Owner Task ========== */
     func listAllOwnerTask(taskOwner: String) {
@@ -392,7 +386,7 @@ class Graphql: ObservableObject {
         }
     }
     
-    /* ========== Get Task By Id And Update Task Status ========== */
+    /* ========== Get Task By Id And Update Task Status (cancelled or completed) ========== */
     func getTaskByIdAndUpdateStatus(taskId: String, taskStatus: String) {
         Amplify.API.query(request: .get(Task.self, byId: taskId)) { event in
             switch event {
@@ -459,28 +453,6 @@ class Graphql: ObservableObject {
         }
     }
     
-//    func getTaskByIdAndUpdateStatusAccepted(taskId: String, taskStatus: String, acceptedId: String) {
-//        Amplify.API.query(request: .get(Task.self, byId: taskId)) { event in
-//            switch event {
-//            case .success(let result):
-//                switch result {
-//                case .success(let task):
-//                    guard let task = task else {
-//                        print("Could not find task")
-//                        return
-//                    }
-//                    print("Successfully retrieved task: \(task)")
-//                    self.updateTaskToAccepted(task: task, acceptedId: acceptedId)
-//                    self.awaitingTasks.removeAll()
-//                case .failure(let error):
-//                    print("Got failed result with \(error.errorDescription)")
-//                }
-//            case .failure(let error):
-//                print("Got failed event with error \(error)")
-//            }
-//        }
-//    }
-    
     func updateTaskToAccepted(task: Task, acceptedId: String){
         var task = Task(id: task.id, taskTitle: task.taskTitle, taskDescription: task.taskDescription, taskLocation: task.taskLocation, taskPrice: task.taskPrice, taskStatus: task.taskStatus, taskDate: task.taskDate, taskOwner: task.taskOwner, acceptedId: task.taskOwner)
         task.taskStatus = "accepted"
@@ -527,6 +499,28 @@ class Graphql: ObservableObject {
             }
         }
     }
+    
+    //    func getTaskByIdAndUpdateStatusAccepted(taskId: String, taskStatus: String, acceptedId: String) {
+    //        Amplify.API.query(request: .get(Task.self, byId: taskId)) { event in
+    //            switch event {
+    //            case .success(let result):
+    //                switch result {
+    //                case .success(let task):
+    //                    guard let task = task else {
+    //                        print("Could not find task")
+    //                        return
+    //                    }
+    //                    print("Successfully retrieved task: \(task)")
+    //                    self.updateTaskToAccepted(task: task, acceptedId: acceptedId)
+    //                    self.awaitingTasks.removeAll()
+    //                case .failure(let error):
+    //                    print("Got failed result with \(error.errorDescription)")
+    //                }
+    //            case .failure(let error):
+    //                print("Got failed event with error \(error)")
+    //            }
+    //        }
+    //    }
     
     //  Delete task
     //    func deleteTask(task: Task){
