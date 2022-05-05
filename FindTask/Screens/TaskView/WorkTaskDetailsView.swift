@@ -21,6 +21,8 @@ struct WorkTaskDetailsView: View {
                 Spacer()
                 CardInfoView(task: task)
                 Spacer()
+                CardMapInfoView(task: task)
+                Spacer()
             }
             
             Button(action:{
@@ -32,49 +34,60 @@ struct WorkTaskDetailsView: View {
                     .frame(width: 350, height: 40.0)
                     .background(Color.orange)
                     .clipShape(RoundedRectangle(cornerRadius: 5))
-            }.confirmationDialog("Please call the client for confirmation", isPresented: $isShowingConfirmation, titleVisibility: .visible){
-                Button("Next", role: .destructive) {
+            }.alert(isPresented: $isShowingConfirmation){
+                Alert(
+                    title: Text("Please call the client for confirmation"),
+                    dismissButton: .default(Text("Okay"), action: {
+                        isShowingConfirmation = false
                         graphql.updateTaskToAccepted(task: task, acceptedId: sessionManger.userID)
-                }
-            }.padding(.bottom, 12)
+                    })
+                )
+            }
+            
+//            .confirmationDialog("Please call the client for confirmation", isPresented: $isShowingConfirmation, titleVisibility: .visible){
+//                Button("Next", role: .destructive) {
+//                    graphql.updateTaskToAccepted(task: task, acceptedId: sessionManger.userID)
+////                    graphql.getUserById(userId: task.taskOwner)
+//                }
+//            }.padding(.bottom, 12)
             
         }
     }
 }
 
-struct TaskAcceptedView: View {
-    let task: Task
-    let user: User
-    
-    @State private var isShowingConfirmation = false
-    @EnvironmentObject var graphql: Graphql
-    
-    var body: some View{
-        VStack{
-            CardView(task: task)
-            Spacer()
-            CardInfoView(task: task)
-            Spacer()
-            ClientInfoCardView(user: user)
-            Spacer()
-            
-            Button(action: {
-                isShowingConfirmation = true
-            }){
-                Text("Finish Task")
-                    .foregroundColor(.white)
-                    .fontWeight(.semibold)
-                    .frame(width: 350, height: 40.0)
-                    .background(Color.orange)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-            }.confirmationDialog("Task completed and payment is settled?", isPresented: $isShowingConfirmation, titleVisibility: .visible){
-                Button("Confirm", role: .destructive) {
-                    // update task status to complete
-                }
-            }.padding(.bottom, 12)
-        }
-    }
-}
+//struct TaskAcceptedView: View {
+//    let task: Task
+//    let user: User
+//
+//    @State private var isShowingConfirmation = false
+//    @EnvironmentObject var graphql: Graphql
+//
+//    var body: some View{
+//        VStack{
+//            CardView(task: task)
+//            Spacer()
+//            CardInfoView(task: task)
+//            Spacer()
+//            ClientInfoCardView()
+//            Spacer()
+//
+//            Button(action: {
+//                isShowingConfirmation = true
+//            }){
+//                Text("Finish Task")
+//                    .foregroundColor(.white)
+//                    .fontWeight(.semibold)
+//                    .frame(width: 350, height: 40.0)
+//                    .background(Color.orange)
+//                    .clipShape(RoundedRectangle(cornerRadius: 5))
+//            }.confirmationDialog("Task completed and payment is settled?", isPresented: $isShowingConfirmation, titleVisibility: .visible){
+//                Button("Confirm", role: .destructive) {
+//                    // update task status to complete
+//                }
+//            }.padding(.bottom, 12)
+//        }
+//    }
+//}
 
 
 //struct TaskDetailsView_Previews: PreviewProvider {

@@ -74,26 +74,32 @@ struct WorkView: View {
 
 struct HomeView: View{
     @EnvironmentObject var graphql: Graphql
+    @EnvironmentObject var sessionManager: SessionManager
     
     var body: some View {
         VStack{
-            Text("Work")
+            HStack{
+                Spacer()
+                Text("Awaiting Orders")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                Spacer()
+            }.padding(.bottom, 10)
+            
             List(graphql.awaitingTasks){ task in
                 NavigationLink{
                     WorkTaskDetailsView(task: task)
-                        .navigationTitle(task.taskStatus)
+                        .navigationTitle(task.taskStatus.localizedCapitalized)
                         .navigationBarTitleDisplayMode(.inline)
                 } label: {
                     ListOfTasksView(task: task)
                 }
             }.listStyle(PlainListStyle())
             .onAppear{
-                graphql.awaitingTasks.removeAll()
-                graphql.listAllAwaitingTask()
+                graphql.listAllAwaitingTask(sessionUserId: sessionManager.userID)
             }
             .refreshable {
-                graphql.awaitingTasks.removeAll()
-                graphql.listAllAwaitingTask()
+                graphql.listAllAwaitingTask(sessionUserId: sessionManager.userID)
             }
         }
     }
@@ -106,9 +112,36 @@ struct ListOfTasksView: View {
         VStack{
             VStack(alignment: .leading){
                 HStack{
-                    Text(task.taskTitle)
-                        .font(.system(size: 18))
-                        .fontWeight(.bold)
+                    
+                    if task.taskStatus == "cancelled"{
+                        Text(task.taskTitle)
+                            .font(.system(size: 18))
+                            .fontWeight(.bold)
+                            .foregroundColor(.red)
+                    }
+                    
+                    
+                    if task.taskStatus == "completed"{
+                        Text(task.taskTitle)
+                            .font(.system(size: 18))
+                            .fontWeight(.bold)
+                            .foregroundColor(.green)
+                    }
+                    
+                    
+                    if task.taskStatus == "awaiting"{
+                        Text(task.taskTitle)
+                            .font(.system(size: 18))
+                            .fontWeight(.bold)
+                            .foregroundColor(.yellow)
+                    }
+                    
+                    if task.taskStatus == "accepted"{
+                        Text(task.taskTitle)
+                            .font(.system(size: 18))
+                            .fontWeight(.bold)
+                            .foregroundColor(.orange)
+                    }
                     
                     Spacer()
                     
@@ -136,13 +169,6 @@ struct ListOfTasksView: View {
 }
 
 
-struct OrdersView: View {
-    var body: some View {
-        VStack{
-            
-        }
-    }
-}
 
 struct WorkView_Previews: PreviewProvider {
     private struct DummyUser: AuthUser {

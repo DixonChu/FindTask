@@ -14,6 +14,7 @@ struct SettingsView: View {
     let user: AuthUser
     
     @State private var showingPopover = false
+    @State private var isShowingConfirmation = false
     
     var body: some View {
         //        NavigationView{
@@ -39,7 +40,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 4){
                             Text("Change Password")
                                 .font(.system(size: 14))
-//                                .fontWeight(.bold)
+                            //                                .fontWeight(.bold)
                             Text("Change your password at any time")
                                 .font(.system(size: 12))
                                 .foregroundColor(.secondary)
@@ -61,9 +62,31 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 4){
                             Text("About Find Task")
                                 .font(.system(size: 14))
-//                                .fontWeight(.bold)
+                            //                                .fontWeight(.bold)
                             
                             Text("About the app version and upcoming features")
+                                .font(.system(size: 12))
+                                .foregroundColor(.secondary)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                }
+                .padding([.bottom, .top], 5)
+                Divider()
+                
+                NavigationLink{
+                    HelpCenterView()
+                        .navigationTitle("Help Center")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack{
+                        Image(systemName: "questionmark.circle")
+                        VStack(alignment: .leading, spacing: 4){
+                            Text("Help Center")
+                                .font(.system(size: 14))
+                            
+                            Text("FAQ can be found in here")
                                 .font(.system(size: 12))
                                 .foregroundColor(.secondary)
                         }
@@ -84,7 +107,6 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 4){
                             Text("Location")
                                 .font(.system(size: 14))
-//                                .fontWeight(.bold)
                             
                             Text("Select the country you live in.")
                                 .font(.system(size: 12))
@@ -97,6 +119,7 @@ struct SettingsView: View {
                 .padding([.bottom, .top], 5)
                 Divider()
                 
+            
                 NavigationLink{
                     WorkView(user: user)
                         .navigationBarHidden(true)
@@ -122,12 +145,18 @@ struct SettingsView: View {
             
             
             
-            HStack(){
-                Button(action: {sessionManager.signOut()}){
+            HStack{
+                Button(action: {isShowingConfirmation = true}){
                     Text("Sign Out")
                         .frame(width: 350, height: 40.0)
                         .foregroundColor(.red)
+                }.confirmationDialog("Are you sure to sign out?", isPresented: $isShowingConfirmation, titleVisibility: .visible){
+                    Button("Sign Out", role: .destructive){
+                        sessionManager.signOut()
+                    }
                 }
+                
+                
             }.padding()
             Spacer()
         }.padding()

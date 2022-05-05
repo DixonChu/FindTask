@@ -18,7 +18,7 @@ struct ProgressView: View {
     var body: some View{
 //        NavigationView{
         VStack{
-            AppBar(index: self.$index, offset: self.$offset, searchTask: $searchTask)
+            ProgressAppBar(index: self.$index, offset: self.$offset, searchTask: $searchTask)
         
             GeometryReader{g in
                 
@@ -56,21 +56,21 @@ struct ProgressAppBar: View {
                 .font(.system(size: 18))
                 .fontWeight(.semibold)
                 Spacer()
-            }
-            ZStack{
-                Rectangle()
-                    .foregroundColor(Color(.systemGray6))
-                
-                HStack{
-                    Image(systemName: "magnifyingglass")
-                    TextField("Search", text: $searchTask)
-                }
-                .foregroundColor(.gray)
-                .padding(.leading, 13)
-
-            }
-            .frame(height: 40)
-            .cornerRadius(13)
+            }.padding()
+//            ZStack{
+//                Rectangle()
+//                    .foregroundColor(Color(.systemGray6))
+//
+//                HStack{
+//                    Image(systemName: "magnifyingglass")
+//                    TextField("Search", text: $searchTask)
+//                }
+//                .foregroundColor(.gray)
+//                .padding(.leading, 13)
+//
+//            }
+//            .frame(height: 40)
+//            .cornerRadius(13)
 
             
             HStack{
@@ -146,11 +146,9 @@ struct ProgressFirst : View {
                 
             }.listStyle(PlainListStyle())
             .onAppear{
-                graphql.workOngoingTasks.removeAll()
                 graphql.workListAllOngoingTask(acceptedId: sessionManager.userID)
             }
             .refreshable {
-                graphql.workOngoingTasks.removeAll()
                 graphql.workListAllOngoingTask(acceptedId: sessionManager.userID)
             }
         }
@@ -176,11 +174,9 @@ struct ProgressSecond : View {
                 }
             }.listStyle(PlainListStyle())
                 .onAppear{
-                    graphql.workCompletedTasks.removeAll()
                     graphql.workListAllCompletedTask(acceptedId: sessionManager.userID)
                 }
                 .refreshable {
-                    graphql.workCompletedTasks.removeAll()
                     graphql.workListAllCompletedTask(acceptedId: sessionManager.userID)
                 }
         }
@@ -205,11 +201,9 @@ struct ProgressThird : View {
                 }
             }.listStyle(PlainListStyle())
                 .onAppear{
-                    graphql.workCancelledTasks.removeAll()
                     graphql.workListAllCancelledTask(acceptedId: sessionManager.userID)
                 }
                 .refreshable {
-                    graphql.workCancelledTasks.removeAll()
                     graphql.workListAllCancelledTask(acceptedId: sessionManager.userID)
                 }
         }

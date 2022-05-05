@@ -75,6 +75,28 @@ struct SettingView: View {
                 Divider()
                 
                 NavigationLink{
+                    HelpCenterView()
+                        .navigationTitle("Help Center")
+                        .navigationBarTitleDisplayMode(.inline)
+                }label: {
+                    HStack{
+                        Image(systemName: "questionmark.circle")
+                        VStack(alignment: .leading, spacing: 4){
+                            Text("Help Center")
+                                .font(.system(size: 14))
+                            
+                            Text("FAQ can be found in here")
+                                .font(.system(size: 12))
+                                .foregroundColor(.secondary)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                }
+                .padding([.bottom, .top], 5)
+                Divider()
+                
+                NavigationLink{
                     ChangeLocationView()
                         .navigationTitle("Location")
                         .navigationBarTitleDisplayMode(.inline)

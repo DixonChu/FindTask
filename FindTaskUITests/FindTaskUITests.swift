@@ -6,9 +6,10 @@
 //
 
 import XCTest
+import SwiftUI
 
 class FindTaskUITests: XCTestCase {
-
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
@@ -22,21 +23,72 @@ class FindTaskUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testIncorrectSignInAlert() throws {
         let app = XCUIApplication()
         app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        app.textFields.element.tap()
+        app.textFields.element.typeText("+447447782825")
+        
+        app.secureTextFields.element.tap()
+        app.secureTextFields.element.typeText("Test121")
+        
+        let signin = app.buttons["Sign in"]
+        signin.tap()
+        
+//        XCTAssert(app.alerts.element.waitForExistence(timeout: 0.5))
+        
+        app.alerts.element.buttons["OK"].tap()
+        XCTAssertFalse(app.alerts.element.exists)
     }
 
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+    func testSignIn() throws {
+        let app = XCUIApplication()
+        app.launch()
+        
+        app.textFields.element.tap()
+        app.textFields.element.typeText("+447447782825")
+        
+        app.secureTextFields.element.tap()
+        app.secureTextFields.element.typeText("Test123@1")
+        
+        let signin = app.buttons["Sign in"]
+        signin.tap()
+        
     }
+    
+    func testFailedSignInAlert() throws {
+        let app = XCUIApplication()
+        app.launch()
+        
+        app.buttons["Sign in"].tap()
+        
+//        XCTAssert(app.alerts.element.waitForExistence(timeout: 0.5))
+        
+        app.alerts.element.buttons["OK"].tap()
+        XCTAssertFalse(app.alerts.element.exists)
+    }
+    
+    func testFailedSignUpAlert() throws {
+        let app = XCUIApplication()
+        app.launch()
+        app.buttons["Don't have an account? Sign Up"].tap()
+        app.buttons["Sign Up"].tap()
+        
+//        XCTAssert(app.alerts.element.waitForExistence(timeout: 0.5))
+        
+        app.alerts.element.buttons["OK"].tap()
+        XCTAssertFalse(app.alerts.element.exists)
+    }
+    
+
+    
+//    func testLaunchPerformance() throws {
+//        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
+//            // This measures how long it takes to launch your application.
+//            measure(metrics: [XCTApplicationLaunchMetric()]) {
+//                XCUIApplication().launch()
+//            }
+//        }
+//    }
 }

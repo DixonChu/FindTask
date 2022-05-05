@@ -18,8 +18,8 @@ struct UserTaskCancelledView: View {
             CardView(task: task)
             Spacer()
             CardInfoView(task: task)
-            
             Spacer()
+            CardMapInfoView(task: task)
 
         }
     }

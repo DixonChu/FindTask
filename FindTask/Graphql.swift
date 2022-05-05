@@ -20,23 +20,21 @@ class Graphql: ObservableObject {
     @Published var workCompletedTasks: [Task] = [] // task status completed, acceptedId
     @Published var workCancelledTasks: [Task] = [] // task status cancelled, accepetedId
     
+    @Published var userName: String = ""
+    @Published var userPhoneNum: String = ""
+    @Published var userId: String = ""
+    
     
     var currentPage: List<Task>?
     
     init(){
         // Get list of awaiting tasks
-//        DispatchQueue.main.async {
-//            self.listAllAwaitingTask()
-//        }
-        
+        //        DispatchQueue.main.async {
+        //            self.listAllAwaitingTask()
+        //        }
     }
     
-    enum Predicate {
-        case awaiting // task.taskStatus == "awaiting"
-        case accepted // task.taskStatus == "accepted" && acceptedId == "acceptedId"
-        case completed // task.taskStatus == "completed"
-        case cancelled // task.taskStatus == "cancelled"
-    }
+    
     
     /* ========== All Owner Task ========== */
     func listAllOwnerTask(taskOwner: String) {
@@ -49,10 +47,13 @@ class Graphql: ObservableObject {
                 switch result {
                 case .success(let tasks):
                     DispatchQueue.main.async {
+                        if !self.userOwnTasks.isEmpty {
+                            self.userOwnTasks.removeAll()
+                        }
                         self.currentPage = tasks
                         self.userOwnTasks.append(contentsOf: tasks)
-                        self.ownListNextPageRecursively()
                     }
+                    self.ownListNextPageRecursively()
                     print("Successfully retrieved list of tasks: \(tasks)")
                 case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
@@ -88,10 +89,14 @@ class Graphql: ObservableObject {
                 switch result {
                 case .success(let tasks):
                     DispatchQueue.main.async {
+                        if !self.completedTasks.isEmpty {
+                            self.completedTasks.removeAll()
+                        }
                         self.currentPage = tasks
                         self.completedTasks.append(contentsOf: tasks)
-                        self.completedListNextPageRecursively()
                     }
+                    self.completedListNextPageRecursively()
+                    
                     print("Successfully retrieved list of tasks: \(tasks)")
                 case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
@@ -126,17 +131,14 @@ class Graphql: ObservableObject {
             case .success(let result):
                 switch result {
                 case .success(let tasks):
-//                    if(!tasks.isEmpty){
-//                        DispatchQueue.main.async {
-//                            self.cancalledTasks.removeAll()
-//
-//                        }
-//                    }
                     DispatchQueue.main.async {
+                        if !self.cancalledTasks.isEmpty {
+                            self.cancalledTasks.removeAll()
+                        }
                         self.currentPage = tasks
                         self.cancalledTasks.append(contentsOf: tasks)
-                        self.cancelledListNextPageRecursively()
                     }
+                    self.cancelledListNextPageRecursively()
                     print("Successfully retrieved list of tasks: \(tasks)")
                 case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
@@ -173,10 +175,13 @@ class Graphql: ObservableObject {
                 switch result {
                 case .success(let tasks):
                     DispatchQueue.main.async {
+                        if !self.workOngoingTasks.isEmpty{
+                            self.workOngoingTasks.removeAll()
+                        }
                         self.currentPage = tasks
                         self.workOngoingTasks.append(contentsOf: tasks)
-                        self.workOngoingListNextPageRecursively()
                     }
+                    self.workOngoingListNextPageRecursively()
                     print("Successfully retrieved list of tasks: \(tasks)")
                 case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
@@ -200,7 +205,7 @@ class Graphql: ObservableObject {
             }
         }
     }
-
+    
     /* ========== Work Completed Task ========== */
     func workListAllCompletedTask(acceptedId: String){
         let task = Task.keys
@@ -212,10 +217,13 @@ class Graphql: ObservableObject {
                 switch result {
                 case .success(let tasks):
                     DispatchQueue.main.async {
+                        if !self.workCompletedTasks.isEmpty {
+                            self.workCompletedTasks.removeAll()
+                        }
                         self.currentPage = tasks
                         self.workCompletedTasks.append(contentsOf: tasks)
-                        self.workCompletedListNextPageRecursively()
                     }
+                    self.workCompletedListNextPageRecursively()
                     
                     print("Successfully retrieved list of tasks: \(tasks)")
                 case .failure(let error):
@@ -252,13 +260,13 @@ class Graphql: ObservableObject {
                 switch result {
                 case .success(let tasks):
                     DispatchQueue.main.async {
-//                        if(!self.workCancelledTasks.isEmpty){
-//                            self.workCancelledTasks.removeAll()
-//                        }
+                        if !self.workCancelledTasks.isEmpty {
+                            self.workCancelledTasks.removeAll()
+                        }
                         self.currentPage = tasks
                         self.workCancelledTasks.append(contentsOf: tasks)
-                        self.workCancelledListNextPageRecursively()
                     }
+                    self.workCancelledListNextPageRecursively()
                     print("Successfully retrieved list of tasks: \(tasks)")
                 case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
@@ -283,6 +291,48 @@ class Graphql: ObservableObject {
         }
     }
     
+    /* ========== Worker ==========*/
+    /* ========== All Awaiting Task ========== */
+    func listAllAwaitingTask(sessionUserId: String) {
+        let task = Task.keys
+        let predicate = task.taskStatus == "awaiting" && task.taskOwner != sessionUserId
+        
+        Amplify.API.query(request: .paginatedList(Task.self, where: predicate, limit: 1000)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let tasks):
+                    DispatchQueue.main.async {
+                        if !self.awaitingTasks.isEmpty {
+                            self.awaitingTasks.removeAll()
+                        }
+                        self.currentPage = tasks
+                        self.awaitingTasks.append(contentsOf: tasks)
+                    }
+                    self.awaitingListNextPageRecursively()
+                    print("Successfully retrieved list of tasks: \(tasks)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+    func awaitingListNextPageRecursively() {
+        if let current = currentPage, current.hasNextPage() {
+            current.getNextPage { result in
+                switch result {
+                case .success(let tasks):
+                    self.awaitingTasks.append(contentsOf: tasks)
+                    self.currentPage = tasks
+                    self.awaitingListNextPageRecursively()
+                case .failure(let coreError):
+                    print("Failed to get next page \(coreError)")
+                }
+            }
+        }
+    }
     
     /* ========== Create Task ========== */
     func createTask(taskTitle: String, taskDescription: String, taskLocation: String, taskPrice: Float, taskDate: String, taskOwner: String){
@@ -302,6 +352,7 @@ class Graphql: ObservableObject {
         }
     }
     
+    /* ========== Create User ========== */
     func createUser(id: String, givenName: String, familyName: String, phoneNumber: String) {
         let user = User(id: id, givenName: givenName, familyName: familyName, phoneNumber: phoneNumber);
         Amplify.API.mutate(request: .create(user)) { event in
@@ -318,8 +369,6 @@ class Graphql: ObservableObject {
             }
         }
     }
-
-
     
     /* ========== Get Task By ID ========== */
     func getTaskById(taskId: String) {
@@ -358,15 +407,14 @@ class Graphql: ObservableObject {
                     if(taskStatus == "cancelled"){
                         print("Successfully cancelled task")
                         self.updateTaskToCancelled(task: task)
+                        self.awaitingTasks.removeAll()
                     }
                     if(taskStatus == "completed"){
                         print("Successfully completed task")
                         self.updateTaskToCompleted(task: task)
+                        self.awaitingTasks.removeAll()
                     }
-//                    DispatchQueue.main.async {
-//                        self.userOwnTasks.removeAll()
-//                    }
-                    case .failure(let error):
+                case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
                 }
             case .failure(let error):
@@ -374,7 +422,7 @@ class Graphql: ObservableObject {
             }
         }
     }
-
+    
     func updateTaskToCancelled(task: Task){
         var task = Task(id: task.id, taskTitle: task.taskTitle, taskDescription: task.taskDescription, taskLocation: task.taskLocation, taskPrice: task.taskPrice, taskStatus: task.taskStatus, taskDate: task.taskDate, taskOwner: task.taskOwner, acceptedId: task.acceptedId)
         task.taskStatus = "cancelled"
@@ -394,7 +442,7 @@ class Graphql: ObservableObject {
     }
     
     func updateTaskToCompleted(task: Task){
-        var task = Task(id: task.id, taskTitle: task.taskTitle, taskDescription: task.taskDescription, taskLocation: task.taskLocation, taskPrice: task.taskPrice, taskStatus: task.taskStatus, taskDate: task.taskDate, taskOwner: task.taskOwner, acceptedId: task.taskOwner)
+        var task = Task(id: task.id, taskTitle: task.taskTitle, taskDescription: task.taskDescription, taskLocation: task.taskLocation, taskPrice: task.taskPrice, taskStatus: task.taskStatus, taskDate: task.taskDate, taskOwner: task.taskOwner, acceptedId: task.acceptedId)
         task.taskStatus = "completed"
         Amplify.API.mutate(request: .update(task)) { event in
             switch event {
@@ -411,77 +459,27 @@ class Graphql: ObservableObject {
         }
     }
     
-    
-    /* ========== Worker ==========*/
-    /* ========== All Awaiting Task ========== */
-    func listAllAwaitingTask() {
-        let task = Task.keys
-        let predicate = task.taskStatus == "awaiting"
-        
-        Amplify.API.query(request: .paginatedList(Task.self, where: predicate, limit: 1000)) { event in
-            switch event {
-            case .success(let result):
-                switch result {
-                case .success(let tasks):
-                    DispatchQueue.main.async {
-                
-//                        if(!self.awaitingTasks.isEmpty){
-//                            self.awaitingTasks.removeAll()
-//                        }
-                    
-                        self.currentPage = tasks
-                        self.awaitingTasks.append(contentsOf: tasks)
-                        self.awaitingListNextPageRecursively()
-                        
-                    }
-                    print("Successfully retrieved list of tasks: \(tasks)")
-                case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
-                }
-            case .failure(let error):
-                print("Got failed event with error \(error)")
-            }
-        }
-    }
-    func awaitingListNextPageRecursively() {
-        if let current = currentPage, current.hasNextPage() {
-            current.getNextPage { result in
-                switch result {
-                case .success(let tasks):
-                    self.awaitingTasks.append(contentsOf: tasks)
-                    self.currentPage = tasks
-                    self.awaitingListNextPageRecursively()
-                case .failure(let coreError):
-                    print("Failed to get next page \(coreError)")
-                }
-            }
-        }
-    }
-    
-    func getTaskByIdAndUpdateStatusAccepted(taskId: String, taskStatus: String, acceptedId: String) {
-        Amplify.API.query(request: .get(Task.self, byId: taskId)) { event in
-            switch event {
-            case .success(let result):
-                switch result {
-                case .success(let task):
-                    guard let task = task else {
-                        print("Could not find task")
-                        return
-                    }
-                    print("Successfully retrieved task: \(task)")
-                    self.updateTaskToAccepted(task: task, acceptedId: acceptedId)
-//                    DispatchQueue.main.async {
-//                        self.awaitingTasks.removeAll()
+//    func getTaskByIdAndUpdateStatusAccepted(taskId: String, taskStatus: String, acceptedId: String) {
+//        Amplify.API.query(request: .get(Task.self, byId: taskId)) { event in
+//            switch event {
+//            case .success(let result):
+//                switch result {
+//                case .success(let task):
+//                    guard let task = task else {
+//                        print("Could not find task")
+//                        return
 //                    }
-                    case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
-                }
-            case .failure(let error):
-                print("Got failed event with error \(error)")
-            }
-        }
-    }
-    
+//                    print("Successfully retrieved task: \(task)")
+//                    self.updateTaskToAccepted(task: task, acceptedId: acceptedId)
+//                    self.awaitingTasks.removeAll()
+//                case .failure(let error):
+//                    print("Got failed result with \(error.errorDescription)")
+//                }
+//            case .failure(let error):
+//                print("Got failed event with error \(error)")
+//            }
+//        }
+//    }
     
     func updateTaskToAccepted(task: Task, acceptedId: String){
         var task = Task(id: task.id, taskTitle: task.taskTitle, taskDescription: task.taskDescription, taskLocation: task.taskLocation, taskPrice: task.taskPrice, taskStatus: task.taskStatus, taskDate: task.taskDate, taskOwner: task.taskOwner, acceptedId: task.taskOwner)
@@ -493,10 +491,11 @@ class Graphql: ObservableObject {
                 switch result {
                 case .success(let task):
                     print("Successfully updated task: \(task)")
-//                    DispatchQueue.main.async {
-//                        self.awaitingTasks.removeAll()
-//                    }
-                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self.getUserById(userId: task.taskOwner)
+                        self.awaitingTasks.removeAll()
+                    }
+                    case .failure(let error):
                     print("Got failed result with \(error.errorDescription)")
                 }
             case .failure(let error):
@@ -505,7 +504,29 @@ class Graphql: ObservableObject {
         }
     }
     
-    
+    func getUserById(userId: String) {
+        Amplify.API.query(request: .get(User.self, byId: userId)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let user):
+                    guard let user = user else {
+                        print("Could not find user")
+                        return
+                    }
+                    print("Successfully retrieved user: \(user)")
+                    DispatchQueue.main.async {
+                        self.userName = user.givenName
+                        self.userPhoneNum = user.phoneNumber
+                    }
+                    case .failure(let error):
+                    print("USER: Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
     
     //  Delete task
     //    func deleteTask(task: Task){

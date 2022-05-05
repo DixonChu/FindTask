@@ -14,7 +14,7 @@ type Task @model @auth(rules: [{allow: private, operations:[create, read, update
   acceptedId: String!
 }
 
-type User @model @auth(rules: [{allow: owner}]){
+type User @model @auth(rules: [{allow: private, operations:[read]}, {allow: owner}]){
   id: ID!
   givenName: String!
   familyName: String!

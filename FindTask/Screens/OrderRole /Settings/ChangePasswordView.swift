@@ -4,7 +4,9 @@
 //
 //  Created by Dixon Chu on 01/03/2022.
 //
-
+import Amplify
+import Combine
+import AWSMobileClient
 import SwiftUI
 
 struct ChangePasswordView: View {
@@ -23,7 +25,11 @@ struct ChangePassword: View{
     @Binding var oldPassword: String
     @Binding var newPassword: String
     @EnvironmentObject var sessionManager : SessionManager
- 
+
+    @State private var showAlert = false
+    @State private var successAlert = false
+    @State private var errorMessage = ""
+    
     var body: some View{
         VStack(alignment: .leading, spacing: 12){
             
@@ -41,7 +47,7 @@ struct ChangePassword: View{
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
             
-            TextField("Old Password", text: $oldPassword)
+            SecureField("Old Password", text: $oldPassword)
                 .padding()
                 .cornerRadius(5)
                 .background(Color.white)
@@ -53,7 +59,7 @@ struct ChangePassword: View{
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
             
-            TextField("New Password", text: $newPassword)
+            SecureField("New Password", text: $newPassword)
                 .padding()
                 .cornerRadius(5)
                 .background(Color.white)
@@ -62,7 +68,13 @@ struct ChangePassword: View{
             Spacer()
             
             Button(action: {
-                sessionManager.changePassword(oldPassword: oldPassword, newPassword: newPassword)
+                DispatchQueue.main.async {
+                    changePassword(oldPassword: oldPassword, newPassword: newPassword)
+                }
+                
+                if successAlert == true {
+                    successAlert = true
+                }
             }){
                 Text("Change Password")
                     .foregroundColor(.white)
@@ -71,8 +83,33 @@ struct ChangePassword: View{
                     .background(Color.orange)
                     .clipShape(RoundedRectangle(cornerRadius: 5))
                     .padding(10)
+            }.alert(isPresented: $successAlert){
+                Alert(title: Text("Change Password Success"),
+                      message: Text("Password changed succesfully"), dismissButton: Alert.Button.default(Text("OK"),  action:{
+                    successAlert = false
+                }))
             }
+            .alert(isPresented: $showAlert){
+                Alert(title: Text("Change Password Failed"),
+                      message: Text("\(errorMessage)"), dismissButton: Alert.Button.default(Text("OK"),  action:{
+                    showAlert = false
+                }))
+            }
+            
         }.padding(12)
+    }
+    
+    func changePassword(oldPassword: String, newPassword: String) {
+        Amplify.Auth.update(oldPassword: oldPassword, to: newPassword) { result in
+            switch result {
+            case .success:
+                successAlert = true
+                print("Change password succeeded")
+            case .failure(let error):
+                showAlert = true
+                errorMessage = "Change password failed with error \(error.errorDescription)"
+            }
+        }
     }
 }
 

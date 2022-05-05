@@ -16,11 +16,10 @@
 		61C49CC03C73585EC4998E14 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 053B6B44A9BF73B8F22EF23C /* amplifyconfiguration.json */; };
 		760EF191280BA71F008F2B78 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760EF190280BA71F008F2B78 /* LocationManager.swift */; };
 		760EF193280BA9B4008F2B78 /* LocationRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760EF192280BA9B4008F2B78 /* LocationRequestView.swift */; };
-		760EF196280BB81A008F2B78 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760EF195280BB81A008F2B78 /* MapModel.swift */; };
 		760EF19C280D1FC2008F2B78 /* WorkTaskDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760EF19B280D1FC2008F2B78 /* WorkTaskDetailsView.swift */; };
 		760FB4A827B98E24007CA1A0 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760FB4A727B98E24007CA1A0 /* LogInView.swift */; };
-		76153CC827B92DD4004F22A7 /* WelcomeScreenContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76153CC727B92DD4004F22A7 /* WelcomeScreenContentView.swift */; };
 		761DAAC427BDE0DD00D327BE /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761DAAC327BDE0DD00D327BE /* SignUpView.swift */; };
+		76225FA62822373D00235C30 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76225FA52822373D00235C30 /* MapModel.swift */; };
 		76294AC927CDB4270044C98B /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76294AC827CDB4270044C98B /* ChangePasswordView.swift */; };
 		76294ACB27CDB4C40044C98B /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76294ACA27CDB4C40044C98B /* PrivacyView.swift */; };
 		76294ACD27CDB4F30044C98B /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76294ACC27CDB4F30044C98B /* AboutView.swift */; };
@@ -31,13 +30,11 @@
 		763793D627C97A7000268E64 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763793D527C97A7000268E64 /* SessionManager.swift */; };
 		7637C19027C5CD1C00E05C99 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7637C18F27C5CD1C00E05C99 /* Home.swift */; };
 		765BA49A27D95BAF0031DB83 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765BA49927D95BAF0031DB83 /* WorkView.swift */; };
-		765BA4A227DFE4900031DB83 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765BA4A127DFE4900031DB83 /* ProfileView.swift */; };
 		765BA4A427DFE87E0031DB83 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765BA4A327DFE87E0031DB83 /* SettingView.swift */; };
 		765D0E7227CDA9B300CE225D /* OrderEditCancellationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765D0E7127CDA9B300CE225D /* OrderEditCancellationView.swift */; };
 		765D0E7427CDADB000CE225D /* FeePaymentMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765D0E7327CDADB000CE225D /* FeePaymentMethodView.swift */; };
 		765D0E7627CDADBB00CE225D /* OrderIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765D0E7527CDADBB00CE225D /* OrderIssueView.swift */; };
 		765D0E7827CDADC800CE225D /* ProfileAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765D0E7727CDADC800CE225D /* ProfileAccountView.swift */; };
-		765D0E7A27CDADD500CE225D /* GeneralInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765D0E7927CDADD500CE225D /* GeneralInfoView.swift */; };
 		765D0E7C27CDADDE00CE225D /* SendFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765D0E7B27CDADDE00CE225D /* SendFeedbackView.swift */; };
 		7688054627ADFB8800EB0576 /* FindTaskApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7688054527ADFB8800EB0576 /* FindTaskApp.swift */; };
 		7688054A27ADFB8800EB0576 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7688054927ADFB8800EB0576 /* Assets.xcassets */; };
@@ -51,11 +48,13 @@
 		768A18DB27C7BD71002EA994 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A18DA27C7BD71002EA994 /* ResetPasswordView.swift */; };
 		76918A3427BFEE9E0067A3BF /* ConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76918A3327BFEE9E0067A3BF /* ConfirmationView.swift */; };
 		76A0754D2811A45400618DEC /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0754C2811A45400618DEC /* ProgressView.swift */; };
+		76BB0FE2281B1B4400C5893A /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BB0FE1281B1B4400C5893A /* NotificationView.swift */; };
 		76BC4F42280A01420085A55D /* Graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BC4F41280A01420085A55D /* Graphql.swift */; };
 		76BD90E527F3C7F200724C8E /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BD90E327F3C7F200724C8E /* amplifyconfiguration.json */; };
 		76BD90E627F3C7F200724C8E /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BD90E427F3C7F200724C8E /* awsconfiguration.json */; };
 		76D5B075281055E2000D44F6 /* UserTaskProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5B074281055E2000D44F6 /* UserTaskProgressView.swift */; };
 		76DB238C2816122200F0E845 /* WorkTaskProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DB238B2816122200F0E845 /* WorkTaskProgressView.swift */; };
+		76DB23982818303100F0E845 /* PriceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DB23972818303100F0E845 /* PriceInfoView.swift */; };
 		76E52D0027C531E200010346 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E52CFF27C531E200010346 /* OrderView.swift */; };
 		76E52D0627C5330800010346 /* PersonalInfomationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E52D0527C5330800010346 /* PersonalInfomationView.swift */; };
 		76E52D0827C53B2F00010346 /* HelpCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E52D0727C53B2F00010346 /* HelpCenterView.swift */; };
@@ -93,11 +92,10 @@
 		760EF190280BA71F008F2B78 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		760EF192280BA9B4008F2B78 /* LocationRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRequestView.swift; sourceTree = "<group>"; };
 		760EF194280BB7C1008F2B78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		760EF195280BB81A008F2B78 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		760EF19B280D1FC2008F2B78 /* WorkTaskDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTaskDetailsView.swift; sourceTree = "<group>"; };
 		760FB4A727B98E24007CA1A0 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
-		76153CC727B92DD4004F22A7 /* WelcomeScreenContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreenContentView.swift; sourceTree = "<group>"; };
 		761DAAC327BDE0DD00D327BE /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		76225FA52822373D00235C30 /* MapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		76294AC827CDB4270044C98B /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		76294ACA27CDB4C40044C98B /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		76294ACC27CDB4F30044C98B /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
@@ -108,13 +106,11 @@
 		763793D527C97A7000268E64 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		7637C18F27C5CD1C00E05C99 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		765BA49927D95BAF0031DB83 /* WorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
-		765BA4A127DFE4900031DB83 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		765BA4A327DFE87E0031DB83 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		765D0E7127CDA9B300CE225D /* OrderEditCancellationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditCancellationView.swift; sourceTree = "<group>"; };
 		765D0E7327CDADB000CE225D /* FeePaymentMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeePaymentMethodView.swift; sourceTree = "<group>"; };
 		765D0E7527CDADBB00CE225D /* OrderIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderIssueView.swift; sourceTree = "<group>"; };
 		765D0E7727CDADC800CE225D /* ProfileAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAccountView.swift; sourceTree = "<group>"; };
-		765D0E7927CDADD500CE225D /* GeneralInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralInfoView.swift; sourceTree = "<group>"; };
 		765D0E7B27CDADDE00CE225D /* SendFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendFeedbackView.swift; sourceTree = "<group>"; };
 		7688054227ADFB8800EB0576 /* FindTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7688054527ADFB8800EB0576 /* FindTaskApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindTaskApp.swift; sourceTree = "<group>"; };
@@ -131,11 +127,13 @@
 		768A18DA27C7BD71002EA994 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		76918A3327BFEE9E0067A3BF /* ConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationView.swift; sourceTree = "<group>"; };
 		76A0754C2811A45400618DEC /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		76BB0FE1281B1B4400C5893A /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		76BC4F41280A01420085A55D /* Graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphql.swift; sourceTree = "<group>"; };
 		76BD90E327F3C7F200724C8E /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = SOURCE_ROOT; };
 		76BD90E427F3C7F200724C8E /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		76D5B074281055E2000D44F6 /* UserTaskProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTaskProgressView.swift; sourceTree = "<group>"; };
 		76DB238B2816122200F0E845 /* WorkTaskProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTaskProgressView.swift; sourceTree = "<group>"; };
+		76DB23972818303100F0E845 /* PriceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceInfoView.swift; sourceTree = "<group>"; };
 		76E52CFF27C531E200010346 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		76E52D0527C5330800010346 /* PersonalInfomationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfomationView.swift; sourceTree = "<group>"; };
 		76E52D0727C53B2F00010346 /* HelpCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCenterView.swift; sourceTree = "<group>"; };
@@ -214,7 +212,6 @@
 			children = (
 				762E598428108F720070D845 /* TaskView */,
 				765BA48F27D8C64B0031DB83 /* AcceptRole */,
-				7631907527BFAC9B009FA7C5 /* Start */,
 				7631907727BFACB0009FA7C5 /* SignUp */,
 				7631907627BFACA5009FA7C5 /* SignIn */,
 				7631907927BFACCA009FA7C5 /* OrderRole  */,
@@ -231,22 +228,16 @@
 				762E598B28109DB70070D845 /* UserTaskCompletedView.swift */,
 				762E598D28109DEE0070D845 /* UserTaskCancelledView.swift */,
 				762E598528108FBB0070D845 /* CardView.swift */,
+				76DB23972818303100F0E845 /* PriceInfoView.swift */,
 			);
 			path = TaskView;
-			sourceTree = "<group>";
-		};
-		7631907527BFAC9B009FA7C5 /* Start */ = {
-			isa = PBXGroup;
-			children = (
-				76153CC727B92DD4004F22A7 /* WelcomeScreenContentView.swift */,
-			);
-			path = Start;
 			sourceTree = "<group>";
 		};
 		7631907627BFACA5009FA7C5 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
 				760FB4A727B98E24007CA1A0 /* LogInView.swift */,
+				768A18DA27C7BD71002EA994 /* ResetPasswordView.swift */,
 			);
 			path = SignIn;
 			sourceTree = "<group>";
@@ -263,8 +254,8 @@
 		7631907827BFACC0009FA7C5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				768A18DA27C7BD71002EA994 /* ResetPasswordView.swift */,
 				7637C18F27C5CD1C00E05C99 /* Home.swift */,
+				76BB0FE1281B1B4400C5893A /* NotificationView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -285,7 +276,6 @@
 		765BA48F27D8C64B0031DB83 /* AcceptRole */ = {
 			isa = PBXGroup;
 			children = (
-				765BA49227D8C6C10031DB83 /* Profile */,
 				765BA49127D8C6760031DB83 /* Settings */,
 				765BA49027D8C66D0031DB83 /* Home */,
 			);
@@ -307,14 +297,6 @@
 				765BA4A327DFE87E0031DB83 /* SettingView.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		765BA49227D8C6C10031DB83 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				765BA4A127DFE4900031DB83 /* ProfileView.swift */,
-			);
-			path = Profile;
 			sourceTree = "<group>";
 		};
 		7688053927ADFB8700EB0576 = {
@@ -349,8 +331,8 @@
 				76BD90E427F3C7F200724C8E /* awsconfiguration.json */,
 				760FB4A927B98E30007CA1A0 /* Screens */,
 				7688054527ADFB8800EB0576 /* FindTaskApp.swift */,
-				760EF195280BB81A008F2B78 /* MapModel.swift */,
 				760EF190280BA71F008F2B78 /* LocationManager.swift */,
+				76225FA52822373D00235C30 /* MapModel.swift */,
 				760EF192280BA9B4008F2B78 /* LocationRequestView.swift */,
 				76BC4F41280A01420085A55D /* Graphql.swift */,
 				763793D527C97A7000268E64 /* SessionManager.swift */,
@@ -402,7 +384,6 @@
 				765D0E7327CDADB000CE225D /* FeePaymentMethodView.swift */,
 				765D0E7527CDADBB00CE225D /* OrderIssueView.swift */,
 				765D0E7727CDADC800CE225D /* ProfileAccountView.swift */,
-				765D0E7927CDADD500CE225D /* GeneralInfoView.swift */,
 				765D0E7B27CDADDE00CE225D /* SendFeedbackView.swift */,
 			);
 			path = HelpCenter;
@@ -701,6 +682,8 @@
 				76D5B075281055E2000D44F6 /* UserTaskProgressView.swift in Sources */,
 				761DAAC427BDE0DD00D327BE /* SignUpView.swift in Sources */,
 				760FB4A827B98E24007CA1A0 /* LogInView.swift in Sources */,
+				76BB0FE2281B1B4400C5893A /* NotificationView.swift in Sources */,
+				76225FA62822373D00235C30 /* MapModel.swift in Sources */,
 				765BA49A27D95BAF0031DB83 /* WorkView.swift in Sources */,
 				765D0E7227CDA9B300CE225D /* OrderEditCancellationView.swift in Sources */,
 				765D0E7627CDADBB00CE225D /* OrderIssueView.swift in Sources */,
@@ -714,22 +697,19 @@
 				762E598C28109DB70070D845 /* UserTaskCompletedView.swift in Sources */,
 				768A18D927C6C4DA002EA994 /* PlacingOrderHelpView.swift in Sources */,
 				76294AC927CDB4270044C98B /* ChangePasswordView.swift in Sources */,
-				760EF196280BB81A008F2B78 /* MapModel.swift in Sources */,
-				765BA4A227DFE4900031DB83 /* ProfileView.swift in Sources */,
 				76E52D0627C5330800010346 /* PersonalInfomationView.swift in Sources */,
 				76E52D0027C531E200010346 /* OrderView.swift in Sources */,
 				760EF191280BA71F008F2B78 /* LocationManager.swift in Sources */,
 				7637C19027C5CD1C00E05C99 /* Home.swift in Sources */,
 				768A18D727C6B3D8002EA994 /* LocationView.swift in Sources */,
+				76DB23982818303100F0E845 /* PriceInfoView.swift in Sources */,
 				768A18D427C6AD4E002EA994 /* SettingsView.swift in Sources */,
 				76918A3427BFEE9E0067A3BF /* ConfirmationView.swift in Sources */,
 				760EF193280BA9B4008F2B78 /* LocationRequestView.swift in Sources */,
 				765D0E7C27CDADDE00CE225D /* SendFeedbackView.swift in Sources */,
 				76BC4F42280A01420085A55D /* Graphql.swift in Sources */,
-				76153CC827B92DD4004F22A7 /* WelcomeScreenContentView.swift in Sources */,
 				765D0E7427CDADB000CE225D /* FeePaymentMethodView.swift in Sources */,
 				760EF19C280D1FC2008F2B78 /* WorkTaskDetailsView.swift in Sources */,
-				765D0E7A27CDADD500CE225D /* GeneralInfoView.swift in Sources */,
 				76DB238C2816122200F0E845 /* WorkTaskProgressView.swift in Sources */,
 				765D0E7827CDADC800CE225D /* ProfileAccountView.swift in Sources */,
 				7688054627ADFB8800EB0576 /* FindTaskApp.swift in Sources */,
@@ -929,6 +909,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -981,6 +962,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

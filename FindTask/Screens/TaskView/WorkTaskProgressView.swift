@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import Amplify
 
 struct WorkTaskProgressView: View {
     @EnvironmentObject var graphql: Graphql
     @State private var isShowingConfirmation = false
     
     let task: Task
+//    let user: User
     
     var body: some View {
         VStack{
@@ -19,6 +21,10 @@ struct WorkTaskProgressView: View {
                 CardView(task: task)
                 Spacer()
                 CardInfoView(task: task)
+                Spacer()
+                ClientInfoCardView()
+                Spacer()
+                CardMapInfoView(task: task)
             }
             
             Spacer()
@@ -35,7 +41,6 @@ struct WorkTaskProgressView: View {
             }
             .confirmationDialog("Task completed and payment is settled", isPresented: $isShowingConfirmation, titleVisibility: .visible){
                 Button("Confirm", role: .destructive) {
-                    // graphql cancelled task by Id
                     graphql.getTaskByIdAndUpdateStatus(taskId: task.id, taskStatus: "completed")
                 }
             }

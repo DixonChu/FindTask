@@ -6,6 +6,10 @@
 //
 
 import SwiftUI
+import Combine
+import AWSMobileClient
+import Foundation
+import Amplify
 
 struct LogInView: View {
     
@@ -50,6 +54,9 @@ struct SignInTextField: View {
     @Binding var password: String
     
     @State var code = ""
+    @State private var showAlert = false
+    
+    let passPattern = #"(?=.{8,})"# + #"(?=.*[A-Z])"# + #"(?=.*[a-z])"# + #"(?=.*\d)"# + #"(?=.*[ !$%&?._-])"#
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12){
@@ -68,8 +75,8 @@ struct SignInTextField: View {
                     .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 5)
                 
                 
-                Image(systemName: phoneNumber.isEmpty || password.isEmpty ? "" : "checkmark")
-                    .foregroundColor(Color.green)
+//                Image(systemName: phoneNumber.isEmpty || password.isEmpty ? "" : "checkmark")
+//                    .foregroundColor(Color.green)
             }.padding(.bottom, 10)
             
             
@@ -87,16 +94,32 @@ struct SignInTextField: View {
                     .background(Color.white)
                     .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 5)
                 
-                Image(systemName: password.isEmpty || phoneNumber.isEmpty ? "" : "checkmark")
-                    .foregroundColor(Color.green)
+//                Image(systemName: password.isEmpty || phoneNumber.isEmpty ? "" : "checkmark")
+//                    .foregroundColor(Color.green)
             }.padding(.bottom, 10)
         }
         
         .padding(20)
         
         Button(action: {
-            sessionManager.login(phoneNumber: phoneNumber, password: password)
-            graphql.createUser(id: sessionManager.userID, givenName: sessionManager.givenName, familyName: sessionManager.familyName, phoneNumber: sessionManager.phoneNumber)
+            if(!phoneNumber.isEmpty && !password.isEmpty){
+                // Login function
+                sessionManager.login(phoneNumber: phoneNumber, password: password)
+                
+                if sessionManager.signInShowAlert == true {
+                    showAlert = true
+                }
+                
+                if !sessionManager.userID.isEmpty{
+                // Graphql create user
+                graphql.createUser(id: sessionManager.userID, givenName: sessionManager.givenName, familyName: sessionManager.familyName, phoneNumber: sessionManager.phoneNumber)
+                } else {
+                    graphql.createUser(id: sessionManager.userID, givenName: sessionManager.givenName, familyName: sessionManager.familyName, phoneNumber: sessionManager.phoneNumber)
+                }
+                
+            } else { 
+                showAlert = true
+            }
         }){
             Text("Sign in")
                 .foregroundColor(.white)
@@ -104,6 +127,12 @@ struct SignInTextField: View {
                 .frame(width: 350, height: 40.0)
                 .background(Color.orange)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
+        }.alert(isPresented: $showAlert){
+            Alert(title: Text("Sign in Failed"),
+                  message: Text("Either phone number or password is missing, or they are wrong."), dismissButton: Alert.Button.default(Text("OK"),  action:{
+                showAlert = false
+                sessionManager.signInShowAlert = false
+            }))
         }
         
         NavigationLink {

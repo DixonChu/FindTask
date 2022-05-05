@@ -10,7 +10,7 @@ import SwiftUI
 struct SendFeedbackView: View {
     var body: some View {
         VStack{
-            Divider()
+            Text("Hang on tight, our team is working on this feature...")
             Spacer()
         }
     }

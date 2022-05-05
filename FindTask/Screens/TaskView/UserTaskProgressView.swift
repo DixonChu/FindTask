@@ -19,6 +19,12 @@ struct UserTaskProgressView: View{
                 CardView(task: task)
                 Spacer()
                 CardInfoView(task: task)
+                Spacer()
+                CardMapInfoView(task: task)
+//
+                if task.taskStatus == "accepted"{
+                    ClientInfoCardView()
+                }
             }
             
             Spacer()

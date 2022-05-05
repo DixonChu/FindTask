@@ -23,6 +23,10 @@ final class SessionManager: ObservableObject {
     @Published var givenName: String = ""
     @Published var familyName: String = ""
     @Published var userID: String = ""
+    @Published var signUpShowAlert: Bool = false
+    @Published var signInShowAlert: Bool = false
+    @Published var showFailedCode: Bool = false
+    @Published var alertMessage = ""
     
     func getCurrentAuthUser() {
         if let user = Amplify.Auth.getCurrentUser() {
@@ -54,7 +58,7 @@ final class SessionManager: ObservableObject {
         authState = .login
     }
     
-    func signUp(givenName: String, familyName: String, phoneNumber: String, password: String){
+    func signUp(givenName: String, familyName: String, phoneNumber: String, password: String)  throws {
         let attributes = [AuthUserAttribute(.phoneNumber, value: phoneNumber), AuthUserAttribute(.familyName, value: familyName), AuthUserAttribute(.givenName, value: givenName)]
         let options = AuthSignUpRequest.Options(userAttributes: attributes)
         
@@ -69,9 +73,7 @@ final class SessionManager: ObservableObject {
                 switch signUpResult.nextStep {
                     
                 case .done:
-                    
                     print("Finished sign up")
-                    
                 case .confirmUser(let details, _):
                     print(details ?? "no details")
                     
@@ -80,8 +82,11 @@ final class SessionManager: ObservableObject {
                     }
                 }
             case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.signUpShowAlert = true
+                    self?.alertMessage = "\(error)"
+                }
                 print("Sign up error", error)
-                
             }
         }
     }
@@ -101,6 +106,9 @@ final class SessionManager: ObservableObject {
                 }
                 
             case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showFailedCode = true
+                }
                 print("failed to confirm code:", error)
             }
             
@@ -111,7 +119,7 @@ final class SessionManager: ObservableObject {
         _ = Amplify.Auth.signIn(username: phoneNumber, password: password)
         {
             [weak self] result in
-            
+
             switch result {
             case .success(let signInResult):
                 print(signInResult)
@@ -120,11 +128,12 @@ final class SessionManager: ObservableObject {
                         self?.getCurrentAuthUser()
                     }
                 }
-                
             case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.signInShowAlert = true
+                    }
                 print("Login error", error)
             }
-            
         }
     }
     
@@ -139,52 +148,7 @@ final class SessionManager: ObservableObject {
             }
         }
     }
-    
-    func resetPassword(username: String) {
-        Amplify.Auth.resetPassword(for: username) { result in
-            do {
-                let resetResult = try result.get()
-                switch resetResult.nextStep {
-                case .confirmResetPasswordWithCode(let deliveryDetails, let info):
-                    print("Confirm reset password with code send to - \(deliveryDetails) \(String(describing: info))")
-                case .done:
-                    print("Reset completed")
-                }
-            } catch {
-                print("Reset password failed with error \(error)")
-            }
-        }
-    }
-    
-    func confirmResetPassword(
-        username: String,
-        newPassword: String,
-        confirmationCode: String
-    ) {
-        Amplify.Auth.confirmResetPassword(
-            for: username,
-            with: newPassword,
-            confirmationCode: confirmationCode
-        ) { result in
-            switch result {
-            case .success:
-                print("Password reset confirmed")
-            case .failure(let error):
-                print("Reset password failed with error \(error)")
-            }
-        }
-    }
-    
-    func changePassword(oldPassword: String, newPassword: String) {
-        Amplify.Auth.update(oldPassword: oldPassword, to: newPassword) { result in
-            switch result {
-            case .success:
-                print("Change password succeeded")
-            case .failure(let error):
-                print("Change password failed with error \(error)")
-            }
-        }
-    }
+
     
     func resendCode(phoneNumber: String) {
         Amplify.Auth.resendConfirmationCode(for: .phoneNumber) { result in
@@ -196,6 +160,34 @@ final class SessionManager: ObservableObject {
             }
         }
     }
+    
+//    func updateAttribute(newPhoneNumber: String) {
+//        Amplify.Auth.update(userAttribute: AuthUserAttribute(.phoneNumber, value: newPhoneNumber)) { result in
+//            do {
+//                let updateResult = try result.get()
+//                switch updateResult.nextStep {
+//                case .confirmAttributeWithCode(let deliveryDetails, let info):
+//                    print("Confirm the attribute with details send to - \(deliveryDetails) \(info)")
+//                case .done:
+//                    print("Update completed")
+//                }
+//            } catch {
+//                print("Update attribute failed with error \(error)")
+//            }
+//        }
+//    }
+//    
+//    func confirmAttribute(code: String) {
+//        Amplify.Auth.confirm(userAttribute: .phoneNumber, confirmationCode: code) { result in
+//            switch result {
+//            case .success:
+//                print("Attribute verified")
+//            case .failure(let error):
+//                print("Update attribute failed with error \(error)")
+//            }
+//        }
+//    }
+    
     
     func signOut(){
         _ = Amplify.Auth.signOut {

@@ -58,7 +58,7 @@ struct SignUpField: View {
                         .font(.caption)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
-                    TextField("Given name", text: $givenName)
+                    TextField("Will", text: $givenName)
                         .padding()
                         .background(Color.white)
                         .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 5)
@@ -70,7 +70,7 @@ struct SignUpField: View {
                         .font(.caption)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
-                    TextField("Family name", text: $familyName)
+                    TextField("Smith", text: $familyName)
                         .padding()
                         .background(Color.white)
                         .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 5)
@@ -84,7 +84,7 @@ struct SignUpField: View {
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
             HStack{
-                TextField("Phone Number", text: $phoneNumber)
+                TextField("+441234567890", text: $phoneNumber)
                     .padding()
                     .keyboardType(.phonePad)
                     .background(Color.white)
@@ -99,11 +99,16 @@ struct SignUpField: View {
             
             HStack{
                 
-                SecureField("Password", text: $password)
+                SecureField("Password@123", text: $password)
                     .padding()
                     .background(Color.white)
                     .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 5)
             }
+            
+            Text("Your pasword must be at least six characters and should include a combination of numbers, letters, and special characters (!$@%).")
+                .font(.system(size: 12))
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
             
         }.padding(20)
     }
@@ -117,10 +122,28 @@ struct SignUpButton: View {
     @Binding var phoneNumber: String
     @Binding var password: String
     
+    @State private var showAlert = false
+    @State private var message = ""
+    
+    let passPattern = #"(?=.{8,})"# + #"(?=.*[A-Z])"# + #"(?=.*[a-z])"# + #"(?=.*\d)"# + #"(?=.*[ !$%&?._-])"#
+    
     var body: some View {
         Button(action: {
-            sessionManager.signUp(givenName: givenName, familyName: familyName ,phoneNumber: phoneNumber, password: password)
-            
+            if(!givenName.isEmpty && !familyName.isEmpty && !phoneNumber.isEmpty && !password.isEmpty){
+                do {
+                    
+                try! sessionManager.signUp(givenName: givenName, familyName: familyName ,phoneNumber: phoneNumber, password: password)
+                
+                    if sessionManager.signUpShowAlert == true {
+                        message = sessionManager.alertMessage
+                        showAlert = true
+                    }
+                }
+                
+            } else {
+                message = "Either you did fill in all the fields or password does not meet the requirements."
+                showAlert = true
+            }
         }){
             Text("Sign Up")
                 .foregroundColor(.white)
@@ -129,6 +152,12 @@ struct SignUpButton: View {
                 .background(Color.orange)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .padding(10)
+        }.alert(isPresented: $showAlert){
+            Alert(title: Text("Sign up Failed"),
+                  message: Text("\(message)"), dismissButton: Alert.Button.default(Text("OK"),  action:{
+                showAlert = false
+                sessionManager.signUpShowAlert = false
+            }))
         }
 
         Button("Already have an account? Log in.", action: {

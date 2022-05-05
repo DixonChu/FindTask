@@ -13,7 +13,6 @@ struct OrderView: View {
 
     @State var searchTask = ""
     var width = UIScreen.main.bounds.width
-    
     var body: some View{
 //        NavigationView{
         VStack{
@@ -133,6 +132,7 @@ struct AppBar: View {
 struct First : View {
     @EnvironmentObject var graphql: Graphql
     @EnvironmentObject var sessionManager: SessionManager
+
     var body: some View{
         GeometryReader{_ in
             List(graphql.userOwnTasks){ task in
@@ -145,15 +145,12 @@ struct First : View {
                 }
                 
             }.listStyle(PlainListStyle())
-            .onAppear{
-                graphql.userOwnTasks.removeAll()
-                graphql.listAllOwnerTask(taskOwner: sessionManager.userID)
-            }
-            .refreshable {
-                graphql.userOwnTasks.removeAll()
-                graphql.listAllOwnerTask(taskOwner: sessionManager.userID)
-            }
-            
+                .onAppear{
+                    graphql.listAllOwnerTask(taskOwner: sessionManager.userID)
+                }
+                .refreshable {
+                    graphql.listAllOwnerTask(taskOwner: sessionManager.userID)
+                }
         }
         .padding(.bottom, 18)
     }
@@ -223,8 +220,8 @@ struct Third : View {
 
 
 
-struct OrderView_Previews: PreviewProvider {
-    static var previews: some View {
-        OrderView().environmentObject(Graphql())
-    }
-}
+//struct OrderView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        OrderView().environmentObject(Graphql())
+//    }
+//}

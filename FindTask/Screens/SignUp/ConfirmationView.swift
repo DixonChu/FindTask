@@ -10,7 +10,7 @@ import Amplify
 
 struct ConfirmationView: View {
     @EnvironmentObject var sessionManager : SessionManager
-    
+    @State private var showAlert = false
     @State var confirmationCode = ""
     let phoneNum: String
     
@@ -31,7 +31,8 @@ struct ConfirmationView: View {
             
             VStack(alignment: .leading){
                 
-                TextField("Confirmation Code", text: $confirmationCode)
+                TextField("Verification Code", text: $confirmationCode)
+                    .keyboardType(.numberPad)
                     .padding()
                     .background(Color.white)
                     .shadow(color: Color.black.opacity(0.08), radius: 5, x: 0, y: 5)
@@ -39,7 +40,7 @@ struct ConfirmationView: View {
             }
             .padding(.bottom)
             
-            Text("Find Task may use your phone numver to call or send text messages with information regarding your account.")
+            Text("Find Task may use your phone number to call or send text messages with information regarding your account.")
                 .foregroundColor(.secondary)
                 .font(.system(size: 13))
                 .multilineTextAlignment(.center)
@@ -60,12 +61,21 @@ struct ConfirmationView: View {
             
             Button("Submit", action: {
                 sessionManager.confirm(phoneNumber: phoneNum, code: confirmationCode)
+                if sessionManager.showFailedCode == true{
+                    showAlert = true
+                }
             })
                 .padding()
                 .foregroundColor(.white)
                 .frame(width: 350, height: 40.0)
                 .background(Color.orange)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
+                .alert(isPresented: $showAlert){
+                    Alert(title: Text("Wrong code"),
+                          message: Text("Please enter the correct confirmation code"), dismissButton: Alert.Button.default(Text("OK"),  action:{
+                        showAlert = false
+                    }))
+                }
             
             
         }

@@ -15,7 +15,7 @@ struct Home: View {
     @State var taskHealine = ""
     @State var taskDescription = ""
     @State var taskLocation = ""
-    @State var taskPrice = 0
+    @State var taskPrice = 5
     
     @State private var selectedTab = 0
     
@@ -44,6 +44,8 @@ struct Home: View {
                     }.tag(2)
                 
                 NotificationView()
+                    .navigationBarHidden(true)
+                    .navigationBarTitleDisplayMode(.inline)
                     .tabItem{
                         Image(systemName: "bell")
                         Text("Notification")
@@ -80,21 +82,6 @@ struct Home: View {
     }
 }
 
-struct NotificationView: View {
-    var body: some View{
-        VStack {
-            HStack{
-             Spacer()
-                Text("Notifications")
-                .font(.system(size: 18))
-                    .fontWeight(.semibold)
-                Spacer()
-            }
-            Text("No notifications at the moment...")
-        }
-    }
-}
-
 struct HomePageContent : View {
     @Binding var taskHeadline : String
     @Binding var taskDescription: String
@@ -102,14 +89,14 @@ struct HomePageContent : View {
     @Binding var taskPrice: Int
     @State private var taskDate = Date()
     
-    @EnvironmentObject var sessionManger: SessionManager
+    @EnvironmentObject var sessionManager: SessionManager
     @EnvironmentObject var graphql: Graphql
-    @StateObject private var mapAPI = MapAPI()
     
     // Pop over
     @State private var showingPopover = false
-    @State var datePopOverIsVisible: Bool = false
-    @State var taskStatusPopOverIsVisible: Bool = false
+    @State private var datePopOverIsVisible: Bool = false
+    @State private var taskStatusPopOverIsVisible: Bool = false
+    @State private var showAlert = false
     
     // Date formatter
     private let dateFormatter: DateFormatter = {
@@ -133,6 +120,7 @@ struct HomePageContent : View {
                     
                 }.padding(.bottom, 10)
                 
+                
                 // Task headline
                 VStack(alignment: .leading, spacing: 10){
                     Text("Write a headline for your task")
@@ -150,7 +138,9 @@ struct HomePageContent : View {
                             // date popover
                             Text("Schedule a task")
                                 .font(.headline)
-                            DatePicker("", selection: $taskDate, displayedComponents: [.date, .hourAndMinute]).datePickerStyle(WheelDatePickerStyle()).padding()
+                            
+                            DatePicker("", selection: $taskDate, in: Date()..., displayedComponents: [.date, .hourAndMinute])
+                                .datePickerStyle(WheelDatePickerStyle()).padding()
                             
                             Button(action: {
                                 self.showingPopover = false
@@ -175,32 +165,35 @@ struct HomePageContent : View {
                     Text("Task Location")
                         .font(.headline)
                     
-                    TextField("Enter task location here...", text: $taskLocation)
+                    TextField("Enter address or remote", text: $taskLocation)
                         .padding(10)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
                     
-                    //                Button("Find Address"){
-                    //                    mapAPI.getLocation(address: taskLocation, delta: 0.5)
-                    //                }
-                    //
-                    //                Map(coordinateRegion: $mapAPI.region, annotationItems: mapAPI.locations){
-                    //                    location in
-                    //                    MapMarker(coordinate: location.coordinate, tint: .blue)
-                    //                }
-                    //                .ignoresSafeArea()
                 }
                 
                 // Task price
                 VStack(alignment: .leading, spacing: 10){
+                    
                     Text("Task price")
                         .font(.headline)
-                    
-                    TextField("0", value: $taskPrice, formatter: NumberFormatter())
-                        .keyboardType(.phonePad)
-                    
-                        .padding(10)
-                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
-                        .frame(width: 150, height: 45)
+                    HStack{
+                        TextField("5", value: $taskPrice, formatter: NumberFormatter())
+                            .keyboardType(.numberPad)
+                            .padding(10)
+                            .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
+                            .frame(width: 150, height: 45)
+                        if taskPrice < 5 {
+                            HStack{
+                                Image(systemName: "info.circle.fill")
+                                
+                                Text("£5 minimum")
+                                    .font(.system(size: 12))
+                                    .fontWeight(.medium)
+                                
+                            } .foregroundColor(.red)
+                                .padding(.top, 15)
+                        }
+                    }
                 }
                 
                 // Task description
@@ -218,9 +211,15 @@ struct HomePageContent : View {
                     // DateTime format
                     if taskHeadline.isEmpty || taskDescription.isEmpty || taskLocation.isEmpty || (taskPrice < 5) {
                         print("add some task")
+                        showAlert = true
                     } else{
 //                        Create task and store it to database
-                        graphql.createTask(taskTitle: taskHeadline, taskDescription: taskDescription, taskLocation: taskLocation, taskPrice: Float(taskPrice), taskDate: dateFormatter.string(from: taskDate), taskOwner: sessionManger.userID)
+                        graphql.createTask(taskTitle: taskHeadline, taskDescription: taskDescription, taskLocation: taskLocation, taskPrice: Float(taskPrice), taskDate: dateFormatter.string(from: taskDate), taskOwner: sessionManager.userID)
+                        
+                        taskHeadline = ""
+                        taskLocation = ""
+                        taskPrice = 5
+                        taskDescription = ""
                     }
                 }){
                     Text("Post Task")
@@ -230,6 +229,12 @@ struct HomePageContent : View {
                         .background(Color.orange)
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                 }.padding(.bottom, 12)
+                    .alert(isPresented: $showAlert){
+                        Alert(title: Text("Post tasks failed"),
+                              message: Text("Please fill in all the textfield"), dismissButton: Alert.Button.default(Text("OK"),  action:{
+                            showAlert = false
+                        }))
+                    }
                 
                 
                 

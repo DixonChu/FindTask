@@ -96,23 +96,6 @@ struct HelpCenterView: View {
                 }
                 
                 NavigationLink{
-                    GeneralInfoView()
-                        .navigationTitle("General Information")
-                        .navigationBarTitleDisplayMode(.inline)
-                }label: {
-                    HStack(spacing: 12){
-                        Image(systemName: "info.circle")
-                        
-                        VStack(alignment: .leading, spacing: 2){
-                            Text("General Information")
-                            Text("Service types, service area, insurance")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
-                    }.foregroundColor(.primary)
-                }
-                
-                NavigationLink{
                     SendFeedbackView()
                         .navigationTitle("Feedback")
                         .navigationBarTitleDisplayMode(.inline)

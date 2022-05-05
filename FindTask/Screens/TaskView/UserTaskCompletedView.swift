@@ -19,6 +19,7 @@ struct UserTaskCompletedView: View {
             Spacer()
             CardInfoView(task: task)
             Spacer()
+            CardMapInfoView(task: task)
             
         }
     }
