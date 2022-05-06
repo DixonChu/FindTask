@@ -7,8 +7,14 @@ This instruction will get you a copy of the project up and running on your local
 `CocoaPods` 
 `AWS Amplify`
 # Installing
+## Finder Open file
 1. Unzip the file.
-1. Open the project in XCode.
+2. Navigate to MMP/FindTask/
+3. Click FindTask.xcworkspace
+## Terminal open file
+1. Unzip the file.
+2. cd <directory>/MMP/FindTask/
+3. open *.xcw* -a Xcode
 
 # Testing the application
 ## Credentials
