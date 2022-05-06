@@ -202,7 +202,7 @@ struct HomePageContent : View {
                         .font(.headline)
                     
                     TextEditor(text: $taskDescription)
-                        .padding(10)
+                        .padding(10).accessibilityIdentifier("TextEditor")
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(lineWidth: 0.1).foregroundColor(Color.primary))
                 }
                 

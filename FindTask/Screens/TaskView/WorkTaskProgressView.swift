@@ -11,6 +11,7 @@ import Amplify
 struct WorkTaskProgressView: View {
     @EnvironmentObject var graphql: Graphql
     @State private var isShowingConfirmation = false
+    @State private var agreedToTerms = false
     
     let task: Task
 //    let user: User
@@ -42,7 +43,8 @@ struct WorkTaskProgressView: View {
             .confirmationDialog("Task completed and payment is settled", isPresented: $isShowingConfirmation, titleVisibility: .visible){
                 Button("Confirm", role: .destructive) {
                     graphql.getTaskByIdAndUpdateStatus(taskId: task.id, taskStatus: "completed")
-                }
+                    agreedToTerms = true
+                }.disabled(agreedToTerms)
             }
             .padding(.bottom, 12)
             

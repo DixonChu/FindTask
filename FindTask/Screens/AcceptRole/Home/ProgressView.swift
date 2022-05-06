@@ -80,7 +80,7 @@ struct ProgressAppBar: View {
                 }){
                     VStack(spacing: 8){
                         HStack(spacing: 12){
-                            Text("Ongoing")
+                            Text("In Progress")
                                 .foregroundColor(self.index == 1 ? .primary : Color.primary.opacity(0.7))
                         }
                         Capsule()
@@ -129,7 +129,7 @@ struct ProgressAppBar: View {
 }
 
 
-// Ongoing order
+// In Progress order
 struct ProgressFirst : View {
     @EnvironmentObject var graphql: Graphql
     @EnvironmentObject var sessionManager: SessionManager

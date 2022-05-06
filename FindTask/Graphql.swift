@@ -28,6 +28,7 @@ class Graphql: ObservableObject {
     var currentPage: List<Task>?
 
 //    init(){
+//        listAllAwaitingTask(sessionUserId: Amplify.Auth.getCurrentUser()!.userId)
 //    }
     
     /* ========== All Owner Task ========== */

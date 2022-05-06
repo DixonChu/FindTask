@@ -183,7 +183,7 @@ struct SignUpButton: View {
                     }
                 }
             case .failure(let error):
-                message = "\(error)"
+                message = "\(error.errorDescription)"
                 showAlert = true
                 print("Sign up error", error)
             }

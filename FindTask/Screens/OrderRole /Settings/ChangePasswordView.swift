@@ -27,8 +27,7 @@ struct ChangePassword: View{
     @EnvironmentObject var sessionManager : SessionManager
 
     @State private var showAlert = false
-    @State private var successAlert = false
-    @State private var errorMessage = ""
+    @State private var message = ""
     
     var body: some View{
         VStack(alignment: .leading, spacing: 12){
@@ -68,14 +67,17 @@ struct ChangePassword: View{
             Spacer()
             
             Button(action: {
-                DispatchQueue.main.async {
-                    changePassword(oldPassword: oldPassword, newPassword: newPassword)
+                if oldPassword.isEmpty || newPassword.isEmpty{
+                    message = "Please fill in all the text field"
+                    showAlert = true
+                } else{
+                    DispatchQueue.main.async {
+                        changePassword(oldPassword: oldPassword, newPassword: newPassword)
+                        oldPassword = ""
+                        newPassword = ""
+                    }
                 }
-                
-                if successAlert == true {
-                    successAlert = true
-                }
-            }){
+                }){
                 Text("Change Password")
                     .foregroundColor(.white)
                     .fontWeight(.semibold)
@@ -83,15 +85,10 @@ struct ChangePassword: View{
                     .background(Color.orange)
                     .clipShape(RoundedRectangle(cornerRadius: 5))
                     .padding(10)
-            }.alert(isPresented: $successAlert){
-                Alert(title: Text("Change Password Success"),
-                      message: Text("Password changed succesfully"), dismissButton: Alert.Button.default(Text("OK"),  action:{
-                    successAlert = false
-                }))
             }
             .alert(isPresented: $showAlert){
-                Alert(title: Text("Change Password Failed"),
-                      message: Text("\(errorMessage)"), dismissButton: Alert.Button.default(Text("OK"),  action:{
+                Alert(title: Text(""),
+                      message: Text("\(message)"), dismissButton: Alert.Button.default(Text("OK"),  action:{
                     showAlert = false
                 }))
             }
@@ -103,11 +100,12 @@ struct ChangePassword: View{
         Amplify.Auth.update(oldPassword: oldPassword, to: newPassword) { result in
             switch result {
             case .success:
-                successAlert = true
+                showAlert = true
+                message = "Change password succeeded"
                 print("Change password succeeded")
             case .failure(let error):
                 showAlert = true
-                errorMessage = "Change password failed with error \(error.errorDescription)"
+                message = "Change password failed with error \(error.errorDescription)"
             }
         }
     }

@@ -74,21 +74,54 @@ class FindTaskUITests: XCTestCase {
         app.launch()
         app.buttons["Don't have an account? Sign Up"].tap()
         app.buttons["Sign Up"].tap()
-        
+
 //        XCTAssert(app.alerts.element.waitForExistence(timeout: 0.5))
-        
+
         app.alerts.element.buttons["OK"].tap()
         XCTAssertFalse(app.alerts.element.exists)
+
     }
     
-
     
-//    func testLaunchPerformance() throws {
-//        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-//            // This measures how long it takes to launch your application.
-//            measure(metrics: [XCTApplicationLaunchMetric()]) {
-//                XCUIApplication().launch()
-//            }
-//        }
-//    }
+    func testPostTask() throws {
+        let app = XCUIApplication()
+        let count = 1...20
+        app.launch()
+        
+        for i in count{
+            let textField = app.textFields["A headline for your task..."]
+            textField.tap()
+            textField.typeText("Headline \(i)")
+            
+            
+            let address = app.textFields["Enter address or remote"]
+            address.tap()
+            address.typeText("Address \(i)")
+            
+            let price = app.textFields["5"]
+            price.tap()
+            price.typeText("6")
+            
+            let descrip = app.textViews["TextEditor"]
+            descrip.tap()
+            descrip.typeText("lorem ipsum blaa baldsw efwr2 g2gexdieo2 3f2 fif2 f23 f")
+            
+            let postbutton = app.buttons["Post Task"]
+            postbutton.tap()
+            
+        }
+    }
+    
+    //    func testLaunchPerformance() throws {
+    //        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
+    //            // This measures how long it takes to launch your application.
+    //            measure(metrics: [XCTApplicationLaunchMetric()]) {
+    //                XCUIApplication().launch()
+    //            }
+    //        }
+    //    }
+    
+
 }
+
+

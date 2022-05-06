@@ -64,8 +64,9 @@ struct WorkView: View {
 //                        Image(systemName: "person.circle")
 //                        Text("Profile")
 //                    }
-        }
-                
+            }.onAppear(){
+                UITabBar.appearance().barTintColor = .white
+            }
         .navigationBarHidden(true)
         .navigationBarTitleDisplayMode(.inline)
             }
@@ -85,6 +86,10 @@ struct HomeView: View{
                     .fontWeight(.semibold)
                 Spacer()
             }.padding(.bottom, 10)
+            
+            if graphql.awaitingTasks.isEmpty {
+                Text("There are currently no task")
+            }
             
             List(graphql.awaitingTasks){ task in
                 NavigationLink{
