@@ -27,7 +27,7 @@ struct Location: Identifiable {
 
 class MapAPI: ObservableObject {
     private let BASE_URL = "http://api.positionstack.com/v1/forward"
-    private let API_KEY = "3321913bf4525173bfc49e913956ca6d"
+    private let API_KEY = "<APIKEY>"
     
     @Published var region: MKCoordinateRegion
     @Published var coordinates = []
